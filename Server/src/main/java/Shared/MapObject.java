@@ -3,9 +3,7 @@ package Shared;
 public class MapObject {
 
     private boolean destructible;
-
     private boolean transparent;
-
     private int positionX;
     private int positionY;
 
