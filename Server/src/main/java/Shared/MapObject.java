@@ -20,4 +20,10 @@ public class MapObject {
     public void setPositionY(int positionY) {
         this.positionY = positionY;
     }
+
+    public MapObject(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+    }
+
 }
