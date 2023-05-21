@@ -11,5 +11,4 @@ public class Map {
     ArrayList<MapObject> players = new ArrayList<MapObject>();
     ArrayList<MapObject> bombs = new ArrayList<MapObject>();
 
-
 }
