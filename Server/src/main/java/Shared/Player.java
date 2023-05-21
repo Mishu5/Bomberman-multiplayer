@@ -2,8 +2,11 @@ package Shared;
 
 public class Player extends MapObject {
 
-    public Player(int positionX, int positionY) {
+    private int playerID;
+
+    public Player(int positionX, int positionY, int playerID) {
         super(positionX, positionY, true, true);
+        this.playerID = playerID;
     }
 
 }
