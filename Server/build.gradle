@@ -1,19 +1,6 @@
-plugins {
-    id 'java'
-}
+sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+sourceSets.main.java.srcDirs = [ "src/" ]
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
-}
+eclipse.project.name = appName + "-server"
