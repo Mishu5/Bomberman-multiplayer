@@ -1,35 +1,38 @@
 package com.bomberman.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.bomberman.common.model.Map;
 
 public class Bomberman extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+	private SpriteBatch batch;
+	private Map map;
+
+
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
-		img = new Texture("title.png");
+
+		/*
+		Test rysowania mapy - tworzę nową mapę i dodaję elementy
+		 */
+		map = new Map();
+		map.loadMapFromFile("map.txt");
+		map.addPlayer(1,1,1);
 	}
 
-	/**
-	 * Wszystkie rysowane obiekty umieszczać w render
-	 */
 	@Override
-	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
+	public void render() {
+		ScreenUtils.clear(0.25f, 0.75f, 0.55f, 1);
+
 		batch.begin();
-		batch.draw(img, 0, 0);
+		map.draw(batch);
 		batch.end();
 	}
-	
+
 	@Override
-	public void dispose () {
+	public void dispose() {
 		batch.dispose();
-		img.dispose();
 	}
 }

@@ -1,5 +1,7 @@
 package com.bomberman.common.model;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -96,6 +98,12 @@ public class Map {
 
         }
 
+    }
+
+    public void draw(SpriteBatch batch) {
+        for(MapObject obj: map) obj.draw(batch);
+        for(MapObject obj: bombs) obj.draw(batch);
+        for(MapObject obj: players) obj.draw(batch);
     }
 
 }
