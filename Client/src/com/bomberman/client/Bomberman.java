@@ -1,4 +1,4 @@
-package com.core.game;
+package com.bomberman.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;

@@ -1,4 +1,4 @@
-package com.core.game.model;
+package com.bomberman.common.model;
 
 
 public class PowerUp extends MapObject{

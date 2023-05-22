@@ -1,6 +1,6 @@
-package com.core.game.serialization;
+package com.bomberman.common.serialization;
 
-import com.core.game.model.Map;
+import com.bomberman.common.model.Map;
 
 /**
  * TODO
