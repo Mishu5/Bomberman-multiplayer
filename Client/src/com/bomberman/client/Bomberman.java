@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.bomberman.common.model.Map;
 
 public class Bomberman extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -15,6 +16,9 @@ public class Bomberman extends ApplicationAdapter {
 		img = new Texture("title.png");
 	}
 
+	/**
+	 * Wszystkie rysowane obiekty umieszczać w render
+	 */
 	@Override
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);

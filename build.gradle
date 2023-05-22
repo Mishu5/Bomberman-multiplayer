@@ -8,7 +8,6 @@ buildscript {
         google()
     }
     dependencies {
-        
 
     }
 }
@@ -44,24 +43,18 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+project(":common") {
+    apply plugin: "java-library"
+
+    dependencies {
+    }
+}
+
 project(":server") {
     apply plugin: "java-library"
 
     dependencies {
         api project(":common")
-    }
-}
-
-project(":desktop") {
-    apply plugin: "java-library"
-
-    dependencies {
-        api project(":client")
-        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
-        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-
     }
 }
 
@@ -78,9 +71,15 @@ project(":client") {
     }
 }
 
-project(":common") {
+project(":desktop") {
     apply plugin: "java-library"
 
     dependencies {
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        api project(":client")
     }
 }
+
