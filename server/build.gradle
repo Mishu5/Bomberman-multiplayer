@@ -1,8 +1,0 @@
-sourceCompatibility = 1.8
-project.ext.mainClassName = "com.bomberman.server.Server"
-
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-sourceSets.main.java.srcDirs = [ "src/" ]
-
-eclipse.project.name = appName + "-server"
