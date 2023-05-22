@@ -7,18 +7,18 @@ import java.util.Objects;
 public class Map {
 
     ArrayList<MapObject> map = new ArrayList<MapObject>();
+    ArrayList<MapObject> bombs = new ArrayList<MapObject>();
+    ArrayList<MapObject> players = new ArrayList<MapObject>();
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
     }
 
-
     public void addIndestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, false));
     }
 
-
-    public void addPowerUP(int positionX, int positionY) {
+    public void addPowerUp(int positionX, int positionY) {
         map.add(new PowerUp(positionX, positionY));
     }
 
@@ -26,13 +26,12 @@ public class Map {
         map.add(new Floor(positionX, positionY));
     }
 
-
     public void addPlayer(int positionX, int positionY, int playerID) {
-        map.add(new Player(positionX, positionY, playerID));
+        players.add(new Player(positionX, positionY, playerID));
     }
 
     public void addBomb(int positionX, int positionY) {
-        map.add(new Bomb(positionX, positionY));
+        bombs.add(new Bomb(positionX, positionY));
     }
 
     public void loadMapFromFile(String Filename) {
@@ -82,17 +81,15 @@ public class Map {
         }
         for (int x = 0; x < Objects.requireNonNull(array).length; x++) {
             for (int y = 0; y < array[x].length; y++) {
-                if(array[x][y]=='-')
-                {
-                    addIndestructibleWall(x,y);
+                if (array[x][y] == '-') {
+                    addIndestructibleWall(x, y);
 
 
-                } else if (array[x][y]=='x') {
-                    addFloor(x,y);
+                } else if (array[x][y] == 'x') {
+                    addFloor(x, y);
 
-                }
-                else if (array[x][y]=='+') {
-                    addDestructibleWall(x,y);
+                } else if (array[x][y] == '+') {
+                    addDestructibleWall(x, y);
 
                 }
             }
