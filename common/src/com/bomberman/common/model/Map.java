@@ -1,7 +1,6 @@
-package Shared;
+package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.bomberman.common.model.*;
 
 import java.io.*;
 import java.util.ArrayList;
