@@ -10,5 +10,4 @@ public class GraphicUtils {
     public static final String PLAYER_TEXTURE = "1.png";
     public static final String POWER_UP_TEXTURE = "powerup.png";
     public static final String WALL_TEXTURE = "wall.png";
-
 }

@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public class Map {
 
-    ArrayList<MapObject> map = new ArrayList<MapObject>();
-    ArrayList<MapObject> bombs = new ArrayList<MapObject>();
-    ArrayList<MapObject> players = new ArrayList<MapObject>();
+    ArrayList<MapObject> map = new ArrayList<>();
+    ArrayList<MapObject> bombs = new ArrayList<>();
+    ArrayList<Player> players = new ArrayList<>();
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
@@ -36,6 +36,10 @@ public class Map {
 
     public void addBomb(int positionX, int positionY) {
         bombs.add(new Bomb(positionX, positionY));
+    }
+
+    public Player getPlayer(int index) {
+        return players.get(index);
     }
 
     public void loadMapFromFile(String Filename) {
