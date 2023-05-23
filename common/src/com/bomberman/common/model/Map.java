@@ -1,6 +1,7 @@
-package com.bomberman.common.model;
+package Shared;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bomberman.common.model.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Map {
         map.add(new Wall(positionX, positionY, true));
     }
 
+
     public void addIndestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, false));
     }
@@ -27,6 +29,7 @@ public class Map {
     public void addFloor(int positionX, int positionY) {
         map.add(new Floor(positionX, positionY));
     }
+
 
     public void addPlayer(int positionX, int positionY, int playerID) {
         players.add(new Player(positionX, positionY, playerID));
