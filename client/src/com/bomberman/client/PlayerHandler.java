@@ -9,7 +9,7 @@ public class PlayerHandler {
         this.player = player;
     }
 
-    public void characterMove(float x, float y) {
+    public void characterMove(int x, int y) {
         player.move(x, y);
     }
 }

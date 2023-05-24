@@ -42,14 +42,15 @@ public class Bomberman extends ApplicationAdapter {
 		batch.begin();
 
 		stage.draw();
-		if(Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
-			playerHandler.characterMove(0, Gdx.graphics.getDeltaTime() * PLAYER_SPEED);
-		if(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
-			playerHandler.characterMove(0, -Gdx.graphics.getDeltaTime() * PLAYER_SPEED);
-		if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-			playerHandler.characterMove(-Gdx.graphics.getDeltaTime() * PLAYER_SPEED, 0);
-		if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			playerHandler.characterMove(Gdx.graphics.getDeltaTime() * PLAYER_SPEED, 0);
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
+			playerHandler.characterMove(0, 1);
+		if(Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
+			playerHandler.characterMove(0, -1);
+		if(Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
+			playerHandler.characterMove(-1, 0);
+		if(Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+			playerHandler.characterMove(1, 0);
 		map.draw(batch);
 
 		batch.end();

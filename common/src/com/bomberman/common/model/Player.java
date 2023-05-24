@@ -13,18 +13,8 @@ public class Player extends MapObject {
         this.playerID = playerID;
     }
 
-    public void move(float x, float y) {
-        sprite.setX(sprite.getX() + x);
-        sprite.setY(sprite.getY() + y);
-    }
-
-    /**
-     * Player moves in different way than other objects
-     * tick is per pixel instead block sizes
-     * so the draw method is different also
-     */
-    @Override
-    public void draw(SpriteBatch batch) {
-        this.sprite.draw(batch);
+    public void move(int x, int y) {
+        positionX += x;
+        positionY += y;
     }
 }
