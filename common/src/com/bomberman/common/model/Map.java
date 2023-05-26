@@ -8,9 +8,15 @@ import java.util.Objects;
 
 public class Map {
 
+
+
+
     ArrayList<MapObject> map = new ArrayList<>();
     ArrayList<MapObject> bombs = new ArrayList<>();
     ArrayList<Player> players = new ArrayList<>();
+    public ArrayList<MapObject> getMap() {
+        return map;
+    }
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
@@ -110,6 +116,17 @@ public class Map {
         for(MapObject obj: map) obj.draw(batch);
         for(MapObject obj: bombs) obj.draw(batch);
         for(MapObject obj: players) obj.draw(batch);
+    }
+
+    public int wallcheck(int x,int y){
+        for (MapObject object : map) {
+            if (object.getPositionX() == x && object.getPositionY() == y) {
+                if (object.getObjectID() == 2) {
+                    return 1;
+                }else return 0;
+            }
+        }
+        return 0;
     }
 
 }

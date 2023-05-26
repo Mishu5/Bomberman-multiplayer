@@ -8,6 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import static com.bomberman.common.utils.GraphicUtils.BLOCK_SIZE;
 
 public abstract class MapObject {
+    protected int ObjectID;
+//    Floor--->ObjectID==1
+//    Wall---->ObjectID==2
+//    Bomb---->ObjectID==3
+//    PowerUP->ObjectID==4
+//    Player-->ObjectID==5
     protected boolean destructible;
     protected boolean transparent;
     protected int width, height;
@@ -15,7 +21,8 @@ public abstract class MapObject {
     protected Texture texture;
     protected Sprite sprite;
 
-    public MapObject(int positionX, int positionY, boolean destructible, boolean transparent, String texturePath) {
+    public MapObject(int ObjectID, int positionX, int positionY, boolean destructible, boolean transparent, String texturePath) {
+        this.ObjectID = ObjectID;//to jeszcze niczego nie popsuło
         this.destructible = destructible;
         this.transparent = transparent;
         this.positionX = positionX;
@@ -42,6 +49,7 @@ public abstract class MapObject {
     public int getWidth() { return this.width; }
     public int getHeight() { return this.height; }
 
+    public int getObjectID(){return this.ObjectID;}
     public void draw(SpriteBatch batch) {
         this.sprite.setX(this.positionX * BLOCK_SIZE);
         this.sprite.setY(this.positionY * BLOCK_SIZE);
