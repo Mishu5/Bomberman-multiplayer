@@ -5,15 +5,19 @@ import com.bomberman.common.model.MapObject;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.model.Wall;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 
 public class PlayerHandler {
     private Player player;
 
     private Map map;
 
-    public int validate_move(int x, int y){
+    public PlayerHandler(Player player) {
+        this.player = player;
+    }
+
+
+    private int validate_move(int x, int y){
         map= new Map();
         map.loadMapFromFile("assets/map.txt");
 
@@ -24,14 +28,7 @@ public class PlayerHandler {
         }
     }
 
-    public PlayerHandler(Player player) {
-        this.player = player;
-    }
-
-
     public void characterMove(int x, int y) {
-        int currentPosX= player.getPositionX();
-        int currentPosY= player.getPositionY();
         if(validate_move(x,y)==0){
             player.move(x,y);
         }else{

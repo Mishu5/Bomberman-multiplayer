@@ -14,9 +14,7 @@ public class Map {
     ArrayList<MapObject> map = new ArrayList<>();
     ArrayList<MapObject> bombs = new ArrayList<>();
     ArrayList<Player> players = new ArrayList<>();
-    public ArrayList<MapObject> getMap() {
-        return map;
-    }
+
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
