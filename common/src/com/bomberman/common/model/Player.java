@@ -9,7 +9,7 @@ public class Player extends MapObject {
     private int playerID;
 
     public Player(int positionX, int positionY, int playerID) {
-        super(5,positionX, positionY, true, true, PLAYER_TEXTURE);
+        super(positionX, positionY, true, true, PLAYER_TEXTURE);
         this.playerID = playerID;
     }
 

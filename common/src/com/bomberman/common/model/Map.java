@@ -119,7 +119,7 @@ public class Map {
     public int wallcheck(int x,int y){
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
-                if (object.getObjectID() == 2) {
+                if (object.getTransparent() == false) {
                     return 1;
                 }else return 0;
             }

@@ -4,6 +4,6 @@ import static com.bomberman.common.utils.GraphicUtils.WALL_TEXTURE;
 
 public class Wall extends MapObject {
     public Wall(int positionX, int positionY, boolean destructible) {
-        super(2,positionX, positionY, destructible, false, WALL_TEXTURE);
+        super(positionX, positionY, destructible, false, WALL_TEXTURE);
     }
 }
