@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Map;
+import com.bomberman.common.serialization.Parser;
 
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 
@@ -18,37 +19,38 @@ public class Bomberman extends ApplicationAdapter {
 	private Stage stage;
 	private Map map;
 	private PlayerHandler playerHandler;
-	Camera playerOneCamera;
-	Camera playerTwoCamera;
-
-	ScreenViewport playerOneViewport;
-	ScreenViewport playerTwoViewport;
+	private Camera gameCamera;
+	private Camera sidebarCamera;
+	private ScreenViewport gameViewport;
+	private ScreenViewport sidebarViewport;
 
 
 	@Override
 	public void create() {
+		/*
+			View objects
+		 */
 		batch = new SpriteBatch();
 		stage = new Stage();
-
-
-		playerOneCamera = new PerspectiveCamera();
-		playerTwoCamera = new PerspectiveCamera();
-
-		playerOneViewport = new ScreenViewport(playerOneCamera);
-		playerTwoViewport = new ScreenViewport(playerTwoCamera);
-
 		Gdx.input.setInputProcessor(stage);
+		gameCamera = new PerspectiveCamera();
+		sidebarCamera = new PerspectiveCamera();
+		gameViewport = new ScreenViewport(gameCamera);
+		sidebarViewport = new ScreenViewport(sidebarCamera);
+
 		/*
-		Test rysowania mapy - tworzę nową mapę i dodaję elementy
+			Create map
 		 */
 		map = new Map();
-		map.loadMapFromFile("assets/map.txt");
-		map.addPlayer(1,1,1);
+		Parser parser = new Parser();
+		parser.loadMapFromFile("assets/map.txt", map);
 
 		/*
-		Test obługi gracza - handler będzie obłusgiwał gracza pod indexem 0
+			Player assign
 		 */
+		map.addPlayer(1,1,1);
 		playerHandler = new PlayerHandler(map.getPlayer(0));
+
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class Bomberman extends ApplicationAdapter {
 		/*
 			Game area
 		 */
-		batch.setProjectionMatrix(playerOneCamera.combined);
+		batch.setProjectionMatrix(gameCamera.combined);
 		batch.begin();
 		stage.draw();
 		playerHandler.serviceController();
@@ -69,7 +71,7 @@ public class Bomberman extends ApplicationAdapter {
 		/*
 			Right-side panel
 		 */
-		batch.setProjectionMatrix(playerTwoCamera.combined);
+		batch.setProjectionMatrix(sidebarCamera.combined);
 		batch.begin();
 		batch.end();
 	}
@@ -81,7 +83,7 @@ public class Bomberman extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height){
-		playerOneViewport.update((int)(width * SIDE_PANEL_PART * 0.01), height);
-		playerTwoViewport.update((int)(width * (1 - SIDE_PANEL_PART * 0.01)), height);
+		gameViewport.update((int)(width * SIDE_PANEL_PART * 0.01), height);
+		sidebarViewport.update((int)(width * (1 - SIDE_PANEL_PART * 0.01)), height);
 	}
 }
