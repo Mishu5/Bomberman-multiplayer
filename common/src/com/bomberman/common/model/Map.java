@@ -116,15 +116,15 @@ public class Map {
         for(MapObject obj: players) obj.draw(batch);
     }
 
-    public int wallcheck(int x,int y){
+    public boolean wallcheck(int x,int y){
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
                 if (object.getTransparent() == false) {
-                    return 1;
-                }else return 0;
+                    return true;
+                }else return false;
             }
         }
-        return 0;
+        return false;
     }
 
 }

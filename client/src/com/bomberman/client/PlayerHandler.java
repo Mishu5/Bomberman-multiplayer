@@ -21,7 +21,7 @@ public class PlayerHandler {
         map= new Map();
         map.loadMapFromFile("assets/map.txt");
 
-        if(map.wallcheck(player.getPositionX()+x, player.getPositionY() + y)==1){
+        if(map.wallcheck(player.getPositionX() + x, player.getPositionY() + y)){
             return 1;
         }else{
             return 0;
