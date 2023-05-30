@@ -4,7 +4,7 @@ import com.bomberman.common.model.Map;
 import com.bomberman.common.model.MapObject;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.model.Wall;
-
+import com.bomberman.common.serialization.Parser;
 
 
 public class PlayerHandler {
@@ -19,7 +19,7 @@ public class PlayerHandler {
 
     private int validate_move(int x, int y){
         map= new Map();
-        map.loadMapFromFile("assets/map.txt");
+        Parser.loadMapFromFile("assets/map.txt", map);
 
         if(map.wallcheck(player.getPositionX() + x, player.getPositionY() + y)){
             return 1;
