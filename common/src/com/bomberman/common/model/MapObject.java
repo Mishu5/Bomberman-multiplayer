@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import static com.bomberman.common.utils.GraphicUtils.BLOCK_SIZE;
 
 public abstract class MapObject {
+
     protected boolean destructible;
     protected boolean transparent;
     protected int width, height;
@@ -42,6 +43,7 @@ public abstract class MapObject {
     public int getWidth() { return this.width; }
     public int getHeight() { return this.height; }
 
+    public boolean getTransparent(){return this.transparent;}
     public void draw(SpriteBatch batch) {
         this.sprite.setX(this.positionX * BLOCK_SIZE);
         this.sprite.setY(this.positionY * BLOCK_SIZE);
