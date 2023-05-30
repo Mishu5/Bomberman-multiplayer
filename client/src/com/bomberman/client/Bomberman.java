@@ -28,7 +28,7 @@ public class Bomberman extends ApplicationAdapter {
 		Test rysowania mapy - tworzę nową mapę i dodaję elementy
 		 */
 		map = new Map();
-		Parser.loadMapFromFile("assets/map.txt", map);
+		Parser.loadMapFromFile("../assets/map.txt", map);
 		map.addPlayer(1,1,1);
 
         /*

@@ -19,7 +19,7 @@ public class PlayerHandler {
 
     private int validate_move(int x, int y){
         map= new Map();
-        Parser.loadMapFromFile("assets/map.txt", map);
+        Parser.loadMapFromFile("../assets/map.txt", map);
 
         if(map.wallcheck(player.getPositionX() + x, player.getPositionY() + y)){
             return 1;
