@@ -13,6 +13,10 @@ public class Player extends MapObject {
         this.playerID = playerID;
     }
 
+    public int getPlayerID() {
+        return playerID;
+    }
+
     public void move(int x, int y) {
         positionX += x;
         positionY += y;

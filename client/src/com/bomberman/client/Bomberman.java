@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.bomberman.common.engine.PlayerHandler;
+import com.bomberman.common.engine.GameServices;
+import com.bomberman.common.model.Bomb;
 import com.bomberman.common.model.Map;
+import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
 
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
@@ -18,11 +20,15 @@ public class Bomberman extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Stage stage;
 	private Map map;
-	private PlayerHandler playerHandler;
 	private Camera gameCamera;
 	private Camera sidebarCamera;
 	private ScreenViewport gameViewport;
 	private ScreenViewport sidebarViewport;
+
+	private GameServices services;
+
+	int playerID = 1;
+
 
 
 	@Override
@@ -48,9 +54,13 @@ public class Bomberman extends ApplicationAdapter {
 		/*
 			Player assign
 		 */
-		map.addPlayer(1,1,1);
-		playerHandler = new PlayerHandler(map.getPlayer(0));
+		services = new GameServices(map);
+		services.addPlayer(new Player(1,1,playerID));
 
+		/*
+			Test bomb
+		 */
+		services.addBomb(new Bomb(3, 3, 15));
 	}
 
 	@Override
@@ -63,7 +73,7 @@ public class Bomberman extends ApplicationAdapter {
 		batch.setProjectionMatrix(gameCamera.combined);
 		batch.begin();
 		stage.draw();
-		playerHandler.serviceController();
+		services.serviceController(playerID);
 		map.draw(batch);
 		batch.end();
 
