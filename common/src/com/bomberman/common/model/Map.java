@@ -11,9 +11,13 @@ import static com.bomberman.common.utils.EngineUtils.DETONATION_RADIUS;
 
 public class Map {
 
+
+
+
     ArrayList<MapObject> map = new ArrayList<>();
     ArrayList<Bomb> bombs = new ArrayList<>();
     ArrayList<Player> players = new ArrayList<>();
+
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
@@ -56,6 +60,17 @@ public class Map {
         for(MapObject obj: map) obj.draw(batch);
         for(MapObject obj: bombs) obj.draw(batch);
         for(MapObject obj: players) obj.draw(batch);
+    }
+
+    public boolean wallcheck(int x,int y){
+        for (MapObject object : map) {
+            if (object.getPositionX() == x && object.getPositionY() == y) {
+                if (object.getTransparent() == false) {
+                    return true;
+                }else return false;
+            }
+        }
+        return false;
     }
 
 }

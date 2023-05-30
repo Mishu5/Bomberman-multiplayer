@@ -2,98 +2,66 @@ package com.bomberman.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.bomberman.common.engine.GameServices;
-import com.bomberman.common.model.Bomb;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
 
-import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
+import static com.bomberman.common.utils.EngineUtils.PLAYER_SPEED;
 
 public class Bomberman extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Stage stage;
 	private Map map;
-	private Camera gameCamera;
-	private Camera sidebarCamera;
-	private ScreenViewport gameViewport;
-	private ScreenViewport sidebarViewport;
-
-	private GameServices services;
-
-	int playerID = 1;
-
+	private PlayerHandler playerHandler;
 
 
 	@Override
 	public void create() {
-		/*
-			View objects
-		 */
 		batch = new SpriteBatch();
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
-		gameCamera = new PerspectiveCamera();
-		sidebarCamera = new PerspectiveCamera();
-		gameViewport = new ScreenViewport(gameCamera);
-		sidebarViewport = new ScreenViewport(sidebarCamera);
-
-		/*
-			Create map
+        /*
+		Test rysowania mapy - tworzę nową mapę i dodaję elementy
 		 */
 		map = new Map();
-		Parser parser = new Parser();
-		parser.loadMapFromFile("assets/map.txt", map);
+		Parser.loadMapFromFile("../assets/map.txt", map);
+		map.addPlayer(1,1,1);
 
-		/*
-			Player assign
+        /*
+		Test obługi gracza - handler będzie obłusgiwał gracza pod indexem 0
 		 */
-		services = new GameServices(map);
-		services.addPlayer(new Player(1,1,playerID));
-
-		/*
-			Test bomb
-		 */
-		services.addBomb(new Bomb(3, 3, 15));
+		playerHandler = new PlayerHandler(map.getPlayer(0));
 	}
 
 	@Override
 	public void render() {
-		ScreenUtils.clear(0.25f, 0.75f, 0.55f, 0.75f);
-
-		/*
-			Game area
-		 */
-		batch.setProjectionMatrix(gameCamera.combined);
+		Gdx.gl.glClearColor(1,1,1,0);
+		ScreenUtils.clear(0.25f, 0.75f, 0.55f, 1);
 		batch.begin();
+
 		stage.draw();
-		services.serviceController(playerID);
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)){
+			playerHandler.characterMove(0, 1);
+		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
+			playerHandler.characterMove(0, -1);
+		if(Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
+			playerHandler.characterMove(-1, 0);
+		if(Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+			playerHandler.characterMove(1, 0);
 		map.draw(batch);
-		batch.end();
 
-
-		/*
-			Right-side panel
-		 */
-		batch.setProjectionMatrix(sidebarCamera.combined);
-		batch.begin();
 		batch.end();
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
-	}
-
-	@Override
-	public void resize(int width, int height){
-		gameViewport.update((int)(width * SIDE_PANEL_PART * 0.01), height);
-		sidebarViewport.update((int)(width * (1 - SIDE_PANEL_PART * 0.01)), height);
 	}
 }
