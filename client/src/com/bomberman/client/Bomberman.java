@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.bomberman.common.model.Map;
+import com.bomberman.common.model.Player;
 
 import static com.bomberman.common.utils.EngineUtils.PLAYER_SPEED;
 
@@ -26,7 +27,7 @@ public class Bomberman extends ApplicationAdapter {
 		Test rysowania mapy - tworzę nową mapę i dodaję elementy
 		 */
 		map = new Map();
-		map.loadMapFromFile("map.txt");
+		map.loadMapFromFile("assets/map.txt");
 		map.addPlayer(1,1,1);
 
 		/*
@@ -43,8 +44,10 @@ public class Bomberman extends ApplicationAdapter {
 
 		stage.draw();
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
+		if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)){
 			playerHandler.characterMove(0, 1);
+		}
+
 		if(Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
 			playerHandler.characterMove(0, -1);
 		if(Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
