@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
+import com.bomberman.common.serialization.Parser;
 
 import static com.bomberman.common.utils.EngineUtils.PLAYER_SPEED;
 
@@ -23,14 +24,14 @@ public class Bomberman extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
-		/*
+        /*
 		Test rysowania mapy - tworzę nową mapę i dodaję elementy
 		 */
 		map = new Map();
-		map.loadMapFromFile("assets/map.txt");
+		Parser.loadMapFromFile("assets/map.txt", map);
 		map.addPlayer(1,1,1);
 
-		/*
+        /*
 		Test obługi gracza - handler będzie obłusgiwał gracza pod indexem 0
 		 */
 		playerHandler = new PlayerHandler(map.getPlayer(0));
