@@ -9,7 +9,9 @@ import static com.bomberman.common.utils.EngineUtils.PLAYER_SPEED;
 public class PlayerHandler {
     private Player player;
 
-    public PlayerHandler(Player player) {
+    private EventListener listener;
+
+    public PlayerHandler(Player player, EventListener listener) {
         this.player = player;
     }
 
@@ -27,4 +29,7 @@ public class PlayerHandler {
     public void characterMove(int x, int y) {
         player.move(x, y);
     }
+    public int getID() { return player.getPlayerID(); }
+    public int getX() { return player.getPositionX(); }
+    public int getY() { return player.getPositionY(); }
 }

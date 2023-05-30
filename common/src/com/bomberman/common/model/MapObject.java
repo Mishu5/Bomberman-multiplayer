@@ -35,10 +35,17 @@ public abstract class MapObject {
         return positionY;
     }
 
+
+    public boolean positionMatch(int x, int y) {
+        return positionX == x && positionY == y;
+    }
+
     public void setPosition(int positionX, int positionY) {
         this.positionX = positionX;
         this.positionY = positionY;
     }
+
+    public boolean isDestructible() { return destructible; }
 
     public int getWidth() { return this.width; }
     public int getHeight() { return this.height; }
