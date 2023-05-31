@@ -2,12 +2,7 @@ package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Objects;
-
-import static com.bomberman.common.utils.EngineUtils.DETONATION_RADIUS;
 
 public class Map {
 
@@ -73,10 +68,19 @@ public class Map {
         for (MapObject obj : players) obj.draw(batch);
     }
 
-    public boolean wallcheck(int x, int y) {
+    public boolean wallCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
                 return !object.getTransparent();
+            }
+        }
+        return false;
+    }
+
+    public boolean bombCheck(int x, int y) {
+        for (MapObject object : bombs) {
+            if (object.getPositionX() == x && object.getPositionY() == y) {
+                return true;
             }
         }
         return false;

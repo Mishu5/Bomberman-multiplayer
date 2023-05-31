@@ -54,7 +54,9 @@ public class BombHandler {
         return bomb.positionMatch(x, y);
     }
 
+
     public void moveBomb(PlayerHandler.Direction direction) {
+
         if (direction == TOP) {
             this.bomb.setPosition(this.bomb.getPositionX(), this.bomb.getPositionY() + 1);
         } else if (direction == BOT) {

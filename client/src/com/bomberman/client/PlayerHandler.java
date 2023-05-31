@@ -1,9 +1,7 @@
 package com.bomberman.client;
 
 import com.bomberman.common.model.Map;
-import com.bomberman.common.model.MapObject;
 import com.bomberman.common.model.Player;
-import com.bomberman.common.model.Wall;
 import com.bomberman.common.serialization.Parser;
 
 
@@ -21,7 +19,7 @@ public class PlayerHandler {
         map= new Map();
         Parser.loadMapFromFile("../assets/map.txt", map);
 
-        if(map.wallcheck(player.getPositionX() + x, player.getPositionY() + y)){
+        if(map.wallCheck(player.getPositionX() + x, player.getPositionY() + y)){
             return 1;
         }else{
             return 0;

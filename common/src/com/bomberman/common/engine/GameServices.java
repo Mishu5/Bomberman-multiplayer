@@ -7,6 +7,9 @@ import com.bomberman.common.model.Player;
 
 import java.util.ArrayList;
 
+import static com.bomberman.common.engine.PlayerHandler.Direction.*;
+import static com.bomberman.common.engine.PlayerHandler.Direction.LEFT;
+
 public class GameServices {
     private ArrayList<BombHandler> bombHandlers;
     private ArrayList<PlayerHandler> playerHandlers;
@@ -40,7 +43,7 @@ public class GameServices {
         gameEnvironment.getBombs().removeIf(it -> it.positionMatch(x, y));
     }
 
-    public void moveBomb(int x, int y, PlayerHandler.Direction direction) {
+    public boolean moveBomb(int x, int y, PlayerHandler.Direction direction) {
 
         BombHandler myHandler = null;
         for (BombHandler bh : bombHandlers) {
@@ -50,12 +53,33 @@ public class GameServices {
             }
         }
 
+
+        if (direction == TOP) {
+            if (gameEnvironment.wallCheck(x, y + 1) || gameEnvironment.bombCheck(x, y + 1)) {
+                return false;
+            }
+        } else if (direction == BOT) {
+            if (gameEnvironment.wallCheck(x, y - 1) || gameEnvironment.bombCheck(x, y - 1)) {
+                return false;
+            }
+        } else if (direction == RIGHT) {
+            if (gameEnvironment.wallCheck(x + 1, y) || gameEnvironment.bombCheck(x + 1, y)) {
+                return false;
+            }
+        } else if (direction == LEFT) {
+            if (gameEnvironment.wallCheck(x - 1, y) || gameEnvironment.bombCheck(x - 1, y)) {
+                return false;
+            }
+        }
+
+
         if (myHandler == null) {
-            return;
+            return false;
         }
         myHandler.moveBomb(direction);
 
 
+        return true;
     }
 
     public void detonateBomb(int x, int y, int radius) {

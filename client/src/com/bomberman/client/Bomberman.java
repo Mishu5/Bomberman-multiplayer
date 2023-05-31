@@ -59,7 +59,8 @@ public class Bomberman extends ApplicationAdapter {
 		/*
 			Test bomb
 		 */
-        services.addBomb(new Bomb(3, 3, 15));
+        services.addBomb(new Bomb(3, 3, 2));
+
     }
 
     @Override

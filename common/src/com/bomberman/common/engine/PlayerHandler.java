@@ -35,17 +35,19 @@ public class PlayerHandler {
     }
 
     public void characterMove(int x, int y, Direction direction) {
-        int playernewx = player.getPositionX();
-        int playernewy = player.getPositionY();
+        int playerNewPositionX = player.getPositionX();
+        int playerNewPositionY = player.getPositionY();
 
 
         for (Bomb bomb : map.getBombs()) {
-            if (bomb.positionMatch(playernewx + x, playernewy + y)) {
+            if (bomb.positionMatch(playerNewPositionX + x, playerNewPositionY + y)) {
 
 
-                listener.serviceEvent(new BombMoveEvent(playernewx + x, playernewy + y, direction));
-                break;
-
+                if (listener.serviceEvent(new BombMoveEvent(playerNewPositionX + x, playerNewPositionY + y, direction))) {
+                    break;
+                } else {
+                    return;
+                }
             }
         }
         player.move(x, y);

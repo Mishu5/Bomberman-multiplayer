@@ -48,8 +48,10 @@ public class EventListener {
         services.detonateBomb(bde.getPosX(), bde.getPosY(), bde.getRadius());
     }
 
-    public void serviceEvent(BombMoveEvent bme) {
-        services.moveBomb(bme.getPosX(), bme.getPosY(), bme.getDirection());
+    public boolean serviceEvent(BombMoveEvent bme) {
+        return services.moveBomb(bme.getPosX(), bme.getPosY(), bme.getDirection());
+
+
     }
 
     public void notify(PlayerDisconnectEvent pde) {

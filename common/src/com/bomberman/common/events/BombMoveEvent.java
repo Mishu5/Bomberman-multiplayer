@@ -1,4 +1,5 @@
 package com.bomberman.common.events;
+
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.engine.PlayerHandler.*;
