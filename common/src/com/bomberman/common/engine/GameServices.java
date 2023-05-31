@@ -20,7 +20,7 @@ public class GameServices {
 
     public void addPlayer(Player player) {
         this.gameEnvironment.addPlayer(player);
-        this.playerHandlers.add(new PlayerHandler(player, new EventListener(this)));
+        this.playerHandlers.add(new PlayerHandler(player, new EventListener(this), gameEnvironment));
     }
 
     public void removePlayers(int id) {
@@ -39,6 +39,22 @@ public class GameServices {
         bombHandlers.removeIf(it -> it.positionMatch(x, y));
         gameEnvironment.getBombs().removeIf(it -> it.positionMatch(x, y));
     }
+
+    public void moveBomb(int x, int y, PlayerHandler.Direction direction) {
+
+        BombHandler myHandler = null;
+        for (BombHandler bh : bombHandlers) {
+            if (bh.positionMatch(x, y)) {
+                myHandler = bh;
+                break;
+            }
+        }
+
+        if (myHandler == null) {
+            return;
+        }
+        myHandler.moveBomb(direction);
+
 
     public void detonateBomb(int x, int y, int radius) {
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();

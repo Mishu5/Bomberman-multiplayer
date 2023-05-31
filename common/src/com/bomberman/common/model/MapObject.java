@@ -45,12 +45,22 @@ public abstract class MapObject {
         this.positionY = positionY;
     }
 
-    public boolean isDestructible() { return destructible; }
+    public boolean isDestructible() {
+        return destructible;
+    }
 
-    public int getWidth() { return this.width; }
-    public int getHeight() { return this.height; }
+    public int getWidth() {
+        return this.width;
+    }
 
-    public boolean getTransparent(){return this.transparent;}
+    public int getHeight() {
+        return this.height;
+    }
+
+    public boolean getTransparent() {
+        return this.transparent;
+    }
+
     public void draw(SpriteBatch batch) {
         this.sprite.setX(this.positionX * BLOCK_SIZE);
         this.sprite.setY(this.positionY * BLOCK_SIZE);
