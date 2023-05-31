@@ -6,6 +6,7 @@ import com.bomberman.common.events.BombMoveEvent;
 import com.bomberman.common.model.Bomb;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
+import com.bomberman.common.serialization.Parser;
 
 import static com.bomberman.common.engine.PlayerHandler.Direction.*;
 import static com.bomberman.common.utils.EngineUtils.PLAYER_SPEED;
@@ -21,6 +22,10 @@ public class PlayerHandler {
         this.player = player;
         this.map = map;
         this.listener = listener;
+    }
+
+    private boolean validate_move(int x, int y){
+        return (map.wallCheck(player.getPositionX() + x, player.getPositionY() + y));
     }
 
     public void serviceController() {
@@ -50,9 +55,8 @@ public class PlayerHandler {
                 }
             }
         }
-        player.move(x, y);
-
-
+        if(!validate_move(x,y))
+            player.move(x,y);
     }
 
     public int getID() {

@@ -14,6 +14,7 @@ import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
 
+import static com.bomberman.common.utils.EngineUtils.DETONATION_RADIUS;
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 
 public class Bomberman extends ApplicationAdapter {
@@ -48,7 +49,7 @@ public class Bomberman extends ApplicationAdapter {
 		 */
         map = new Map();
         Parser parser = new Parser();
-        parser.loadMapFromFile("assets/map.txt", map);
+        parser.loadMapFromFile("map.txt", map);
 
 		/*
 			Player assign
@@ -59,7 +60,7 @@ public class Bomberman extends ApplicationAdapter {
 		/*
 			Test bomb
 		 */
-        services.addBomb(new Bomb(3, 3, 2));
+        services.addBomb(new Bomb(2, 2, DETONATION_RADIUS));
 
     }
 

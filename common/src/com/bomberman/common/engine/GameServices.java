@@ -1,9 +1,6 @@
 package com.bomberman.common.engine;
 
-import com.bomberman.common.model.Bomb;
-import com.bomberman.common.model.Map;
-import com.bomberman.common.model.MapObject;
-import com.bomberman.common.model.Player;
+import com.bomberman.common.model.*;
 
 import java.util.ArrayList;
 
@@ -14,11 +11,13 @@ public class GameServices {
     private ArrayList<BombHandler> bombHandlers;
     private ArrayList<PlayerHandler> playerHandlers;
     private Map gameEnvironment;
+    private EventListener mainListener;
 
     public GameServices(Map map) {
         this.gameEnvironment = map;
         playerHandlers = new ArrayList<>();
         bombHandlers = new ArrayList<>();
+        mainListener = new EventListener(this);
     }
 
     public void addPlayer(Player player) {
@@ -44,7 +43,6 @@ public class GameServices {
     }
 
     public boolean moveBomb(int x, int y, PlayerHandler.Direction direction) {
-
         BombHandler myHandler = null;
         for (BombHandler bh : bombHandlers) {
             if (bh.positionMatch(x, y)) {
@@ -82,7 +80,10 @@ public class GameServices {
         return true;
     }
 
-    public void detonateBomb(int x, int y, int radius) {
+    synchronized public void detonateBomb(int x, int y, int radius) {
+        //test
+        //gameEnvironment.addFloor(0, 0);
+
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
         for (PlayerHandler ph : playerHandlers) {
             if (ph.getX() >= x - radius && ph.getX() <= x + radius &&
@@ -94,24 +95,26 @@ public class GameServices {
         playerHandlers.removeAll(killedHandlers);
 
         ArrayList<MapObject> deletedObjects = new ArrayList<>();
+        ArrayList<MapObject> addedObjects = new ArrayList<>();
         for (int i = 0; i < gameEnvironment.getMap().size(); i++) {
             MapObject mo = gameEnvironment.getMap().get(i);
             if (!mo.isDestructible()) continue;
             if (mo.getPositionX() >= x - radius && mo.getPositionX() <= x + radius
-                    && mo.getPositionY() >= y + radius && mo.getPositionY() <= y - radius) {
-                gameEnvironment.addFloor(mo.getPositionX(), mo.getPositionY());
+                    && mo.getPositionY() >= y - radius && mo.getPositionY() <= y + radius) {
+                //gameEnvironment.addFloor(mo.getPositionX(), mo.getPositionY());
+                //addedObjects.addFloor(mo.getPositionX(), mo.getPositionY());
+                //addedObjects.add(new Floor(mo.getPositionX(), mo.getPositionY()));
                 deletedObjects.add(mo);
             }
         }
         gameEnvironment.getMap().removeAll(deletedObjects);
-
+        //gameEnvironment.getMap().addAll(addedObjects);
         removeBomb(x, y);
     }
 
     public void serviceController(int id) {
         for (PlayerHandler ph : playerHandlers) {
             if (ph.getID() == id) ph.serviceController();
-
 
         }
     }

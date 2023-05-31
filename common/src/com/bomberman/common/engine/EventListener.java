@@ -24,9 +24,9 @@ public class EventListener {
             while (true) {
                 try {
                     Thread.sleep(EVENT_SERVICE_DELAY);
-                    if (!bombEvents.isEmpty()) {
-                        serviceEvent(bombEvents.get(0));
-                        bombEvents.remove(0);
+                    if (!playerDisconnectEvents.isEmpty()) {
+                        serviceEvent(playerDisconnectEvents.get(0));
+                        playerDisconnectEvents.remove(0);
                     }
                     if (!bombEvents.isEmpty()) {
                         serviceEvent(bombEvents.get(0));
