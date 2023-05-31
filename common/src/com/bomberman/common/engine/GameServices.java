@@ -56,6 +56,8 @@ public class GameServices {
         myHandler.moveBomb(direction);
 
 
+    }
+
     public void detonateBomb(int x, int y, int radius) {
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
         for (PlayerHandler ph : playerHandlers) {
@@ -68,10 +70,10 @@ public class GameServices {
         playerHandlers.removeAll(killedHandlers);
 
         ArrayList<MapObject> deletedObjects = new ArrayList<>();
-        for(int i = 0 ; i < gameEnvironment.getMap().size() ; i++) {
+        for (int i = 0; i < gameEnvironment.getMap().size(); i++) {
             MapObject mo = gameEnvironment.getMap().get(i);
-            if(!mo.isDestructible()) continue;
-            if(mo.getPositionX() >= x - radius && mo.getPositionX() <= x + radius
+            if (!mo.isDestructible()) continue;
+            if (mo.getPositionX() >= x - radius && mo.getPositionX() <= x + radius
                     && mo.getPositionY() >= y + radius && mo.getPositionY() <= y - radius) {
                 gameEnvironment.addFloor(mo.getPositionX(), mo.getPositionY());
                 deletedObjects.add(mo);
@@ -83,8 +85,10 @@ public class GameServices {
     }
 
     public void serviceController(int id) {
-        for(PlayerHandler ph: playerHandlers) {
-            if(ph.getID() == id) ph.serviceController();
+        for (PlayerHandler ph : playerHandlers) {
+            if (ph.getID() == id) ph.serviceController();
+
+
         }
     }
 }
