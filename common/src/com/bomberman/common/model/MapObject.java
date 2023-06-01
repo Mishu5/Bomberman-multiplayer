@@ -16,6 +16,8 @@ public abstract class MapObject {
     protected Texture texture;
     protected Sprite sprite;
 
+    protected String texturePath;
+
     public MapObject(int positionX, int positionY, boolean destructible, boolean transparent, String texturePath) {
         this.destructible = destructible;
         this.transparent = transparent;
@@ -23,6 +25,12 @@ public abstract class MapObject {
         this.positionY = positionY;
         this.width = BLOCK_SIZE;
         this.height = BLOCK_SIZE;
+        this.texturePath = texturePath;
+        texture = null;
+        sprite = null;
+    }
+
+    private void initTexture() {
         texture = new Texture(Gdx.files.internal(texturePath));
         sprite = new Sprite(texture, positionX, positionY, width, height);
     }
@@ -48,20 +56,12 @@ public abstract class MapObject {
     public boolean isDestructible() {
         return destructible;
     }
-
-    public int getWidth() {
-        return this.width;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
     public boolean getTransparent() {
         return this.transparent;
     }
 
-    public void draw(SpriteBatch batch) {
+    synchronized public void draw(SpriteBatch batch) {
+        if(texture == null) initTexture();
         this.sprite.setX(this.positionX * BLOCK_SIZE);
         this.sprite.setY(this.positionY * BLOCK_SIZE);
         this.sprite.draw(batch);

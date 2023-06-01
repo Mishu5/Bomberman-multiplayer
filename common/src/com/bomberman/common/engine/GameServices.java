@@ -1,6 +1,7 @@
 package com.bomberman.common.engine;
 
 import com.bomberman.common.model.*;
+import jdk.internal.net.http.common.Pair;
 
 import java.util.ArrayList;
 
@@ -82,8 +83,7 @@ public class GameServices {
 
     synchronized public void detonateBomb(int x, int y, int radius) {
         //test
-        //gameEnvironment.addFloor(0, 0);
-
+        Floor temp = new Floor(20, 20);
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
         for (PlayerHandler ph : playerHandlers) {
             if (ph.getX() >= x - radius && ph.getX() <= x + radius &&
@@ -101,14 +101,13 @@ public class GameServices {
             if (!mo.isDestructible()) continue;
             if (mo.getPositionX() >= x - radius && mo.getPositionX() <= x + radius
                     && mo.getPositionY() >= y - radius && mo.getPositionY() <= y + radius) {
-                //gameEnvironment.addFloor(mo.getPositionX(), mo.getPositionY());
-                //addedObjects.addFloor(mo.getPositionX(), mo.getPositionY());
-                //addedObjects.add(new Floor(mo.getPositionX(), mo.getPositionY()));
+                addedObjects.add(new Floor(mo.getPositionX(), mo.getPositionY()));
                 deletedObjects.add(mo);
             }
         }
+
         gameEnvironment.getMap().removeAll(deletedObjects);
-        //gameEnvironment.getMap().addAll(addedObjects);
+        gameEnvironment.getMap().addAll(addedObjects);
         removeBomb(x, y);
     }
 

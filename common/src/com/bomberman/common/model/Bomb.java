@@ -4,7 +4,7 @@ import static com.bomberman.common.utils.GraphicUtils.BOMB_TEXTURE;
 
 public class Bomb extends MapObject {
 
-    private int bombRadius;
+    private final int bombRadius;
 
     public Bomb(int positionX, int positionY, int bombRadius) {
         super(positionX, positionY, false, false, BOMB_TEXTURE);

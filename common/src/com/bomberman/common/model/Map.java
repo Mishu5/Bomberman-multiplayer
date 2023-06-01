@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 
 public class Map {
-
-
     ArrayList<MapObject> map = new ArrayList<>();
     ArrayList<Bomb> bombs = new ArrayList<>();
     ArrayList<Player> players = new ArrayList<>();

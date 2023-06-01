@@ -1,5 +1,8 @@
 package com.bomberman.common.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 public class GraphicUtils {
     public static final int FPS = 60;
     public static final int WINDOW_WIDTH = 2000;
