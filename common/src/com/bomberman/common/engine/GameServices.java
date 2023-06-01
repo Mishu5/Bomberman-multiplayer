@@ -82,8 +82,6 @@ public class GameServices {
     }
 
     synchronized public void detonateBomb(int x, int y, int radius) {
-        //test
-        Floor temp = new Floor(20, 20);
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
         for (PlayerHandler ph : playerHandlers) {
             if (ph.getX() >= x - radius && ph.getX() <= x + radius &&
@@ -105,9 +103,9 @@ public class GameServices {
                 deletedObjects.add(mo);
             }
         }
-
         gameEnvironment.getMap().removeAll(deletedObjects);
         gameEnvironment.getMap().addAll(addedObjects);
+
         removeBomb(x, y);
     }
 
