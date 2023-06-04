@@ -7,11 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 
-/**
- * TODO
- * Parser pobiera z pliku w folderze "assets" plik tekstowy
- * mapy i zamienia znaki na obiekty
- */
+
 public class Parser {
 
     public static void loadMapFromFile(String Filename, Map map) {
@@ -23,16 +19,16 @@ public class Parser {
             int numberOfRows = 0;
             int numberOfColumns = 0;
 
-            // Liczenie liczby wierszy i kolumn
+
             while ((line = reader.readLine()) != null) {
                 numberOfRows++;
                 numberOfColumns = line.length();
             }
 
-            // Inicjalizacja tablicy
+
             array = new char[numberOfRows][numberOfColumns];
 
-            // Ponowne czytanie pliku i wpisywanie znaków do tablicy
+
             reader.close();
             reader = new BufferedReader(new FileReader(Filename));
 

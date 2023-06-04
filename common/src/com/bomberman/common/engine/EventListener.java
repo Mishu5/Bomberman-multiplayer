@@ -1,6 +1,7 @@
 package com.bomberman.common.engine;
 
 import com.bomberman.common.events.BombDetonateEvent;
+import com.bomberman.common.events.BombMoveEvent;
 import com.bomberman.common.events.PlayerDisconnectEvent;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ public class EventListener {
 
     public void startListening() {
         Thread thread = new Thread(() -> {
-            while(true) {
+            while (true) {
                 try {
                     Thread.sleep(EVENT_SERVICE_DELAY);
-                    if (!bombEvents.isEmpty()) {
-                        serviceEvent(bombEvents.get(0));
-                        bombEvents.remove(0);
+                    if (!playerDisconnectEvents.isEmpty()) {
+                        serviceEvent(playerDisconnectEvents.get(0));
+                        playerDisconnectEvents.remove(0);
                     }
                     if (!bombEvents.isEmpty()) {
                         serviceEvent(bombEvents.get(0));
@@ -45,6 +46,12 @@ public class EventListener {
 
     public void serviceEvent(BombDetonateEvent bde) {
         services.detonateBomb(bde.getPosX(), bde.getPosY(), bde.getRadius());
+    }
+
+    public boolean serviceEvent(BombMoveEvent bme) {
+        return services.moveBomb(bme.getPosX(), bme.getPosY(), bme.getDirection());
+
+
     }
 
     public void notify(PlayerDisconnectEvent pde) {

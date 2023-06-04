@@ -13,9 +13,15 @@ public class BombDetonateEvent extends Event {
         this.radius = radius;
     }
 
-    public int getPosX() { return posX; }
+    public int getPosX() {
+        return posX;
+    }
 
-    public int getPosY() { return posY; }
+    public int getPosY() {
+        return posY;
+    }
 
-    public int getRadius() { return radius; }
+    public int getRadius() {
+        return radius;
+    }
 }
