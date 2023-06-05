@@ -1,15 +1,12 @@
 package com.bomberman.common.engine;
 
-import com.bomberman.common.events.BombDetonateEvent;
-import com.bomberman.common.model.Bomb;
-import com.bomberman.common.model.Map;
-import com.bomberman.common.model.Player;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import static com.bomberman.common.utils.EngineUtils.*;
+import static com.bomberman.common.utils.EngineUtils.Direction.*;
 
-import static com.bomberman.common.engine.PlayerHandler.Direction.*;
-import static com.bomberman.common.utils.EngineUtils.BOMB_TICK_DELAY;
-import static com.bomberman.common.utils.EngineUtils.DETONATION_TIME;
+import com.bomberman.common.events.BombDetonateEvent;
+import com.bomberman.common.model.Bomb;
 
 public class BombHandler {
 
@@ -56,7 +53,7 @@ public class BombHandler {
     }
 
 
-    public void moveBomb(PlayerHandler.Direction direction) {
+    public void moveBomb(Direction direction) {
         if (direction == TOP) {
             this.bomb.setPosition(this.bomb.getPositionX(), this.bomb.getPositionY() + 1);
         } else if (direction == BOT) {

@@ -15,7 +15,6 @@ public abstract class MapObject {
     protected int positionX, positionY;
     protected Texture texture;
     protected Sprite sprite;
-
     protected String texturePath;
 
     public MapObject(int positionX, int positionY, boolean destructible, boolean transparent, String texturePath) {

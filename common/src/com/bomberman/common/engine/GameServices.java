@@ -1,12 +1,12 @@
 package com.bomberman.common.engine;
 
+import com.bomberman.common.events.BombMoveEvent;
 import com.bomberman.common.model.*;
-import jdk.internal.net.http.common.Pair;
 
 import java.util.ArrayList;
 
-import static com.bomberman.common.engine.PlayerHandler.Direction.*;
-import static com.bomberman.common.engine.PlayerHandler.Direction.LEFT;
+import static com.bomberman.common.utils.EngineUtils.*;
+import static com.bomberman.common.utils.EngineUtils.Direction.*;
 
 public class GameServices {
     private final ArrayList<BombHandler> bombHandlers;
@@ -20,6 +20,12 @@ public class GameServices {
         bombHandlers = new ArrayList<>();
         mainListener = new EventListener(this);
         mainListener.startListening();
+    }
+
+    public PlayerHandler getPlayerHandler(int id) {
+        for(PlayerHandler ph: playerHandlers)
+            if(ph.getID() == id) return ph;
+        return null;
     }
 
     public void addPlayer(Player player) {
@@ -44,7 +50,7 @@ public class GameServices {
         gameEnvironment.getBombs().removeIf(it -> it.positionMatch(x, y));
     }
 
-    public boolean moveBomb(int x, int y, PlayerHandler.Direction direction) {
+    public void moveBomb(int x, int y, Direction direction) {
         BombHandler myHandler = null;
         for (BombHandler bh : bombHandlers) {
             if (bh.positionMatch(x, y)) {
@@ -52,34 +58,27 @@ public class GameServices {
                 break;
             }
         }
-
+        if (myHandler == null) return;
 
         if (direction == TOP) {
             if (gameEnvironment.wallCheck(x, y + 1) || gameEnvironment.bombCheck(x, y + 1)) {
-                return false;
+                return;
             }
         } else if (direction == BOT) {
             if (gameEnvironment.wallCheck(x, y - 1) || gameEnvironment.bombCheck(x, y - 1)) {
-                return false;
+                return;
             }
         } else if (direction == RIGHT) {
             if (gameEnvironment.wallCheck(x + 1, y) || gameEnvironment.bombCheck(x + 1, y)) {
-                return false;
+                return;
             }
         } else if (direction == LEFT) {
             if (gameEnvironment.wallCheck(x - 1, y) || gameEnvironment.bombCheck(x - 1, y)) {
-                return false;
+                return;
             }
         }
 
-
-        if (myHandler == null) {
-            return false;
-        }
         myHandler.moveBomb(direction);
-
-
-        return true;
     }
 
     synchronized public void detonateBomb(int x, int y, int radius) {
@@ -115,5 +114,16 @@ public class GameServices {
             if (ph.getID() == id) ph.serviceController();
 
         }
+    }
+
+    void playerMove(int x, int y, int id, Direction direction) {
+        PlayerHandler temp = getPlayerHandler(id);
+        if(temp == null) return;
+        for (Bomb bomb: gameEnvironment.getBombs()) {
+            if (bomb.positionMatch(x, y))
+                mainListener.serviceEvent(new BombMoveEvent(x, y, direction));
+        }
+        if(!gameEnvironment.wallCheck(x, y))
+            temp.move(x,y);
     }
 }

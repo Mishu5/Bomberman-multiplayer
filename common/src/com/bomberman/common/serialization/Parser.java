@@ -9,8 +9,7 @@ import java.util.Objects;
 
 
 public class Parser {
-
-    public static void loadMapFromFile(String Filename, Map map) {
+    public void loadMapFromFile(String Filename, Map map) {
         char[][] array = null;
         BufferedReader reader = null;
         try {
@@ -19,15 +18,12 @@ public class Parser {
             int numberOfRows = 0;
             int numberOfColumns = 0;
 
-
             while ((line = reader.readLine()) != null) {
                 numberOfRows++;
                 numberOfColumns = line.length();
             }
 
-
             array = new char[numberOfRows][numberOfColumns];
-
 
             reader.close();
             reader = new BufferedReader(new FileReader(Filename));

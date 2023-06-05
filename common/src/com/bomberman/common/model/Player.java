@@ -18,7 +18,7 @@ public class Player extends MapObject {
     }
 
     public void move(int x, int y) {
-        positionX += x;
-        positionY += y;
+        positionX = x;
+        positionY = y;
     }
 }

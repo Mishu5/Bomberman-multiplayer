@@ -69,7 +69,13 @@ public class Map {
     public boolean wallCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
-                return !object.getTransparent();
+                if(!object.getTransparent()) return true;
+                break;
+            }
+        }
+        for (Bomb bomb : bombs) {
+            if (bomb.getPositionX() == x && bomb.getPositionY() == y) {
+                return true;
             }
         }
         return false;
