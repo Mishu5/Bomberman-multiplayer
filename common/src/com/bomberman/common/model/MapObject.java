@@ -2,7 +2,6 @@ package com.bomberman.common.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import static com.bomberman.common.utils.GraphicUtils.BLOCK_SIZE;
@@ -14,7 +13,6 @@ public abstract class MapObject {
     protected int width, height;
     protected int positionX, positionY;
     protected Texture texture;
-    protected Sprite sprite;
     protected String texturePath;
 
     public MapObject(int positionX, int positionY, boolean destructible, boolean transparent, String texturePath) {
@@ -26,12 +24,10 @@ public abstract class MapObject {
         this.height = BLOCK_SIZE;
         this.texturePath = texturePath;
         texture = null;
-        sprite = null;
     }
 
     private void initTexture() {
         texture = new Texture(Gdx.files.internal(texturePath));
-        sprite = new Sprite(texture, positionX, positionY, width, height);
     }
 
     public int getPositionX() {
@@ -61,8 +57,6 @@ public abstract class MapObject {
 
     synchronized public void draw(SpriteBatch batch) {
         if(texture == null) initTexture();
-        this.sprite.setX(this.positionX * BLOCK_SIZE);
-        this.sprite.setY(this.positionY * BLOCK_SIZE);
-        this.sprite.draw(batch);
+        batch.draw(texture, positionX * BLOCK_SIZE, positionY * BLOCK_SIZE);
     }
 }
