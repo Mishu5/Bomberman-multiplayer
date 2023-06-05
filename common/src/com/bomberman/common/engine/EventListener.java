@@ -1,9 +1,6 @@
 package com.bomberman.common.engine;
 
-import com.bomberman.common.events.BombDetonateEvent;
-import com.bomberman.common.events.BombMoveEvent;
-import com.bomberman.common.events.PlayerDisconnectEvent;
-import com.bomberman.common.events.PlayerMoveEvent;
+import com.bomberman.common.events.*;
 
 import java.util.ArrayList;
 
@@ -11,17 +8,18 @@ import static com.bomberman.common.utils.EngineUtils.EVENT_SERVICE_DELAY;
 
 public class EventListener {
     final private GameServices services;
-    private final ArrayList<BombDetonateEvent> bombDetonateEvents;
     private final ArrayList<PlayerDisconnectEvent> playerDisconnectEvents;
     private final ArrayList<PlayerMoveEvent> playerMoveEvents;
-
+    private final ArrayList<BombCreateEvent> bombCreateEvents;
+    private final ArrayList<BombDetonateEvent> bombDetonateEvents;
     private final ArrayList<BombMoveEvent> bombMoveEvents;
 
     public EventListener(GameServices services) {
         this.services = services;
-        bombDetonateEvents = new ArrayList<>();
         playerDisconnectEvents = new ArrayList<>();
         playerMoveEvents = new ArrayList<>();
+        bombCreateEvents = new ArrayList<>();
+        bombDetonateEvents = new ArrayList<>();
         bombMoveEvents = new ArrayList<>();
     }
 
@@ -38,6 +36,10 @@ public class EventListener {
                         serviceEvent(playerMoveEvents.get(0));
                         playerMoveEvents.remove(0);
                     }
+                    if (!bombCreateEvents.isEmpty()) {
+                        serviceEvent(bombCreateEvents.get(0));
+                        bombCreateEvents.remove(0);
+                    }
                     if (!bombDetonateEvents.isEmpty()) {
                         serviceEvent(bombDetonateEvents.get(0));
                         bombDetonateEvents.remove(0);
@@ -52,6 +54,14 @@ public class EventListener {
             }
         });
         thread.start();
+    }
+
+    public void notify(BombCreateEvent bce) {
+        bombCreateEvents.add(bce);
+    }
+
+    public void serviceEvent(BombCreateEvent bce) {
+        services.createBomb(bce.getPosX(), bce.getPosY(), bce.getRadius());
     }
 
     public void notify(BombDetonateEvent bde) {
