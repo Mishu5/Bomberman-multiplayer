@@ -55,7 +55,7 @@ public class Bomberman extends ApplicationAdapter {
 			Player assign
 		 */
         services = new GameServices(map);
-        services.addPlayer(new Player(1, 1, playerID));
+        services.addPlayer(new Player(2, 3, playerID));
 
 		/*
 			Test bomb

@@ -1,8 +1,8 @@
 package com.bomberman.common.events;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
+import java.io.Serializable;
 
-public class BombDetonateEvent extends Event {
+public class BombDetonateEvent implements Event, Serializable {
     private final int posX;
     private final int posY;
     private final int radius;
@@ -23,5 +23,15 @@ public class BombDetonateEvent extends Event {
 
     public int getRadius() {
         return radius;
+    }
+
+    @Override
+    public String toString() {
+        return (getPosX() + " " + getPosY() + " " + getRadius());
+    }
+
+    @Override
+    public String getCommand() {
+        return "BombDetonateEvent";
     }
 }

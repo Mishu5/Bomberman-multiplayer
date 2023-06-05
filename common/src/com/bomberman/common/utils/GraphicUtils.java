@@ -1,8 +1,5 @@
 package com.bomberman.common.utils;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-
 public class GraphicUtils {
     public static final int FPS = 60;
     public static final int WINDOW_WIDTH = 2000;
@@ -14,4 +11,5 @@ public class GraphicUtils {
     public static final String PLAYER_TEXTURE = "1.png";
     public static final String POWER_UP_TEXTURE = "powerup.png";
     public static final String WALL_TEXTURE = "wall.png";
+    public static final String DESTRUCTIBLE_WALL_TEXTURE = "destwall.png";
 }

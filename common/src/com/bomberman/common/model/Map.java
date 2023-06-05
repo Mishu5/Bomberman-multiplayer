@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 
 public class Map {
-    ArrayList<MapObject> map = new ArrayList<>();
-    ArrayList<Bomb> bombs = new ArrayList<>();
-    ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<MapObject> map = new ArrayList<>();
+    private final ArrayList<Bomb> bombs = new ArrayList<>();
+    private final ArrayList<Player> players = new ArrayList<>();
 
 
     public void addDestructibleWall(int positionX, int positionY) {
@@ -69,7 +69,13 @@ public class Map {
     public boolean wallCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
-                return !object.getTransparent();
+                if(!object.getTransparent()) return true;
+                break;
+            }
+        }
+        for (Bomb bomb : bombs) {
+            if (bomb.getPositionX() == x && bomb.getPositionY() == y) {
+                return true;
             }
         }
         return false;

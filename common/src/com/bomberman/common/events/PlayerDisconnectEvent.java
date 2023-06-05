@@ -1,11 +1,11 @@
 package com.bomberman.common.events;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
+import java.io.Serializable;
 
-public class PlayerDisconnectEvent extends Event {
-    private int playerID;
-    private int posX;
-    private int posY;
+public class PlayerDisconnectEvent implements Event, Serializable {
+    private final int playerID;
+    private final int posX;
+    private final int posY;
 
     public PlayerDisconnectEvent(int playerID, int posX, int posY) {
         this.playerID = playerID;
@@ -23,5 +23,15 @@ public class PlayerDisconnectEvent extends Event {
 
     public int getPosY() {
         return posY;
+    }
+
+    @Override
+    public String toString() {
+        return (getPosX() + " " + getPosY() + " " + getPlayerID());
+    }
+
+    @Override
+    public String getCommand() {
+        return "BombDisconnectEvent";
     }
 }
