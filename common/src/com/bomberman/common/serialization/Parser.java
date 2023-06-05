@@ -9,7 +9,7 @@ import java.util.Objects;
 
 
 public class Parser {
-    public void loadMapFromFile(String Filename, Map map) {
+    public static void loadMapFromFile(String Filename, Map map) {
         char[][] array = null;
         BufferedReader reader = null;
         try {

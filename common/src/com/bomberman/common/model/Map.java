@@ -5,15 +5,33 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 
 public class Map {
-    private final ArrayList<MapObject> map = new ArrayList<>();
-    private final ArrayList<Bomb> bombs = new ArrayList<>();
-    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<MapObject> map;
+    private final ArrayList<Bomb> bombs;
+    private final ArrayList<Player> players;
 
+    private double gameTime;
+
+    private boolean gameStarted;
+
+    public Map(){
+        map = new ArrayList<>();
+        bombs = new ArrayList<>();
+        players = new ArrayList<>();
+        gameTime = 0;
+        gameStarted = false;
+    }
+
+    public boolean getGameStarted(){
+        return  gameStarted;
+    }
+
+    public double getGameTime(){
+        return gameTime;
+    }
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
     }
-
 
     public void addIndestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, false));

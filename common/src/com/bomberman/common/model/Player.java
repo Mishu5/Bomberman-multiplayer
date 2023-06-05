@@ -21,4 +21,5 @@ public class Player extends MapObject {
         positionX = x;
         positionY = y;
     }
+
 }

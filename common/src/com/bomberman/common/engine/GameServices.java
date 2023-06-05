@@ -11,6 +11,7 @@ import static com.bomberman.common.utils.EngineUtils.Direction.*;
 public class GameServices {
     private final ArrayList<BombHandler> bombHandlers;
     private final ArrayList<PlayerHandler> playerHandlers;
+    private final ArrayList<ClientHandler> clientHandlers;
     private final Map gameEnvironment;
     private final EventListener mainListener;
 
@@ -18,19 +19,22 @@ public class GameServices {
         this.gameEnvironment = map;
         playerHandlers = new ArrayList<>();
         bombHandlers = new ArrayList<>();
+        clientHandlers = new ArrayList<>();
         mainListener = new EventListener(this);
         mainListener.startListening();
     }
 
     public PlayerHandler getPlayerHandler(int id) {
-        for(PlayerHandler ph: playerHandlers)
-            if(ph.getID() == id) return ph;
+        for (PlayerHandler ph : playerHandlers)
+            if (ph.getID() == id) return ph;
         return null;
     }
 
-    public void addPlayer(Player player) {
+    public PlayerHandler addPlayer(Player player) {
         this.gameEnvironment.addPlayer(player);
-        this.playerHandlers.add(new PlayerHandler(player, mainListener, gameEnvironment));
+        PlayerHandler tempPlayerHandlerHolder = new PlayerHandler(player, mainListener, gameEnvironment);
+        this.playerHandlers.add(tempPlayerHandlerHolder);
+        return tempPlayerHandlerHolder;
     }
 
     public void removePlayers(int id) {
@@ -118,12 +122,16 @@ public class GameServices {
 
     void playerMove(int x, int y, int id, Direction direction) {
         PlayerHandler temp = getPlayerHandler(id);
-        if(temp == null) return;
-        for (Bomb bomb: gameEnvironment.getBombs()) {
+        if (temp == null) return;
+        for (Bomb bomb : gameEnvironment.getBombs()) {
             if (bomb.positionMatch(x, y))
                 mainListener.serviceEvent(new BombMoveEvent(x, y, direction));
         }
-        if(!gameEnvironment.wallCheck(x, y))
-            temp.move(x,y);
+        if (!gameEnvironment.wallCheck(x, y))
+            temp.move(x, y);
+    }
+
+    synchronized public Map getMap(){
+        return gameEnvironment;
     }
 }
