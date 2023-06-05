@@ -4,6 +4,7 @@ import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
+import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
@@ -24,8 +25,12 @@ public class ClientConnectionHandler extends Thread {
     private ServerSocket serverSocket;
     private Socket clientSocket;
 
+    //server clients threads
+    private ArrayList<ClientHandlerThread> clientThreads;
+
     public ClientConnectionHandler(GameServices gameEngine) {
         this.gameEngine = gameEngine;
+        this.clientThreads = new ArrayList<>();
     }
 
     public void run() {
@@ -46,9 +51,13 @@ public class ClientConnectionHandler extends Thread {
             /**
              * TODO
              * Player constructor should define player position
+             * add output stream
              */
             BufferedReader tempBufferedReaderHolder = makeBufferedReader(clientSocket);
             PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(1, 1, currentPlayerCount));
+            ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler,tempBufferedReaderHolder);
+            clientThreads.add(tempHandlerThreadHolder);
+            tempHandlerThreadHolder.start();
 
         }
 
