@@ -9,21 +9,22 @@ import static com.bomberman.common.engine.PlayerHandler.Direction.*;
 import static com.bomberman.common.engine.PlayerHandler.Direction.LEFT;
 
 public class GameServices {
-    private ArrayList<BombHandler> bombHandlers;
-    private ArrayList<PlayerHandler> playerHandlers;
-    private Map gameEnvironment;
-    private EventListener mainListener;
+    private final ArrayList<BombHandler> bombHandlers;
+    private final ArrayList<PlayerHandler> playerHandlers;
+    private final Map gameEnvironment;
+    private final EventListener mainListener;
 
     public GameServices(Map map) {
         this.gameEnvironment = map;
         playerHandlers = new ArrayList<>();
         bombHandlers = new ArrayList<>();
         mainListener = new EventListener(this);
+        mainListener.startListening();
     }
 
     public void addPlayer(Player player) {
         this.gameEnvironment.addPlayer(player);
-        this.playerHandlers.add(new PlayerHandler(player, new EventListener(this), gameEnvironment));
+        this.playerHandlers.add(new PlayerHandler(player, mainListener, gameEnvironment));
     }
 
     public void removePlayers(int id) {
@@ -33,7 +34,7 @@ public class GameServices {
 
     public void addBomb(Bomb bomb) {
         this.gameEnvironment.addBomb(bomb);
-        BombHandler bh = new BombHandler(bomb, new EventListener(this));
+        BombHandler bh = new BombHandler(bomb, mainListener);
         this.bombHandlers.add(bh);
         bh.serviceBomb();
     }

@@ -1,10 +1,11 @@
 package com.bomberman.common.events;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.engine.PlayerHandler.*;
 
-public class BombMoveEvent extends Event {
+import java.io.Serializable;
+
+public class BombMoveEvent implements Event, Serializable {
     private final int posX;
     private final int posY;
     private final Direction direction;
@@ -27,5 +28,15 @@ public class BombMoveEvent extends Event {
 
     public PlayerHandler.Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public String toString() {
+        return (getPosX() + " " + getPosY() + " " + getDirection().toString());
+    }
+
+    @Override
+    public String getCommand() {
+        return "BombMoveEvent";
     }
 }

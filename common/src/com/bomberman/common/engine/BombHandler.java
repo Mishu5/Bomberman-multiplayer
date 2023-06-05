@@ -8,15 +8,16 @@ import com.bomberman.common.model.Player;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bomberman.common.engine.PlayerHandler.Direction.*;
+import static com.bomberman.common.utils.EngineUtils.BOMB_TICK_DELAY;
 import static com.bomberman.common.utils.EngineUtils.DETONATION_TIME;
 
 public class BombHandler {
 
-    private Bomb bomb;
+    private final Bomb bomb;
 
-    private AtomicInteger counter;
+    private final AtomicInteger counter;
 
-    private EventListener listener;
+    private final EventListener listener;
 
     /*
         Create handler for specific bomb
@@ -31,7 +32,7 @@ public class BombHandler {
         Thread thread = new Thread(() -> {
             while (counter.get() > 0) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(BOMB_TICK_DELAY);
                     counter.decrementAndGet();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -43,7 +44,7 @@ public class BombHandler {
     }
 
     public void detonateBomb() {
-        listener.serviceEvent(new BombDetonateEvent(
+        listener.notify(new BombDetonateEvent(
                 this.bomb.getPositionX(),
                 this.bomb.getPositionY(),
                 this.bomb.getBombRadius()
@@ -56,7 +57,6 @@ public class BombHandler {
 
 
     public void moveBomb(PlayerHandler.Direction direction) {
-
         if (direction == TOP) {
             this.bomb.setPosition(this.bomb.getPositionX(), this.bomb.getPositionY() + 1);
         } else if (direction == BOT) {
@@ -66,6 +66,5 @@ public class BombHandler {
         } else if (direction == LEFT) {
             this.bomb.setPosition(this.bomb.getPositionX() - 1, this.bomb.getPositionY());
         }
-
     }
 }

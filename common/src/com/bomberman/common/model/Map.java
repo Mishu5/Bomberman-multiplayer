@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 
 public class Map {
-    ArrayList<MapObject> map = new ArrayList<>();
-    ArrayList<Bomb> bombs = new ArrayList<>();
-    ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<MapObject> map = new ArrayList<>();
+    private final ArrayList<Bomb> bombs = new ArrayList<>();
+    private final ArrayList<Player> players = new ArrayList<>();
 
 
     public void addDestructibleWall(int positionX, int positionY) {
