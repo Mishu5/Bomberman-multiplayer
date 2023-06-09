@@ -17,6 +17,9 @@ public class Server {
         Map map = new Map();
         Parser.loadMapFromFile("assets/map.txt", map);
 
+        //test
+        System.out.println(map.getMap().size());
+
         //creating game services
         GameServices gameEngine = new GameServices(map);
 

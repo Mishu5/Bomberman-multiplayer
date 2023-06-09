@@ -18,9 +18,11 @@ import java.io.IOException;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 
+		/*
 		//getting ip
 		String ip = getIp("config.txt");
 		System.out.println(ip);
+		*/
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(FPS);

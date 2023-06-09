@@ -30,9 +30,15 @@ public class ClientPackageSenderThread extends Thread {
 
         while (true) {
 
+            try{
+                Thread.sleep(1000);
+            }catch (InterruptedException e){
+                System.out.println("Sleep error");
+            }
+
+            System.out.println("Sender- clients connected: " + outputs.size());
+
             if (outputs.isEmpty()) continue;
-
-
 
             //creating package
             Map tempMap = gameEngine.getMap();
@@ -44,14 +50,12 @@ public class ClientPackageSenderThread extends Thread {
                 try {
                     outputs.get(i).writeObject(packageToSend);
                 }catch (IOException e){
-                    System.out.println("Client " + i + " disconnected");
+                    System.out.println("Client #" + i + " write error");
                     /**
                      *TODO add disconnection
                      */
-
                 }
-
-            }
+            }//end for loop
 
         }
 

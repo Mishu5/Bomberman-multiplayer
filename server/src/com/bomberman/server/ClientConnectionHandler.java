@@ -60,17 +60,17 @@ public class ClientConnectionHandler extends Thread {
              * Player constructor should define player position
              * add output stream
              */
-            BufferedReader tempBufferedReaderHolder = makeBufferedReader(clientSocket);
-            ObjectOutputStream tempObjectOutputStreamHolder = makeNewObjectOutPutStream(clientSocket);
+            BufferedReader tempBufferedReader = makeBufferedReader(clientSocket);
+            ObjectOutputStream tempObjectOutputStream = makeNewObjectOutPutStream(clientSocket);
 
             //adding output stream
-            outputs.add(tempObjectOutputStreamHolder);
+            outputs.add(tempObjectOutputStream);
 
             //creating player
             PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(1, 1, currentPlayerCount));
 
             //creating and starting new thread
-            ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler, tempBufferedReaderHolder);
+            ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler, tempBufferedReader);
 
             clientThreads.add(tempHandlerThreadHolder);
             tempHandlerThreadHolder.start();
