@@ -8,7 +8,9 @@ import com.bomberman.common.serialization.Parser;
 
 import static java.lang.System.exit;
 
-public class Server{
+import java.util.Scanner;
+
+public class Server {
     public static void main(String[] args) {
 
         //creating map
@@ -19,15 +21,21 @@ public class Server{
         GameServices gameEngine = new GameServices(map);
 
         //starting listening for new players
-        ClientConnectionHandler connectionHandler= new ClientConnectionHandler(gameEngine);
+        ClientConnectionHandler connectionHandler = new ClientConnectionHandler(gameEngine);
         connectionHandler.start();
 
+        Scanner keyboardInput = new Scanner(System.in);
+
         System.out.println("Hello world");
-        try {
-            Thread.sleep(50000);
-        }catch (InterruptedException e){
-            System.out.println("ERROR");
+
+        while (true) {
+
+            String command = keyboardInput.nextLine();
+            System.out.println(command);
+            if (command.equals("quit")) break;
+
         }
+
         System.out.println("Ending server");
         exit(0);
     }

@@ -58,7 +58,7 @@ public class ClientHandlerThread extends Thread{
                    break;
 
                case BOMB:
-
+                        playerHandler.putBombAttempt();
                    break;
                default:
 

@@ -21,6 +21,9 @@ public class DesktopLauncher {
 				WINDOW_WIDTH,
 				WINDOW_HEIGHT
 		);
+
+		System.out.println("TEST");
+
 		new Lwjgl3Application(new Bomberman(), config);
 	}
 }
