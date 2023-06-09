@@ -8,7 +8,7 @@ import com.bomberman.common.serialization.Parser;
 
 import static java.lang.System.exit;
 
-public class Server {
+public class Server{
     public static void main(String[] args) {
 
         //creating map
@@ -21,9 +21,14 @@ public class Server {
         //starting listening for new players
         ClientConnectionHandler connectionHandler= new ClientConnectionHandler(gameEngine);
         connectionHandler.start();
-        connectionHandler.setDaemon(true);
 
         System.out.println("Hello world");
+        try {
+            Thread.sleep(50000);
+        }catch (InterruptedException e){
+            System.out.println("ERROR");
+        }
+        System.out.println("Ending server");
         exit(0);
     }
 }
