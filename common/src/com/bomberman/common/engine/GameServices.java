@@ -32,7 +32,7 @@ public class GameServices {
 
     public PlayerHandler addPlayer(Player player) {
         this.gameEnvironment.addPlayer(player);
-        PlayerHandler tempPlayerHandlerHolder = new PlayerHandler(player, mainListener, gameEnvironment);
+        PlayerHandler tempPlayerHandlerHolder = new PlayerHandler(player, mainListener);
         this.playerHandlers.add(tempPlayerHandlerHolder);
         return tempPlayerHandlerHolder;
     }
@@ -103,10 +103,8 @@ public class GameServices {
             if (bomb.positionMatch(x, y))
                 moveBomb(x, y, direction);
         }
-        if (!gameEnvironment.wallCheck(x, y))
+        if (!gameEnvironment.collisionCheck(x, y))
             temp.move(x, y);
-        if(!gameEnvironment.collisionCheck(x, y))
-            temp.move(x,y);
     }
 
     synchronized public Map getMap(){
@@ -144,9 +142,4 @@ public class GameServices {
         myHandler.moveBomb(direction);
     }
 
-    public void serviceController(int id) {
-        for (PlayerHandler ph : playerHandlers) {
-            if (ph.getID() == id) ph.serviceController();
-        }
-    }
 }
