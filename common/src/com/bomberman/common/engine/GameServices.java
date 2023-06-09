@@ -54,35 +54,11 @@ public class GameServices {
         gameEnvironment.getBombs().removeIf(it -> it.positionMatch(x, y));
     }
 
-    public void moveBomb(int x, int y, Direction direction) {
-        BombHandler myHandler = null;
-        for (BombHandler bh : bombHandlers) {
-            if (bh.positionMatch(x, y)) {
-                myHandler = bh;
-                break;
-            }
+    synchronized public void createBomb(int x, int y, int radius) {
+        for(Bomb bomb: gameEnvironment.getBombs()) {
+            if(bomb.positionMatch(x, y)) return;
         }
-        if (myHandler == null) return;
-
-        if (direction == TOP) {
-            if (gameEnvironment.wallCheck(x, y + 1) || gameEnvironment.bombCheck(x, y + 1)) {
-                return;
-            }
-        } else if (direction == BOT) {
-            if (gameEnvironment.wallCheck(x, y - 1) || gameEnvironment.bombCheck(x, y - 1)) {
-                return;
-            }
-        } else if (direction == RIGHT) {
-            if (gameEnvironment.wallCheck(x + 1, y) || gameEnvironment.bombCheck(x + 1, y)) {
-                return;
-            }
-        } else if (direction == LEFT) {
-            if (gameEnvironment.wallCheck(x - 1, y) || gameEnvironment.bombCheck(x - 1, y)) {
-                return;
-            }
-        }
-
-        myHandler.moveBomb(direction);
+        addBomb(new Bomb(x, y, radius));
     }
 
     synchronized public void detonateBomb(int x, int y, int radius) {
@@ -122,16 +98,55 @@ public class GameServices {
 
     void playerMove(int x, int y, int id, Direction direction) {
         PlayerHandler temp = getPlayerHandler(id);
-        if (temp == null) return;
-        for (Bomb bomb : gameEnvironment.getBombs()) {
+        if(temp == null) return;
+        for (Bomb bomb: gameEnvironment.getBombs()) {
             if (bomb.positionMatch(x, y))
-                mainListener.serviceEvent(new BombMoveEvent(x, y, direction));
+                moveBomb(x, y, direction);
         }
         if (!gameEnvironment.wallCheck(x, y))
             temp.move(x, y);
+        if(!gameEnvironment.collisionCheck(x, y))
+            temp.move(x,y);
     }
 
     synchronized public Map getMap(){
         return gameEnvironment;
+    }
+
+    public void moveBomb(int x, int y, Direction direction) {
+        BombHandler myHandler = null;
+        for (BombHandler bh : bombHandlers) {
+            if (bh.positionMatch(x, y)) {
+                myHandler = bh;
+                break;
+            }
+        }
+        if (myHandler == null) return;
+
+        if (direction == TOP) {
+            if (gameEnvironment.collisionCheck(x, y + 1)) {
+                return;
+            }
+        } else if (direction == BOT) {
+            if (gameEnvironment.collisionCheck(x, y - 1)) {
+                return;
+            }
+        } else if (direction == RIGHT) {
+            if (gameEnvironment.collisionCheck(x + 1, y)) {
+                return;
+            }
+        } else if (direction == LEFT) {
+            if (gameEnvironment.collisionCheck(x - 1, y)) {
+                return;
+            }
+        }
+
+        myHandler.moveBomb(direction);
+    }
+
+    public void serviceController(int id) {
+        for (PlayerHandler ph : playerHandlers) {
+            if (ph.getID() == id) ph.serviceController();
+        }
     }
 }

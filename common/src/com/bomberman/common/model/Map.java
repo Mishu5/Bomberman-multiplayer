@@ -84,7 +84,7 @@ public class Map {
         for (MapObject obj : players) obj.draw(batch);
     }
 
-    public boolean wallCheck(int x, int y) {
+    public boolean collisionCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
                 if(!object.getTransparent()) return true;
