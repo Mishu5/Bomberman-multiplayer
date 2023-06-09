@@ -4,6 +4,7 @@ import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
+
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
@@ -24,18 +25,24 @@ public class ClientConnectionHandler extends Thread {
     private final int PORT = 21370;
     private ServerSocket serverSocket;
     private Socket clientSocket;
+    private ArrayList<ObjectOutputStream> outputs;
 
     //server clients threads
     private ArrayList<ClientHandlerThread> clientThreads;
+    private ClientPackageSenderThread sender;
 
     public ClientConnectionHandler(GameServices gameEngine) {
         this.gameEngine = gameEngine;
         this.clientThreads = new ArrayList<>();
+        this.outputs = new ArrayList<>();
     }
 
     public void run() {
 
         initializeSockets();
+
+        sender = new ClientPackageSenderThread(outputs, gameEngine);
+        sender.start();
 
         System.out.println("Waiting for players...");
 
@@ -54,8 +61,17 @@ public class ClientConnectionHandler extends Thread {
              * add output stream
              */
             BufferedReader tempBufferedReaderHolder = makeBufferedReader(clientSocket);
+            ObjectOutputStream tempObjectOutputStreamHolder = makeNewObjectOutPutStream(clientSocket);
+
+            //adding output stream
+            outputs.add(tempObjectOutputStreamHolder);
+
+            //creating player
             PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(1, 1, currentPlayerCount));
-            ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler,tempBufferedReaderHolder);
+
+            //creating and starting new thread
+            ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler, tempBufferedReaderHolder);
+
             clientThreads.add(tempHandlerThreadHolder);
             tempHandlerThreadHolder.start();
 

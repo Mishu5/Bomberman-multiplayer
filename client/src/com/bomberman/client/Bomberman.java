@@ -56,11 +56,12 @@ public class Bomberman extends ApplicationAdapter {
 		 */
         services = new GameServices(map);
         services.addPlayer(new Player(2, 3, playerID));
+        services.addPlayer(new Player(2,1,2));
 
 		/*
 			Test bomb
 		 */
-        services.addBomb(new Bomb(2, 2, DETONATION_RADIUS));
+        //services.addBomb(new Bomb(2, 2, DETONATION_RADIUS));
 
     }
 
