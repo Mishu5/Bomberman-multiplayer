@@ -32,16 +32,14 @@ public class Bomberman extends ApplicationAdapter {
     private GameServices services;
 
     //server connection stuff
-    private Socket clientSocket;
-    private PrintWriter out;
-    private ClientServerPackageReceiverThread receiver;
+    private ClientServices clientServices;
 
     int playerID = 1;
 
     @Override
     public void create() {
 
-		//View objects
+        //View objects
 
         batch = new SpriteBatch();
         stage = new Stage();
@@ -58,13 +56,13 @@ public class Bomberman extends ApplicationAdapter {
         Parser parser = new Parser();
         parser.loadMapFromFile("map.txt", map);
 
-
-		//Player assign
+        clientServices = new ClientServices(map);
+        clientServices.connectToServer();
+        //Player assign
 
         services = new GameServices(map);
         services.addPlayer(new Player(2, 3, playerID));
-        services.addPlayer(new Player(2,1,2));
-
+        services.addPlayer(new Player(2, 1, 2));
 
 
     }
@@ -73,9 +71,9 @@ public class Bomberman extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.25f, 0.75f, 0.55f, 0.75f);
 
-		/*
-			Game area
-		 */
+        /*
+            Game area
+         */
         batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         stage.draw();
@@ -84,9 +82,9 @@ public class Bomberman extends ApplicationAdapter {
         batch.end();
 
 
-		/*
-			Right-side panel
-		 */
+        /*
+            Right-side panel
+         */
         batch.setProjectionMatrix(sidebarCamera.combined);
         batch.begin();
         batch.end();

@@ -1,12 +1,22 @@
 package com.bomberman.client;
 
-public class ClientServerPackageReceiverThread extends Thread{
+import java.io.ObjectInputStream;
 
-    public ClientServerPackageReceiverThread(){
+import com.bomberman.common.serialization.MapDTO;
+import com.bomberman.common.model.Map;
 
+public class ClientServerPackageReceiverThread extends Thread {
+
+    private ObjectInputStream in;
+    private Map map;
+
+
+    public ClientServerPackageReceiverThread(Map map, ObjectInputStream in) {
+        this.map = map;
+        this.in = in;
     }
 
-    public void run(){
+    public void run() {
 
     }
 

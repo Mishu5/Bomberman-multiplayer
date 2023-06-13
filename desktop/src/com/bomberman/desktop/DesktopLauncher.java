@@ -37,26 +37,4 @@ public class DesktopLauncher {
 		new Lwjgl3Application(new Bomberman(), config);
 	}
 
-	private static String getIp(String filename){
-
-		String ip = null;
-		File config;
-		Scanner file;
-
-		try{
-
-			config = new File(filename);
-			file = new Scanner(config);
-
-			ip = file.nextLine();
-
-			file.close();
-		}catch (FileNotFoundException e){
-			System.out.println("No file");
-			return null;
-		}
-
-		return ip;
-	}
-
 }
