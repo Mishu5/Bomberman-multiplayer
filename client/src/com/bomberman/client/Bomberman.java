@@ -54,7 +54,7 @@ public class Bomberman extends ApplicationAdapter {
 
         map = new Map();
         Parser parser = new Parser();
-        parser.loadMapFromFile("map.txt", map);
+        parser.loadMapFromFile("../assets", map);
 
         clientServices = new ClientServices(map);
         clientServices.connectToServer();

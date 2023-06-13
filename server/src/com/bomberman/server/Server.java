@@ -15,7 +15,7 @@ public class Server {
 
         //creating map
         Map map = new Map();
-        Parser.loadMapFromFile("assets/map.txt", map);
+        Parser.loadMapFromFile("../assets", map);
 
         //test
         System.out.println(map.getMap().size());
