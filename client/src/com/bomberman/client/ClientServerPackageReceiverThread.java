@@ -52,6 +52,9 @@ public class ClientServerPackageReceiverThread extends Thread {
             toCopy.getBombs().remove(0);
         }
 
+        map.setTime(toCopy.getCurrentGameTime());
+        map.setGameStatus(toCopy.isGameStarted());
+
     }
 
 }

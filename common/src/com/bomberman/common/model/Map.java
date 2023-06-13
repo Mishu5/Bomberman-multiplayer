@@ -13,7 +13,7 @@ public class Map {
 
     private boolean gameStarted;
 
-    public Map(){
+    public Map() {
         map = new ArrayList<>();
         bombs = new ArrayList<>();
         players = new ArrayList<>();
@@ -21,12 +21,20 @@ public class Map {
         gameStarted = false;
     }
 
-    public boolean getGameStarted(){
-        return  gameStarted;
+    public boolean getGameStarted() {
+        return gameStarted;
     }
 
-    public double getGameTime(){
+    public void setGameStatus(boolean status) {
+        this.gameStarted = status;
+    }
+
+    public double getGameTime() {
         return gameTime;
+    }
+
+    public void setTime(double time) {
+        this.gameTime = time;
     }
 
     public void addDestructibleWall(int positionX, int positionY) {
@@ -87,7 +95,7 @@ public class Map {
     public boolean collisionCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
-                if(!object.getTransparent()) return true;
+                if (!object.getTransparent()) return true;
                 break;
             }
         }
