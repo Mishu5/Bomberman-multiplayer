@@ -30,9 +30,9 @@ public class ClientPackageSenderThread extends Thread {
 
         while (true) {
 
-            try{
+            try {
                 Thread.sleep(1000);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println("Sleep error");
             }
 
@@ -47,9 +47,11 @@ public class ClientPackageSenderThread extends Thread {
             //sending package to every user
             for (int i = 0; i < outputs.size(); i++) {
 
+                packageToSend.setPlayerId(i);
+
                 try {
                     outputs.get(i).writeObject(packageToSend);
-                }catch (IOException e){
+                } catch (IOException e) {
                     System.out.println("Client #" + i + " write error");
                     /**
                      *TODO add disconnection

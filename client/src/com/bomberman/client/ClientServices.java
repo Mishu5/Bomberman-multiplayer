@@ -73,4 +73,7 @@ public class ClientServices {
         return ip;
     }
 
+    public int getPlayerId() {
+        return receiver.getPlayerId();
+    }
 }

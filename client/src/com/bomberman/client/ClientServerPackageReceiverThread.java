@@ -10,7 +10,7 @@ public class ClientServerPackageReceiverThread extends Thread {
 
     private ObjectInputStream in;
     private Map map;
-
+    private int playerId;
 
     public ClientServerPackageReceiverThread(Map map, ObjectInputStream in) {
         this.map = map;
@@ -54,7 +54,12 @@ public class ClientServerPackageReceiverThread extends Thread {
 
         map.setTime(toCopy.getCurrentGameTime());
         map.setGameStatus(toCopy.isGameStarted());
+        playerId = toCopy.getPlayerId();
 
+    }
+
+    public int getPlayerId() {
+        return playerId;
     }
 
 }

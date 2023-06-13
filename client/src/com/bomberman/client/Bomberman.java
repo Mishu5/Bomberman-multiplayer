@@ -34,7 +34,7 @@ public class Bomberman extends ApplicationAdapter {
     //server connection stuff
     private ClientServices clientServices;
 
-    int playerID = 1;
+    int playerID = 1; //moved to clientServices
 
     @Override
     public void create() {

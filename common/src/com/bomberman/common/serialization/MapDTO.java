@@ -14,6 +14,8 @@ public class MapDTO implements Serializable {
     private final double currentGameTime;
     private final boolean gameStarted;
 
+    private int playerId;
+
     public MapDTO(
             ArrayList<MapObject> map,
             ArrayList<Bomb> bombs,
@@ -40,12 +42,20 @@ public class MapDTO implements Serializable {
         return players;
     }
 
-    public double getCurrentGameTime(){
+    public double getCurrentGameTime() {
         return currentGameTime;
     }
 
-    public boolean isGameStarted(){
+    public boolean isGameStarted() {
         return gameStarted;
+    }
+
+    public void setPlayerId(int id) {
+        this.playerId = id;
+    }
+
+    public int getPlayerId(){
+        return playerId;
     }
 
 }
