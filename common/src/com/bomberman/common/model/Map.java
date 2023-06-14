@@ -95,7 +95,7 @@ public class Map {
     public boolean collisionCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
-                if (!object.getTransparent()) return true;
+                if (!object.isTransparent()) return true;
                 break;
             }
         }

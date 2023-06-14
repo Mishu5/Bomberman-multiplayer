@@ -53,7 +53,7 @@ public abstract class MapObject implements Serializable {
     public boolean isDestructible() {
         return destructible;
     }
-    public boolean getTransparent() {
+    public boolean isTransparent() {
         return this.transparent;
     }
 
