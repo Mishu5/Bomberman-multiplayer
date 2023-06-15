@@ -1,5 +1,6 @@
 package com.bomberman.common.engine;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bomberman.common.model.*;
 import com.bomberman.common.utils.Pair;
 
@@ -7,12 +8,13 @@ import java.util.ArrayList;
 
 import static com.bomberman.common.utils.EngineUtils.*;
 import static com.bomberman.common.utils.EngineUtils.Direction.*;
+import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
+import static java.lang.Thread.sleep;
 
 public class GameServices {
     private final ArrayList<BombHandler> bombHandlers;
     private final ArrayList<PlayerHandler> playerHandlers;
     private final ArrayList<ClientHandler> clientHandlers;
-    private final ArrayList<Destruction> destructions;
     private final Map gameEnvironment;
     private final EventListener mainListener;
 
@@ -21,7 +23,6 @@ public class GameServices {
         playerHandlers = new ArrayList<>();
         bombHandlers = new ArrayList<>();
         clientHandlers = new ArrayList<>();
-        destructions = new ArrayList<>();
         mainListener = new EventListener(this);
         mainListener.startListening();
     }
@@ -60,7 +61,7 @@ public class GameServices {
         for(Bomb bomb: gameEnvironment.getBombs()) {
             if(bomb.positionMatch(x, y)) return;
         }
-        addBomb(new Bomb(x, y, radius));
+        addBomb(new Bomb(x, y, radius, DETONATION_TIME));
     }
 
 
@@ -74,15 +75,15 @@ public class GameServices {
             MapObject mo = gameEnvironment.getMap().get(i);
             if(mo.isDestructible() || mo.isTransparent()) continue;
             if(mo.getPositionX() == x) {
-                if(mo.getPositionY() < destruction.getTop().second && mo.getPositionY() > y)
+                if(mo.getPositionY() <= destruction.getTop().second && mo.getPositionY() > y)
                     destruction.setTop(new Pair(x, mo.getPositionY() - 1));
-                if(mo.getPositionY() > destruction.getBottom().second && mo.getPositionY() < y)
+                if(mo.getPositionY() >= destruction.getBottom().second && mo.getPositionY() < y)
                     destruction.setBottom(new Pair(x, mo.getPositionY() + 1));
             }
             if(mo.getPositionY() == y) {
-                if(mo.getPositionX() < destruction.getRight().first && mo.getPositionX() > x)
+                if(mo.getPositionX() <= destruction.getRight().first && mo.getPositionX() > x)
                     destruction.setRight(new Pair(mo.getPositionX() - 1, y));
-                if(mo.getPositionX() > destruction.getLeft().first && mo.getPositionX() < x)
+                if(mo.getPositionX() >= destruction.getLeft().first && mo.getPositionX() < x)
                     destruction.setLeft(new Pair(mo.getPositionX() + 1, y));
             }
         }
@@ -117,7 +118,7 @@ public class GameServices {
         playerHandlers.removeAll(killedHandlers);
         gameEnvironment.getMap().removeAll(deletedObjects);
         gameEnvironment.getMap().addAll(addedObjects);
-        destructions.add(destruction);
+        gameEnvironment.addAnimation(destruction);
 
         removeBomb(x, y);
     }

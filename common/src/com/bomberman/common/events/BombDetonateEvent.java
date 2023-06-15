@@ -34,4 +34,5 @@ public class BombDetonateEvent implements Event, Serializable {
     public String getCommand() {
         return "BombDetonateEvent";
     }
+
 }
