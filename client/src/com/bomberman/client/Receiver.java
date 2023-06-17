@@ -22,9 +22,7 @@ public class ClientServerPackageReceiverThread extends Thread {
 
     @Override
     public void run() {
-        MapDTO receivedPackage = null;
-        while (isReceiverRunning.get()) {
-
+        while (isRunning.get()) {
             try {
                 receivedPackage = (MapDTO) in.readObject();
                 copyPackageToMap(receivedPackage);
@@ -32,8 +30,11 @@ public class ClientServerPackageReceiverThread extends Thread {
                 isReceiverRunning.set(false);
                 break;
             }
-
         }
+    }
+
+    synchronized public void stopThread() {
+        isRunning.set(false);
     }
 
     private void copyPackageToMap(MapDTO toCopy) throws InterruptedException {
@@ -48,6 +49,7 @@ public class ClientServerPackageReceiverThread extends Thread {
         map.setGameStatus(toCopy.isGameStarted());
         playerId = toCopy.getPlayerId();
         map.getSemaphore().release();
+        System.out.println(map.getPlayer(0).getPositionX() + "," + map.getPlayer(0).getPositionY());
     }
 
     public int getPlayerId() {

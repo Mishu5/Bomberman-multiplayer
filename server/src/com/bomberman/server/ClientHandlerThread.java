@@ -10,7 +10,7 @@ import java.net.*;
 import static java.lang.System.exit;
 import static com.bomberman.common.utils.EngineUtils.*;
 
-public class ClientHandlerThread extends Thread {
+public class ClientHandlerThread extends Thread{
 
     private final PlayerHandler playerHandler;
     private final BufferedReader in;
@@ -25,19 +25,19 @@ public class ClientHandlerThread extends Thread {
     private final int BOMB = 5;
     private final int START_GAME = 6;
 
-    public ClientHandlerThread(PlayerHandler playerHandler, BufferedReader in) {
+    public ClientHandlerThread(PlayerHandler playerHandler, BufferedReader in){
         this.playerHandler = playerHandler;
         this.in = in;
     }
 
-    synchronized public void run() {
+    synchronized public void run(){
 
         System.out.println("Client " + playerHandler.getID() + " listener");
 
-        while (true) {
+        while(true){
 
             int currentClientInput = getInputFromPlayer();
-            if (currentClientInput == INPUT_RECEIVING_ERROR) {
+            if(currentClientInput == INPUT_RECEIVING_ERROR){
                 /**
                  * TOOD remove player
                  */
@@ -69,16 +69,16 @@ public class ClientHandlerThread extends Thread {
 
     }
 
-    private int getInputFromPlayer() {
+    private int getInputFromPlayer(){
 
         int currentInput;
         String tempInput = null;
 
-        try {
+        try{
             tempInput = in.readLine();
-        } catch (IOException e) {
+        }catch (IOException e){
             System.out.println("Client " + playerHandler.getID() + "Input error");
-            return (INPUT_RECEIVING_ERROR);
+            return(INPUT_RECEIVING_ERROR);
         }
 
         //TEST

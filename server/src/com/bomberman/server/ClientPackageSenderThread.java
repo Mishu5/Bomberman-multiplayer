@@ -18,7 +18,7 @@ import java.net.*;
 public class ClientPackageSenderThread extends Thread {
 
     private ArrayList<ObjectOutputStream> outputs;
-    private final GameServices gameEngine;
+    private GameServices gameEngine;
 
     public ClientPackageSenderThread(ArrayList<ObjectOutputStream> outputs, GameServices gameEngine) {
         this.outputs = outputs;
@@ -45,11 +45,9 @@ public class ClientPackageSenderThread extends Thread {
             if (outputs.isEmpty()) continue;
 
             //creating package
-            MapDTO packageToSend = new MapDTO(packageId++);
-            packageToSend.copy(gameEngine.getMap());
+            Map tempMap = gameEngine.getMap();
+            MapDTO packageToSend = new MapDTO(tempMap.getMap(), tempMap.getBombs(), tempMap.getPlayers(), tempMap.getGameTime(), tempMap.getGameStarted());
 
-            //TEST
-            //System.out.println("Player 0 cords X/Y: " + packageToSend.getPlayers().get(0).getPositionX() + " " + packageToSend.getPlayers().get(0).getPositionY());
 
             //sending package to every user
             for (int i = 0; i < outputs.size(); i++) {
@@ -57,8 +55,7 @@ public class ClientPackageSenderThread extends Thread {
                 packageToSend.setPlayerId(i);
 
                 try {
-                    outputs.get(i).reset();
-                    outputs.get(i).writeUnshared(packageToSend);
+                    outputs.get(i).writeObject(packageToSend);
                 } catch (IOException e) {
                     System.out.println("Client #" + i + " write error");
                     /**

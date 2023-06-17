@@ -15,7 +15,8 @@ public class ClientServices {
     private final int PORT = 21370;
 
     private Map map;
-    private ClientServerPackageReceiverThread receiver;
+    private Receiver receiver;
+    private Sender sender;
     private Socket clientSocket;
     private PrintWriter out;
     private ObjectInputStream in;
@@ -44,14 +45,16 @@ public class ClientServices {
         //connected
         //starting new thread
 
-        receiver = new ClientServerPackageReceiverThread(map, in);
+        receiver = new Receiver(map, in);
         receiver.start();
+        sender = new Sender(out);
+        sender.start();
 
         return true;
     }
 
-    public void sentInput(String input) {
-        out.println(input);
+    public void post(String packet) {
+        sender.sendPacket(packet);
     }
 
     private String getIp(String filename) {
@@ -80,7 +83,13 @@ public class ClientServices {
         return receiver.getPlayerId();
     }
 
-    public boolean isConnected() {
-        return isConnected.get() && receiver.isRunning();
+    synchronized public boolean isConnected() {
+        if(!isConnected.get() || !receiver.isRunning()) {
+            receiver.stopThread();
+            sender.stopThread();
+            isConnected.set(false);
+            return false;
+        }
+        return true;
     }
 }
