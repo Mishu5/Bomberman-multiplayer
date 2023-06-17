@@ -7,31 +7,35 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.bomberman.common.serialization.MapDTO;
 import com.bomberman.common.model.Map;
 
-public class ClientServerPackageReceiverThread extends Thread {
+public class Receiver extends Thread {
 
     private ObjectInputStream in;
     private Map map;
     private int playerId;
-    private final AtomicBoolean isReceiverRunning;
+    private final AtomicBoolean isRunning;
 
-    public ClientServerPackageReceiverThread(Map map, ObjectInputStream in) {
+    public Receiver(Map map, ObjectInputStream in) {
         this.map = map;
         this.in = in;
-        isReceiverRunning = new AtomicBoolean(true);
+        isRunning = new AtomicBoolean(true);
     }
 
     @Override
     public void run() {
-        MapDTO receivedPackage;
-        while (isReceiverRunning.get()) {
+        while (isRunning.get()) {
             try {
-                receivedPackage = (MapDTO) in.readObject();
-                copyPackageToMap(receivedPackage);
+                MapDTO message = (MapDTO) in.readObject();
+                copyPackageToMap(message);
+
             } catch (ClassNotFoundException | IOException | InterruptedException e) {
-                isReceiverRunning.set(false);
+                isRunning.set(false);
                 break;
             }
         }
+    }
+
+    synchronized public void stopThread() {
+        isRunning.set(false);
     }
 
     private void copyPackageToMap(MapDTO toCopy) throws InterruptedException {
@@ -46,14 +50,13 @@ public class ClientServerPackageReceiverThread extends Thread {
         map.setGameStatus(toCopy.isGameStarted());
         playerId = toCopy.getPlayerId();
         map.getSemaphore().release();
-        System.out.println(map.getPlayer(0).getPositionX() + "," + map.getPlayer(0).getPositionY());
     }
 
     public int getPlayerId() {
         return playerId;
     }
 
-    public boolean isRunning() {
-        return isReceiverRunning.get();
+    synchronized public boolean isRunning() {
+        return isRunning.get();
     }
 }
