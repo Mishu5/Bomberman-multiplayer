@@ -27,7 +27,7 @@ public class Sender extends Thread {
                     outputStream.println(packet);
                     packet = null;
                 }
-                sleep(500);
+                sleep(0);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
