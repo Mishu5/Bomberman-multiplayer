@@ -37,6 +37,10 @@ public class ClientServerPackageReceiverThread extends Thread {
 
     private void copyPackageToMap(MapDTO toCopy) {
 
+        map.getPlayers().clear();
+        map.getBombs().clear();
+        map.getMap().clear();
+
         while (!toCopy.getPlayers().isEmpty()) {
             map.getPlayers().add(toCopy.getPlayers().get(0));
             toCopy.getPlayers().remove(0);
