@@ -6,6 +6,8 @@ import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.serialization.Parser;
 
+import javax.sound.midi.SysexMessage;
+
 import static java.lang.System.exit;
 
 import java.util.Scanner;
@@ -38,14 +40,14 @@ public class Server {
         while (true) {
 
             String command = keyboardInput.nextLine();
-            System.out.println(command);
-
             //command list
 
             //turn off server
             if (command.equals("quit")) break;
             //manual start
             if(command.equals("start")) map.setGameStatus(true);
+            //check time
+            if(command.equals("time")) System.out.println("Time: "+map.getGameTime());
         }
 
         System.out.println("Shutting down server");

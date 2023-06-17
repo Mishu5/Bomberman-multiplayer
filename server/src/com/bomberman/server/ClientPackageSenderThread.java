@@ -36,7 +36,7 @@ public class ClientPackageSenderThread extends Thread {
                 System.out.println("Sleep error");
             }
 
-            System.out.println("Sender- clients connected: " + outputs.size());
+            //System.out.println("Sender- clients connected: " + outputs.size());
 
             if (outputs.isEmpty()) continue;
 
