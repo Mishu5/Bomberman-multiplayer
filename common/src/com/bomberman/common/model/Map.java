@@ -42,6 +42,10 @@ public class Map {
         this.gameTime = time;
     }
 
+    public void addTime(double time) {
+        this.gameTime += time;
+    }
+
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
     }
@@ -61,6 +65,7 @@ public class Map {
     public void addAnimation(Destruction destruction) {
         destructions.add(destruction);
     }
+
     public void addPlayer(int positionX, int positionY, int playerID) {
         players.add(new Player(positionX, positionY, playerID));
     }
@@ -126,13 +131,13 @@ public class Map {
 
     public void serviceAnimations(SpriteBatch batch) {
         destructions.forEach((it) -> {
-            if(it.isAnimationStarted()) it.draw(batch);
+            if (it.isAnimationStarted()) it.draw(batch);
             else {
                 Thread animationThread = new Thread(() -> {
                     float animationFrame = 0.1f;
                     float counter = 0f;
                     try {
-                        while(counter < DESTRUCTION_ANIMATION_TIME) {
+                        while (counter < DESTRUCTION_ANIMATION_TIME) {
                             sleep((long) (animationFrame * 1000));
                             counter += animationFrame;
                             System.out.println(counter);

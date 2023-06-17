@@ -65,4 +65,12 @@ public class PlayerHandler {
     }
 
     public void setRadiusBoost(boolean rb) { this.radiusBoost = rb; }
+
+    public void startGameAttempt(){
+        
+    }
+
+    private int getPlayerId(){
+        return this.player.getPlayerID();
+    }
 }

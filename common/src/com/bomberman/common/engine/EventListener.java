@@ -13,6 +13,7 @@ public class EventListener {
     private final ArrayList<BombCreateEvent> bombCreateEvents;
     private final ArrayList<BombDetonateEvent> bombDetonateEvents;
     private final ArrayList<BombMoveEvent> bombMoveEvents;
+    private final ArrayList<StartGameEvent> startGameEvents;
 
     public EventListener(GameServices services) {
         this.services = services;
@@ -21,6 +22,7 @@ public class EventListener {
         bombCreateEvents = new ArrayList<>();
         bombDetonateEvents = new ArrayList<>();
         bombMoveEvents = new ArrayList<>();
+        startGameEvents = new ArrayList<>();
     }
 
     public void startListening() {
@@ -47,6 +49,10 @@ public class EventListener {
                     if (!bombMoveEvents.isEmpty()) {
                         serviceEvent(bombMoveEvents.get(0));
                         bombMoveEvents.remove(0);
+                    }
+                    if (!startGameEvents.isEmpty()) {
+                        serviceEvent(startGameEvents.get(0));
+                        startGameEvents.remove(0);
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -100,4 +106,15 @@ public class EventListener {
     public void serviceEvent(PlayerDisconnectEvent pde) {
         services.removePlayers(pde.getPlayerID());
     }
+
+    public void notify(StartGameEvent sge) {
+        startGameEvents.add(sge);
+    }
+
+    public void serviceEvent(StartGameEvent sge) {
+        if (sge.getPlayerID() == 0 && services.getMap().getPlayers().size() >= 2) {
+            services.getMap().setGameStatus(true);
+        }
+    }
+
 }
