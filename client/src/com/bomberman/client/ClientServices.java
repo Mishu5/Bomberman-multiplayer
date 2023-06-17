@@ -20,37 +20,29 @@ public class ClientServices {
     private Socket clientSocket;
     private PrintWriter out;
     private ObjectInputStream in;
-    private AtomicBoolean isConnected;
+    private final AtomicBoolean isConnected;
 
     public ClientServices(Map map) {
         this.map = map;
         isConnected = new AtomicBoolean(false);
     }
 
-    public boolean connectToServer() {
-
+    public void connectToServer() {
         String ip = getIp("config.txt");
-
         try {
             //connect to server
             clientSocket = new Socket(ip, 21370);
             in = new ObjectInputStream(clientSocket.getInputStream());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return;
         }
         isConnected.set(true);
-
-        //connected
-        //starting new thread
-
         receiver = new Receiver(map, in);
         receiver.start();
         sender = new Sender(out);
         sender.start();
-
-        return true;
     }
 
     public void post(String packet) {
@@ -58,24 +50,18 @@ public class ClientServices {
     }
 
     private String getIp(String filename) {
-
         String ip = null;
         File config;
         Scanner file;
-
         try {
-
             config = new File(filename);
             file = new Scanner(config);
-
             ip = file.nextLine();
-
             file.close();
         } catch (FileNotFoundException e) {
             System.out.println("No file");
             return null;
         }
-
         return ip;
     }
 
@@ -85,8 +71,8 @@ public class ClientServices {
 
     synchronized public boolean isConnected() {
         if(!isConnected.get() || !receiver.isRunning()) {
-            receiver.stopThread();
-            sender.stopThread();
+            if(receiver != null) receiver.stopThread();
+            if(sender != null) sender.stopThread();
             isConnected.set(false);
             return false;
         }

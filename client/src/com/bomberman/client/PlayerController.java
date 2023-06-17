@@ -2,6 +2,8 @@ package com.bomberman.client;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.bomberman.common.engine.PlayerHandler;
+import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.ClientServerCommunicationUtils.*;
 
@@ -25,5 +27,20 @@ public class PlayerController {
             clientServices.post(communicationDictionary.get(Token.BOMB));
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
             clientServices.post(communicationDictionary.get(Token.START_GAME));
+    }
+
+    public void serviceControllerOffline(PlayerHandler playerHandler) {
+        if(playerHandler == null) return;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
+            playerHandler.moveAttempt(0, 1, EngineUtils.Direction.TOP);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            playerHandler.moveAttempt(0, -1, EngineUtils.Direction.BOT);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            playerHandler.moveAttempt(-1, 0, EngineUtils.Direction.LEFT);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            playerHandler.moveAttempt(1, 0, EngineUtils.Direction.RIGHT);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            playerHandler.putBombAttempt();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) return;
     }
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.HashMap;
+
 public class GraphicUtils {
     public static final int FPS = 60;
     public static final int SIDE_PANEL_PART = 12;
@@ -35,7 +37,10 @@ public class GraphicUtils {
         BLOCK_SIZE = blockSize;
     }
 
+    private static final HashMap<String, Texture> textures = new HashMap<String, Texture>();
+
     static public Texture getTexture(String path) {
+        if(textures.containsKey(path)) return textures.get(path);
         Pixmap placeholderPixmap = new Pixmap(Gdx.files.internal(path));
         Pixmap outputPixmap = new Pixmap(BLOCK_SIZE, BLOCK_SIZE, placeholderPixmap.getFormat());
         outputPixmap.drawPixmap(placeholderPixmap,
@@ -43,6 +48,7 @@ public class GraphicUtils {
                 0, 0, outputPixmap.getWidth(), outputPixmap.getHeight()
         );
         Texture texture = new Texture(outputPixmap);
+        textures.put(path, texture);
         placeholderPixmap.dispose();
         outputPixmap.dispose();
         return texture;
