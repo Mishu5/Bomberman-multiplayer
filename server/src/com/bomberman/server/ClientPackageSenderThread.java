@@ -45,9 +45,8 @@ public class ClientPackageSenderThread extends Thread {
             if (outputs.isEmpty()) continue;
 
             //creating package
-            Map tempMap = gameEngine.getMap();
-            MapDTO packageToSend = new MapDTO(tempMap.getMap(), tempMap.getBombs(), tempMap.getPlayers(), tempMap.getGameTime(), tempMap.getGameStarted());
-
+            MapDTO packageToSend = new MapDTO(packageId++);
+            packageToSend.copy(gameEngine.getMap());
 
             //sending package to every user
             for (int i = 0; i < outputs.size(); i++) {
@@ -55,7 +54,8 @@ public class ClientPackageSenderThread extends Thread {
                 packageToSend.setPlayerId(i);
 
                 try {
-                    outputs.get(i).writeObject(packageToSend);
+                    outputs.get(i).reset();
+                    outputs.get(i).writeUnshared(packageToSend);
                 } catch (IOException e) {
                     System.out.println("Client #" + i + " write error");
                     /**
