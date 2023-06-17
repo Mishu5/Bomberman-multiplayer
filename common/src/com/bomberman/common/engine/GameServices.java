@@ -1,6 +1,7 @@
 package com.bomberman.common.engine;
 
 import com.bomberman.common.model.*;
+import com.bomberman.common.utils.EngineUtils;
 import com.bomberman.common.utils.Pair;
 
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class GameServices {
         }
 
         for (PlayerHandler ph : playerHandlers) {
+            if(ph.getPlayer() == null) continue;
             if ((ph.getX() == x
                     && ph.getY() <= destruction.getTop().second
                     && ph.getY() >= destruction.getBottom().second

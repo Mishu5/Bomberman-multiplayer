@@ -13,6 +13,7 @@ import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
+import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 import static java.lang.System.exit;
@@ -53,7 +54,6 @@ public class Bomberman extends ApplicationAdapter {
         isOffline = !clientServices.isConnected();
         if(isOffline) {
             System.out.println("Server is offline. Try to run server.");
-            //exit(1);
         }
 
         //Controller
@@ -92,6 +92,8 @@ public class Bomberman extends ApplicationAdapter {
         batch.setProjectionMatrix(sidebarCamera.combined);
         batch.begin();
         batch.end();
+
+        //getGameState();
     }
 
     @Override
@@ -103,5 +105,24 @@ public class Bomberman extends ApplicationAdapter {
     public void resize(int width, int height) {
         gameViewport.update((int) (width * SIDE_PANEL_PART * 0.01), height);
         sidebarViewport.update((int) (width * (1 - SIDE_PANEL_PART * 0.01)), height);
+    }
+
+    public EngineUtils.GameState getGameState() {
+        if(map.getPlayers() == null) return EngineUtils.GameState.IDLE;
+        if(map.getPlayers().size() == 1) {
+            if(map.getPlayer(0).getPlayerID() == playerID) {
+                System.out.println("You won!");
+                return EngineUtils.GameState.WIN;
+            }
+            else {
+                System.out.println("Player " + map.getPlayer(0).getPlayerID() + " won!");
+                return EngineUtils.GameState.LOSS;
+            }
+        }
+        for(Player p : map.getPlayers()) {
+            if(p.getPlayerID() == playerID) return EngineUtils.GameState.RUNNING;
+        }
+        System.out.println("You died!");
+        return EngineUtils.GameState.RUNNING;
     }
 }
