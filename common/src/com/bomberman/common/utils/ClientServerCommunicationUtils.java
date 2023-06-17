@@ -24,5 +24,4 @@ public class ClientServerCommunicationUtils {
             Token.BOMB,"b",
             Token.START_GAME,"e"
     );
-
 }

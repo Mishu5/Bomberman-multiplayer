@@ -67,7 +67,7 @@ public class ClientConnectionHandler extends Thread {
             outputs.add(tempObjectOutputStream);
 
             //creating player
-            PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(1, 1, currentPlayerCount));
+            PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(2, 2, currentPlayerCount));
 
             //creating and starting new thread
             ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler, tempBufferedReader);

@@ -64,7 +64,6 @@ public class GameServices {
         addBomb(new Bomb(x, y, radius, DETONATION_TIME));
     }
 
-
     synchronized public void detonateBomb(int x, int y, int radius) {
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
         ArrayList<MapObject> deletedObjects = new ArrayList<>();
@@ -94,7 +93,7 @@ public class GameServices {
                     && ph.getY() >= destruction.getBottom().second
                     ) || (ph.getY() == y
                     && ph.getX() <= destruction.getRight().first
-                    && ph.getX() <= destruction.getLeft().first
+                    && ph.getX() >= destruction.getLeft().first
             )) {
                 gameEnvironment.getPlayers().removeIf(it -> it.getPlayerID() == ph.getID());
                 killedHandlers.add(ph);
@@ -121,13 +120,6 @@ public class GameServices {
         gameEnvironment.addAnimation(destruction);
 
         removeBomb(x, y);
-    }
-
-    public void serviceController(int id) {
-        for (PlayerHandler ph : playerHandlers) {
-            if (ph.getID() == id) ph.serviceController();
-
-        }
     }
 
     void playerMove(int x, int y, int id, Direction direction) {

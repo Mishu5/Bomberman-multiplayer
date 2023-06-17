@@ -3,11 +3,13 @@ package com.bomberman.common.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
 import static java.lang.Thread.sleep;
 
 public class Map {
+    private final Semaphore semaphore;
     private final ArrayList<MapObject> map;
     private final ArrayList<Bomb> bombs;
     private final ArrayList<Player> players;
@@ -18,6 +20,7 @@ public class Map {
     private boolean gameStarted;
 
     public Map() {
+        semaphore = new Semaphore(1);
         map = new ArrayList<>();
         bombs = new ArrayList<>();
         players = new ArrayList<>();
@@ -98,11 +101,15 @@ public class Map {
         return map;
     }
 
-    public void draw(SpriteBatch batch) {
+    public Semaphore getSemaphore() { return semaphore; }
+
+    synchronized public void draw(SpriteBatch batch) throws InterruptedException {
+        semaphore.acquire();
         for (MapObject obj : map) obj.draw(batch);
         for (MapObject obj : bombs) obj.draw(batch);
         serviceAnimations(batch);
         for (MapObject obj : players) obj.draw(batch);
+        semaphore.release();
     }
 
     public boolean collisionCheck(int x, int y) {
@@ -140,7 +147,6 @@ public class Map {
                         while (counter < DESTRUCTION_ANIMATION_TIME) {
                             sleep((long) (animationFrame * 1000));
                             counter += animationFrame;
-                            System.out.println(counter);
                         }
                         destructions.remove(it);
                     } catch (InterruptedException e) {

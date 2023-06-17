@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientServices {
 
@@ -18,9 +19,11 @@ public class ClientServices {
     private Socket clientSocket;
     private PrintWriter out;
     private ObjectInputStream in;
+    private AtomicBoolean isConnected;
 
     public ClientServices(Map map) {
         this.map = map;
+        isConnected = new AtomicBoolean(false);
     }
 
     public boolean connectToServer() {
@@ -32,11 +35,11 @@ public class ClientServices {
             clientSocket = new Socket(ip, 21370);
             in = new ObjectInputStream(clientSocket.getInputStream());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
             return false;
         }
+        isConnected.set(true);
 
         //connected
         //starting new thread
@@ -47,7 +50,7 @@ public class ClientServices {
         return true;
     }
 
-    public void SendInput(String input) {
+    public void sentInput(String input) {
         out.println(input);
     }
 
@@ -75,5 +78,9 @@ public class ClientServices {
 
     public int getPlayerId() {
         return receiver.getPlayerId();
+    }
+
+    public boolean isConnected() {
+        return isConnected.get() && receiver.isRunning();
     }
 }

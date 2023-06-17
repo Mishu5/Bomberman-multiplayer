@@ -44,33 +44,26 @@ public class ClientHandlerThread extends Thread {
                 return;
             }
 
-            System.out.println("Player: " + playerHandler.getID() + " request: " + currentClientInput);
+           switch (currentClientInput){
+               case UP:
+                        playerHandler.moveAttempt(0,1, Direction.TOP);
+                   break;
+               case RIGHT:
+                        playerHandler.moveAttempt(1,0,Direction.RIGHT);
+                   break;
+               case DOWN:
+                        playerHandler.moveAttempt(0,-1,Direction.BOT);
+                   break;
+               case LEFT:
+                        playerHandler.moveAttempt(-1,0,Direction.LEFT);
+                   break;
+               case BOMB:
+                        playerHandler.putBombAttempt();
+                   break;
+               default:
 
-            switch (currentClientInput) {
-                case UP:
-                    playerHandler.moveAttempt(1, 0, Direction.TOP);
-                    break;
-                case RIGHT:
-                    playerHandler.moveAttempt(0, 1, Direction.RIGHT);
-                    break;
-                case DOWN:
-                    playerHandler.moveAttempt(-1, 0, Direction.BOT);
-                    break;
-
-                case LEFT:
-                    playerHandler.moveAttempt(0, -1, Direction.LEFT);
-                    break;
-
-                case BOMB:
-                    playerHandler.putBombAttempt();
-                    break;
-                case START_GAME:
-                    playerHandler.startGameAttempt();
-                    break;
-                default:
-
-                    break;
-            }
+                   break;
+           }
 
         }//end while
 
@@ -88,7 +81,10 @@ public class ClientHandlerThread extends Thread {
             return (INPUT_RECEIVING_ERROR);
         }
 
-        switch (tempInput) {
+        //TEST
+        System.out.println(playerHandler.getID() + ": " + tempInput);
+
+        switch(tempInput){
             case "w":
                 currentInput = UP;
                 break;
