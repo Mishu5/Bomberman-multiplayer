@@ -17,6 +17,9 @@ import com.bomberman.common.serialization.Parser;
 import static com.bomberman.common.utils.EngineUtils.DETONATION_RADIUS;
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 
+import java.io.*;
+import java.net.*;
+
 public class Bomberman extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
@@ -28,14 +31,16 @@ public class Bomberman extends ApplicationAdapter {
 
     private GameServices services;
 
-    int playerID = 1;
+    //server connection stuff
+    private ClientServices clientServices;
 
+    int playerID = 1; //moved to clientServices
 
     @Override
     public void create() {
-		/*
-			View objects
-		 */
+
+        //View objects
+
         batch = new SpriteBatch();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -44,23 +49,21 @@ public class Bomberman extends ApplicationAdapter {
         gameViewport = new ScreenViewport(gameCamera);
         sidebarViewport = new ScreenViewport(sidebarCamera);
 
-		/*
-			Create map
-		 */
+
+        //Create map
+
         map = new Map();
         Parser parser = new Parser();
-        parser.loadMapFromFile("map.txt", map);
+        parser.loadMapFromFile("../assets", map);
 
-		/*
-			Player assign
-		 */
+        clientServices = new ClientServices(map);
+        clientServices.connectToServer();
+        //Player assign
+
         services = new GameServices(map);
         services.addPlayer(new Player(2, 3, playerID));
+        services.addPlayer(new Player(2, 1, 2));
 
-		/*
-			Test bomb
-		 */
-        services.addBomb(new Bomb(2, 2, DETONATION_RADIUS));
 
     }
 
@@ -68,9 +71,9 @@ public class Bomberman extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.25f, 0.75f, 0.55f, 0.75f);
 
-		/*
-			Game area
-		 */
+        /*
+            Game area
+         */
         batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         stage.draw();
@@ -79,9 +82,9 @@ public class Bomberman extends ApplicationAdapter {
         batch.end();
 
 
-		/*
-			Right-side panel
-		 */
+        /*
+            Right-side panel
+         */
         batch.setProjectionMatrix(sidebarCamera.combined);
         batch.begin();
         batch.end();

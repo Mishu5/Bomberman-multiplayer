@@ -1,16 +1,20 @@
 package com.bomberman.common.engine;
 
-import com.bomberman.common.events.BombMoveEvent;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bomberman.common.model.*;
+import com.bomberman.common.utils.Pair;
 
 import java.util.ArrayList;
 
 import static com.bomberman.common.utils.EngineUtils.*;
 import static com.bomberman.common.utils.EngineUtils.Direction.*;
+import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
+import static java.lang.Thread.sleep;
 
 public class GameServices {
     private final ArrayList<BombHandler> bombHandlers;
     private final ArrayList<PlayerHandler> playerHandlers;
+    private final ArrayList<ClientHandler> clientHandlers;
     private final Map gameEnvironment;
     private final EventListener mainListener;
 
@@ -18,19 +22,22 @@ public class GameServices {
         this.gameEnvironment = map;
         playerHandlers = new ArrayList<>();
         bombHandlers = new ArrayList<>();
+        clientHandlers = new ArrayList<>();
         mainListener = new EventListener(this);
         mainListener.startListening();
     }
 
     public PlayerHandler getPlayerHandler(int id) {
-        for(PlayerHandler ph: playerHandlers)
-            if(ph.getID() == id) return ph;
+        for (PlayerHandler ph : playerHandlers)
+            if (ph.getID() == id) return ph;
         return null;
     }
 
-    public void addPlayer(Player player) {
+    public PlayerHandler addPlayer(Player player) {
         this.gameEnvironment.addPlayer(player);
-        this.playerHandlers.add(new PlayerHandler(player, mainListener));
+        PlayerHandler tempPlayerHandlerHolder = new PlayerHandler(player, mainListener);
+        this.playerHandlers.add(tempPlayerHandlerHolder);
+        return tempPlayerHandlerHolder;
     }
 
     public void removePlayers(int id) {
@@ -54,35 +61,73 @@ public class GameServices {
         for(Bomb bomb: gameEnvironment.getBombs()) {
             if(bomb.positionMatch(x, y)) return;
         }
-        addBomb(new Bomb(x, y, radius));
+        addBomb(new Bomb(x, y, radius, DETONATION_TIME));
     }
+
 
     synchronized public void detonateBomb(int x, int y, int radius) {
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
+        ArrayList<MapObject> deletedObjects = new ArrayList<>();
+        ArrayList<MapObject> addedObjects = new ArrayList<>();
+
+        Destruction destruction = new Destruction(x, y, radius);
+        for (int i = 0; i < gameEnvironment.getMap().size(); i++) {
+            MapObject mo = gameEnvironment.getMap().get(i);
+            if(mo.isDestructible() || mo.isTransparent()) continue;
+            if(mo.getPositionX() == x) {
+                if(mo.getPositionY() <= destruction.getTop().second && mo.getPositionY() > y)
+                    destruction.setTop(new Pair(x, mo.getPositionY() - 1));
+                if(mo.getPositionY() >= destruction.getBottom().second && mo.getPositionY() < y)
+                    destruction.setBottom(new Pair(x, mo.getPositionY() + 1));
+            }
+            if(mo.getPositionY() == y) {
+                if(mo.getPositionX() <= destruction.getRight().first && mo.getPositionX() > x)
+                    destruction.setRight(new Pair(mo.getPositionX() - 1, y));
+                if(mo.getPositionX() >= destruction.getLeft().first && mo.getPositionX() < x)
+                    destruction.setLeft(new Pair(mo.getPositionX() + 1, y));
+            }
+        }
+
         for (PlayerHandler ph : playerHandlers) {
-            if (ph.getX() >= x - radius && ph.getX() <= x + radius &&
-                    ph.getY() >= y - radius && ph.getY() <= y + radius) {
+            if((ph.getX() == x
+                    && ph.getY() <= destruction.getTop().second
+                    && ph.getY() >= destruction.getBottom().second
+                    ) || (ph.getY() == y
+                    && ph.getX() <= destruction.getRight().first
+                    && ph.getX() <= destruction.getLeft().first
+            )) {
                 gameEnvironment.getPlayers().removeIf(it -> it.getPlayerID() == ph.getID());
                 killedHandlers.add(ph);
             }
         }
-        playerHandlers.removeAll(killedHandlers);
 
-        ArrayList<MapObject> deletedObjects = new ArrayList<>();
-        ArrayList<MapObject> addedObjects = new ArrayList<>();
-        for (int i = 0; i < gameEnvironment.getMap().size(); i++) {
-            MapObject mo = gameEnvironment.getMap().get(i);
+        for (MapObject mo : gameEnvironment.getMap()) {
             if (!mo.isDestructible()) continue;
-            if (mo.getPositionX() >= x - radius && mo.getPositionX() <= x + radius
-                    && mo.getPositionY() >= y - radius && mo.getPositionY() <= y + radius) {
+            if((mo.getPositionX() == x
+                    && mo.getPositionY() <= destruction.getTop().second
+                    && mo.getPositionY() >= destruction.getBottom().second
+            ) || (mo.getPositionY() == y
+                    && mo.getPositionX() <= destruction.getRight().first
+                    && mo.getPositionX() >= destruction.getLeft().first
+            )) {
                 addedObjects.add(new Floor(mo.getPositionX(), mo.getPositionY()));
                 deletedObjects.add(mo);
             }
         }
+
+        playerHandlers.removeAll(killedHandlers);
         gameEnvironment.getMap().removeAll(deletedObjects);
         gameEnvironment.getMap().addAll(addedObjects);
+        gameEnvironment.addAnimation(destruction);
 
         removeBomb(x, y);
+    }
+
+    public void serviceController(int id) {
+        for (PlayerHandler ph : playerHandlers) {
+            if (ph.getID() == id) ph.serviceController();
+
+        }
     }
 
     void playerMove(int x, int y, int id, Direction direction) {
@@ -92,8 +137,12 @@ public class GameServices {
             if (bomb.positionMatch(x, y))
                 moveBomb(x, y, direction);
         }
-        if(!gameEnvironment.collisionCheck(x, y))
-            temp.move(x,y);
+        if (!gameEnvironment.collisionCheck(x, y))
+            temp.move(x, y);
+    }
+
+    synchronized public Map getMap(){
+        return gameEnvironment;
     }
 
     public void moveBomb(int x, int y, Direction direction) {
@@ -127,9 +176,4 @@ public class GameServices {
         myHandler.moveBomb(direction);
     }
 
-    public void serviceController(int id) {
-        for (PlayerHandler ph : playerHandlers) {
-            if (ph.getID() == id) ph.serviceController();
-        }
-    }
 }

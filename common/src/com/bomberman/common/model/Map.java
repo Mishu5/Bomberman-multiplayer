@@ -4,16 +4,47 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
-public class Map {
-    private final ArrayList<MapObject> map = new ArrayList<>();
-    private final ArrayList<Bomb> bombs = new ArrayList<>();
-    private final ArrayList<Player> players = new ArrayList<>();
+import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
+import static java.lang.Thread.sleep;
 
+public class Map {
+    private final ArrayList<MapObject> map;
+    private final ArrayList<Bomb> bombs;
+    private final ArrayList<Player> players;
+    private final ArrayList<Destruction> destructions;
+
+    private double gameTime;
+
+    private boolean gameStarted;
+
+    public Map() {
+        map = new ArrayList<>();
+        bombs = new ArrayList<>();
+        players = new ArrayList<>();
+        destructions = new ArrayList<>();
+        gameTime = 0;
+        gameStarted = false;
+    }
+
+    public boolean getGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStatus(boolean status) {
+        this.gameStarted = status;
+    }
+
+    public double getGameTime() {
+        return gameTime;
+    }
+
+    public void setTime(double time) {
+        this.gameTime = time;
+    }
 
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
     }
-
 
     public void addIndestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, false));
@@ -27,7 +58,9 @@ public class Map {
         map.add(new Floor(positionX, positionY));
     }
 
-
+    public void addAnimation(Destruction destruction) {
+        destructions.add(destruction);
+    }
     public void addPlayer(int positionX, int positionY, int playerID) {
         players.add(new Player(positionX, positionY, playerID));
     }
@@ -36,8 +69,8 @@ public class Map {
         players.add(player);
     }
 
-    public void addBomb(int positionX, int positionY, int bombRadius) {
-        bombs.add(new Bomb(positionX, positionY, bombRadius));
+    public void addBomb(int positionX, int positionY, int bombRadius, int timer) {
+        bombs.add(new Bomb(positionX, positionY, bombRadius, timer));
     }
 
     public void addBomb(Bomb bomb) {
@@ -63,13 +96,14 @@ public class Map {
     public void draw(SpriteBatch batch) {
         for (MapObject obj : map) obj.draw(batch);
         for (MapObject obj : bombs) obj.draw(batch);
+        serviceAnimations(batch);
         for (MapObject obj : players) obj.draw(batch);
     }
 
     public boolean collisionCheck(int x, int y) {
         for (MapObject object : map) {
             if (object.getPositionX() == x && object.getPositionY() == y) {
-                if(!object.getTransparent()) return true;
+                if (!object.isTransparent()) return true;
                 break;
             }
         }
@@ -90,4 +124,27 @@ public class Map {
         return false;
     }
 
+    public void serviceAnimations(SpriteBatch batch) {
+        destructions.forEach((it) -> {
+            if(it.isAnimationStarted()) it.draw(batch);
+            else {
+                Thread animationThread = new Thread(() -> {
+                    float animationFrame = 0.1f;
+                    float counter = 0f;
+                    try {
+                        while(counter < DESTRUCTION_ANIMATION_TIME) {
+                            sleep((long) (animationFrame * 1000));
+                            counter += animationFrame;
+                            System.out.println(counter);
+                        }
+                        destructions.remove(it);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                animationThread.start();
+                it.animationStart();
+            }
+        });
+    }
 }

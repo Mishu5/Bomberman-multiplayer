@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.io.Serializable;
+
 import static com.bomberman.common.utils.GraphicUtils.BLOCK_SIZE;
 
-public abstract class MapObject {
+public abstract class MapObject implements Serializable {
 
     protected boolean destructible;
     protected boolean transparent;
@@ -51,7 +53,7 @@ public abstract class MapObject {
     public boolean isDestructible() {
         return destructible;
     }
-    public boolean getTransparent() {
+    public boolean isTransparent() {
         return this.transparent;
     }
 
