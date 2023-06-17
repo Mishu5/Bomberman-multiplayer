@@ -44,19 +44,17 @@ public class ClientHandlerThread extends Thread{
 
            switch (currentClientInput){
                case UP:
-                        playerHandler.moveAttempt(1,0, Direction.TOP);
+                        playerHandler.moveAttempt(0,1, Direction.TOP);
                    break;
                case RIGHT:
-                        playerHandler.moveAttempt(0,1,Direction.RIGHT);
+                        playerHandler.moveAttempt(1,0,Direction.RIGHT);
                    break;
                case DOWN:
-                        playerHandler.moveAttempt(-1,0,Direction.BOT);
+                        playerHandler.moveAttempt(0,-1,Direction.BOT);
                    break;
-
                case LEFT:
-                        playerHandler.moveAttempt(0,-1,Direction.LEFT);
+                        playerHandler.moveAttempt(-1,0,Direction.LEFT);
                    break;
-
                case BOMB:
                         playerHandler.putBombAttempt();
                    break;
@@ -80,6 +78,9 @@ public class ClientHandlerThread extends Thread{
             System.out.println("Client " + playerHandler.getID() + "Input error");
             return(INPUT_RECEIVING_ERROR);
         }
+
+        //TEST
+        System.out.println(playerHandler.getID() + ": " + tempInput);
 
         switch(tempInput){
             case "w":

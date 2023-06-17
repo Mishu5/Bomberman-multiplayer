@@ -26,22 +26,27 @@ public class ClientServerPackageReceiverThread extends Thread {
         while (isReceiverRunning.get()) {
             try {
                 receivedPackage = (MapDTO) in.readObject();
-            } catch (ClassNotFoundException | IOException e) {
+                copyPackageToMap(receivedPackage);
+            } catch (ClassNotFoundException | IOException | InterruptedException e) {
                 isReceiverRunning.set(false);
                 break;
             }
-            copyPackageToMap(receivedPackage);
         }
     }
 
-    private void copyPackageToMap(MapDTO toCopy) {
-        this.map = new Map();
+    private void copyPackageToMap(MapDTO toCopy) throws InterruptedException {
+        map.getSemaphore().acquire();
+        map.getPlayers().clear();
+        map.getMap().clear();
+        map.getBombs().clear();
         map.getPlayers().addAll(toCopy.getPlayers());
         map.getBombs().addAll(toCopy.getBombs());
         map.getMap().addAll(toCopy.getMap());
         map.setTime(toCopy.getCurrentGameTime());
         map.setGameStatus(toCopy.isGameStarted());
         playerId = toCopy.getPlayerId();
+        map.getSemaphore().release();
+        System.out.println(map.getPlayer(0).getPositionX() + "," + map.getPlayer(0).getPositionY());
     }
 
     public int getPlayerId() {

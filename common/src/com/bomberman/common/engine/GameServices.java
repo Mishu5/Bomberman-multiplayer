@@ -122,13 +122,6 @@ public class GameServices {
         removeBomb(x, y);
     }
 
-    public void serviceController(int id) {
-        for (PlayerHandler ph : playerHandlers) {
-            if (ph.getID() == id) ph.serviceController();
-
-        }
-    }
-
     void playerMove(int x, int y, int id, Direction direction) {
         PlayerHandler temp = getPlayerHandler(id);
         if(temp == null) return;

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.common.engine.GameServices;
+import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 
@@ -27,6 +28,7 @@ public class Bomberman extends ApplicationAdapter {
 
     //server connection stuff
     private ClientServices clientServices;
+    private PlayerController controller;
 
     int playerID = 1; //moved to clientServices
 
@@ -53,15 +55,19 @@ public class Bomberman extends ApplicationAdapter {
             exit(1);
         }
 
+        //Controller
+        controller = new PlayerController(clientServices);
+
+
         //Load map
         //Parser parser = new Parser();
         //parser.loadMapFromFile("../assets", map);
 
         //Player assign
-        services = new GameServices(map);
-        services.addPlayer(new Player(4, 2, playerID));
-        services.addPlayer(new Player(16, 2, 2));
-        services.addPlayer(new Player(4, 17, 3));
+        //services = new GameServices(map);
+        //services.addPlayer(new Player(4, 2, playerID));
+        //services.addPlayer(new Player(16, 2, 2));
+        //services.addPlayer(new Player(4, 17, 3));
     }
 
     @Override
@@ -72,8 +78,14 @@ public class Bomberman extends ApplicationAdapter {
         batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         stage.draw();
-        services.serviceController(playerID);
-        map.draw(batch);
+        controller.serviceController();
+        //services.serviceController(playerID);
+        try {
+            map.draw(batch);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         batch.end();
 
         //Right-side panel

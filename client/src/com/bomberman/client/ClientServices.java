@@ -50,7 +50,7 @@ public class ClientServices {
         return true;
     }
 
-    public void SendInput(String input) {
+    public void sentInput(String input) {
         out.println(input);
     }
 
