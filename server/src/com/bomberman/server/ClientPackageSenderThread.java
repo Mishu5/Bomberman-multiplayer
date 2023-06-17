@@ -35,7 +35,7 @@ public class ClientPackageSenderThread extends Thread {
 
             try {
                 //Thread.sleep(2000);
-                Thread.sleep(1000 / ClientServerCommunicationUtils.GAME_TICK_RATE);
+                Thread.sleep(gameEngine.getSendRate());
             } catch (InterruptedException e) {
                 System.out.println("Sleep error");
             }

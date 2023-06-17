@@ -54,6 +54,22 @@ public class Server {
                     System.out.println("Player: " + map.getPlayers().get(i).getPlayerID() + "cords x/y: " + map.getPlayers().get(i).getPositionX() + ", " + map.getPlayers().get(i).getPositionY());
                 }
             }
+            //get send rate
+            if (command.equals("rate") && command.split(" ").length == 1) {
+                System.out.println("Rate: " + gameEngine.getSendRate());
+            }
+            //set new send rate
+            if (command.split(" ").length == 2) {
+                String[] com = command.split(" ");
+                try {
+                    if (com[0].equals("rate")) {
+                        System.out.println("New rate: " + Integer.parseInt(com[1]));
+                        gameEngine.setSendRate(Integer.parseInt(com[1]));
+                    }
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+            }
         }
 
         System.out.println("Shutting down server");
