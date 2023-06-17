@@ -81,9 +81,6 @@ public class ClientHandlerThread extends Thread{
             return(INPUT_RECEIVING_ERROR);
         }
 
-        //TEST
-        System.out.println(playerHandler.getID() + ": " + tempInput+ "cord: " + playerHandler.getX()+", "+playerHandler.getY());
-
         switch(tempInput){
             case "w":
                 currentInput = UP;

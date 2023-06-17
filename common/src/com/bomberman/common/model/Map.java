@@ -1,10 +1,10 @@
 package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import sun.security.krb5.internal.crypto.Des;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
-
 import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
 import static java.lang.Thread.sleep;
 
@@ -13,7 +13,7 @@ public class Map {
     private ArrayList<MapObject> map;
     private ArrayList<Bomb> bombs;
     private ArrayList<Player> players;
-    private final ArrayList<Destruction> destructions;
+    private ArrayList<Destruction> destructions;
 
     private double gameTime;
 
@@ -81,22 +81,20 @@ public class Map {
     public ArrayList<MapObject> getMap() {
         return map;
     }
-    public void setMap(ArrayList<MapObject> map) {
-        this.map = map;
-    }
+    public ArrayList<Destruction> getDestructions() { return destructions; }
+    public void setMap(ArrayList<MapObject> map) { this.map = map; }
     public void setBombs(ArrayList<Bomb> bombs) {
         this.bombs = bombs;
     }
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
+    public void setPlayers(ArrayList<Player> players) { this.players = players; }
+    public void setDestructions(ArrayList<Destruction> destructions) { this.destructions = destructions; }
 
     synchronized public void draw(SpriteBatch batch) throws InterruptedException {
         semaphore.acquire();
         for (MapObject obj : map) obj.draw(batch);
         for (MapObject obj : bombs) obj.draw(batch);
-        serviceAnimations(batch);
         for (MapObject obj : players) obj.draw(batch);
+        serviceAnimations(batch);
         semaphore.release();
     }
 
