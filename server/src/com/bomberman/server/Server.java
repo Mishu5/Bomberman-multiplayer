@@ -45,9 +45,15 @@ public class Server {
             //turn off server
             if (command.equals("quit")) break;
             //manual start
-            if(command.equals("start")) map.setGameStatus(true);
+            if (command.equals("start")) map.setGameStatus(true);
             //check time
-            if(command.equals("time")) System.out.println("Time: "+map.getGameTime());
+            if (command.equals("time")) System.out.println("Time: " + map.getGameTime());
+            //check player cords
+            if (command.equals("cords")) {
+                for (int i = 0; i < map.getPlayers().size(); i++) {
+                    System.out.println("Player: " + map.getPlayers().get(i).getPlayerID() + "cords x/y: " + map.getPlayers().get(i).getPositionX() + ", " + map.getPlayers().get(i).getPositionY());
+                }
+            }
         }
 
         System.out.println("Shutting down server");

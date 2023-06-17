@@ -3,31 +3,40 @@ package com.bomberman.common.serialization;
 import com.bomberman.common.model.Bomb;
 import com.bomberman.common.model.MapObject;
 import com.bomberman.common.model.Player;
+import com.bomberman.common.model.Map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MapDTO implements Serializable {
-    private final ArrayList<MapObject> map;
-    private final ArrayList<Bomb> bombs;
-    private final ArrayList<Player> players;
-    private final double currentGameTime;
-    private final boolean gameStarted;
+
+    private ArrayList<MapObject> map;
+    private ArrayList<Bomb> bombs;
+    private ArrayList<Player> players;
+    private double currentGameTime;
+    private boolean gameStarted;
+
+    private int packageID;
 
     private int playerId;
 
-    public MapDTO(
-            ArrayList<MapObject> map,
-            ArrayList<Bomb> bombs,
-            ArrayList<Player> players,
-            double currentGameTime,
-            boolean gameStarted
-    ) {
-        this.map = map;
-        this.bombs = bombs;
-        this.players = players;
-        this.currentGameTime = currentGameTime;
-        this.gameStarted = gameStarted;
+    public MapDTO(int packageID) {
+        map = new ArrayList<>();
+        bombs = new ArrayList<>();
+        players = new ArrayList<>();
+        this.packageID = packageID;
+    }
+
+    public int getPackageID() {
+        return packageID;
+    }
+
+    public void copy(Map map) {
+        players.addAll(map.getPlayers());
+        this.map.addAll(map.getMap());
+        bombs.addAll(map.getBombs());
+        currentGameTime = map.getGameTime();
+        gameStarted = map.getGameStarted();
     }
 
     public ArrayList<MapObject> getMap() {
@@ -54,7 +63,7 @@ public class MapDTO implements Serializable {
         this.playerId = id;
     }
 
-    public int getPlayerId(){
+    public int getPlayerId() {
         return playerId;
     }
 

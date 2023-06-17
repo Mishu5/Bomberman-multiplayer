@@ -82,7 +82,7 @@ public class ClientHandlerThread extends Thread {
         }
 
         //TEST
-        System.out.println(playerHandler.getID() + ": " + tempInput);
+        System.out.println(playerHandler.getID() + ": " + tempInput+ "cord: " + playerHandler.getX()+", "+playerHandler.getY());
 
         switch(tempInput){
             case "w":

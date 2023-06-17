@@ -6,6 +6,7 @@ import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.MapDTO;
 import com.bomberman.common.serialization.Parser;
+import com.bomberman.common.utils.ClientServerCommunicationUtils;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ import java.net.*;
 public class ClientPackageSenderThread extends Thread {
 
     private ArrayList<ObjectOutputStream> outputs;
-    private GameServices gameEngine;
+    private final GameServices gameEngine;
 
     public ClientPackageSenderThread(ArrayList<ObjectOutputStream> outputs, GameServices gameEngine) {
         this.outputs = outputs;
@@ -26,12 +27,15 @@ public class ClientPackageSenderThread extends Thread {
 
     public void run() {
 
+        int packageId = 0;
+
         System.out.println("Sender thread started...");
 
         while (true) {
 
             try {
-                Thread.sleep(1000);
+                //Thread.sleep(2000);
+                Thread.sleep(1000 / ClientServerCommunicationUtils.GAME_TICK_RATE);
             } catch (InterruptedException e) {
                 System.out.println("Sleep error");
             }
@@ -41,8 +45,11 @@ public class ClientPackageSenderThread extends Thread {
             if (outputs.isEmpty()) continue;
 
             //creating package
-            Map tempMap = gameEngine.getMap();
-            MapDTO packageToSend = new MapDTO(tempMap.getMap(), tempMap.getBombs(), tempMap.getPlayers(), tempMap.getGameTime(), tempMap.getGameStarted());
+            MapDTO packageToSend = new MapDTO(packageId++);
+            packageToSend.copy(gameEngine.getMap());
+
+            //TEST
+            //System.out.println("Player 0 cords X/Y: " + packageToSend.getPlayers().get(0).getPositionX() + " " + packageToSend.getPlayers().get(0).getPositionY());
 
             //sending package to every user
             for (int i = 0; i < outputs.size(); i++) {
@@ -50,7 +57,8 @@ public class ClientPackageSenderThread extends Thread {
                 packageToSend.setPlayerId(i);
 
                 try {
-                    outputs.get(i).writeObject(packageToSend);
+                    outputs.get(i).reset();
+                    outputs.get(i).writeUnshared(packageToSend);
                 } catch (IOException e) {
                     System.out.println("Client #" + i + " write error");
                     /**
