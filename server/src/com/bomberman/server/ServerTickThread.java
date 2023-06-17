@@ -11,14 +11,25 @@ public class ServerTickThread extends Thread {
         this.gameEngine = gameEngine;
     }
 
-    public void run() {
+    synchronized public void run() {
 
         gameEngine.getMap().setTime(0);
 
         while (true) {
             wait(TICK_PER_SECOND);
+
+            //check if game has started
             if (!gameEngine.getMap().getGameStarted()) continue;
+
+            //tick logic here
+
+            //tick logic end
+
+            //add time
             gameEngine.getMap().addTime((double) 1000 / TICK_PER_SECOND);
+
+            //printing current time
+            System.out.println(gameEngine.getMap().getGameTime());
         }
 
     }

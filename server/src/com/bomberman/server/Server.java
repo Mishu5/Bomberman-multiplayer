@@ -23,23 +23,32 @@ public class Server {
         //creating game services
         GameServices gameEngine = new GameServices(map);
 
+        //creating tick function
+        ServerTickThread tickThread = new ServerTickThread(gameEngine);
+        tickThread.start();
+
         //starting listening for new players
         ClientConnectionHandler connectionHandler = new ClientConnectionHandler(gameEngine);
         connectionHandler.start();
 
         Scanner keyboardInput = new Scanner(System.in);
 
-        System.out.println("Hello world");
+        System.out.println("Server has started");
 
         while (true) {
 
             String command = keyboardInput.nextLine();
             System.out.println(command);
-            if (command.equals("quit")) break;
 
+            //command list
+
+            //turn off server
+            if (command.equals("quit")) break;
+            //manual start
+            if(command.equals("start")) map.setGameStatus(true);
         }
 
-        System.out.println("Ending server");
+        System.out.println("Shutting down server");
         exit(0);
     }
 }

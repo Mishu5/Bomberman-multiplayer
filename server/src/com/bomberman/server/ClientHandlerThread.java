@@ -44,6 +44,8 @@ public class ClientHandlerThread extends Thread {
                 return;
             }
 
+            System.out.println("Player: " + playerHandler.getID() + " request: " + currentClientInput);
+
             switch (currentClientInput) {
                 case UP:
                     playerHandler.moveAttempt(1, 0, Direction.TOP);
