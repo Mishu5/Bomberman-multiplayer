@@ -9,16 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.common.engine.GameServices;
-import com.bomberman.common.model.Bomb;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.Parser;
 
-import static com.bomberman.common.utils.EngineUtils.DETONATION_RADIUS;
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
-
-import java.io.*;
-import java.net.*;
 
 public class Bomberman extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -28,7 +23,6 @@ public class Bomberman extends ApplicationAdapter {
     private Camera sidebarCamera;
     private ScreenViewport gameViewport;
     private ScreenViewport sidebarViewport;
-
     private GameServices services;
 
     //server connection stuff
@@ -49,7 +43,6 @@ public class Bomberman extends ApplicationAdapter {
         gameViewport = new ScreenViewport(gameCamera);
         sidebarViewport = new ScreenViewport(sidebarCamera);
 
-
         //Create map
 
         map = new Map();
@@ -61,19 +54,16 @@ public class Bomberman extends ApplicationAdapter {
         //Player assign
 
         services = new GameServices(map);
-        services.addPlayer(new Player(2, 3, playerID));
-        services.addPlayer(new Player(2, 1, 2));
-
-
+        services.addPlayer(new Player(4, 2, playerID));
+        services.addPlayer(new Player(16, 2, 2));
+        services.addPlayer(new Player(4, 17, 3));
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.25f, 0.75f, 0.55f, 0.75f);
 
-        /*
-            Game area
-         */
+        //Game area
         batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         stage.draw();
@@ -81,10 +71,7 @@ public class Bomberman extends ApplicationAdapter {
         map.draw(batch);
         batch.end();
 
-
-        /*
-            Right-side panel
-         */
+        //Right-side panel
         batch.setProjectionMatrix(sidebarCamera.combined);
         batch.begin();
         batch.end();

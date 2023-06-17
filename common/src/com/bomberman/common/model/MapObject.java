@@ -1,18 +1,17 @@
 package com.bomberman.common.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.io.Serializable;
 
-import static com.bomberman.common.utils.GraphicUtils.BLOCK_SIZE;
+import static com.bomberman.common.utils.GraphicUtils.getBlockSize;
+import static com.bomberman.common.utils.GraphicUtils.getTexture;
 
 public abstract class MapObject implements Serializable {
 
     protected boolean destructible;
     protected boolean transparent;
-    protected int width, height;
     protected int positionX, positionY;
     protected Texture texture;
     protected String texturePath;
@@ -22,14 +21,12 @@ public abstract class MapObject implements Serializable {
         this.transparent = transparent;
         this.positionX = positionX;
         this.positionY = positionY;
-        this.width = BLOCK_SIZE;
-        this.height = BLOCK_SIZE;
         this.texturePath = texturePath;
         texture = null;
     }
 
     private void initTexture() {
-        texture = new Texture(Gdx.files.internal(texturePath));
+        texture = getTexture(texturePath);
     }
 
     public int getPositionX() {
@@ -59,6 +56,6 @@ public abstract class MapObject implements Serializable {
 
     synchronized public void draw(SpriteBatch batch) {
         if(texture == null) initTexture();
-        batch.draw(texture, positionX * BLOCK_SIZE, positionY * BLOCK_SIZE);
+        batch.draw(texture, positionX * getBlockSize(), positionY * getBlockSize());
     }
 }

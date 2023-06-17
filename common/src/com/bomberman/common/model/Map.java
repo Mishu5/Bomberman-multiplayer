@@ -1,6 +1,7 @@
 package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bomberman.common.utils.GraphicUtils;
 
 import java.util.ArrayList;
 

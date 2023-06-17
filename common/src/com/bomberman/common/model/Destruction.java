@@ -1,7 +1,6 @@
 package com.bomberman.common.model;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bomberman.common.utils.Pair;
@@ -83,7 +82,7 @@ public class Destruction {
     synchronized public void draw(SpriteBatch batch) {
         if(!isTextureInit) initTextures();
         destruction.forEach((it) -> {
-            batch.draw(it.texture, it.position.first * BLOCK_SIZE, it.position.second * BLOCK_SIZE);
+            batch.draw(it.texture, it.position.first * getBlockSize(), it.position.second * getBlockSize());
         });
     }
 
@@ -101,8 +100,7 @@ class DestructionTexture {
     Texture texture;
     DestructionTexture(int x, int y, String texturePath) {
         this.position = new Pair(x, y);
-        texture = null;
-        this.texture = new Texture(Gdx.files.internal(texturePath));
+        texture = getTexture(texturePath);
     }
 
 }
