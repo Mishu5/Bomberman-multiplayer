@@ -136,7 +136,6 @@ public class Map {
                         while(counter < DESTRUCTION_ANIMATION_TIME) {
                             sleep((long) (animationFrame * 1000));
                             counter += animationFrame;
-                            System.out.println(counter);
                         }
                         destructions.remove(it);
                     } catch (InterruptedException e) {
