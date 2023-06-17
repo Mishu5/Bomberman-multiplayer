@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.bomberman.common.serialization.MapDTO;
 import com.bomberman.common.model.Map;
 
+import static com.bomberman.common.utils.EngineUtils.CLIENT_RECEIVER_DELAY;
+
 public class Receiver extends Thread {
 
     private ObjectInputStream in;
@@ -26,7 +28,7 @@ public class Receiver extends Thread {
             try {
                 MapDTO message = (MapDTO) in.readObject();
                 copyPackageToMap(message);
-
+                sleep(CLIENT_RECEIVER_DELAY);
             } catch (ClassNotFoundException | IOException | InterruptedException e) {
                 isRunning.set(false);
                 break;
@@ -39,17 +41,12 @@ public class Receiver extends Thread {
     }
 
     private void copyPackageToMap(MapDTO toCopy) throws InterruptedException {
-        map.getSemaphore().acquire();
-        map.getPlayers().clear();
-        map.getMap().clear();
-        map.getBombs().clear();
-        map.getPlayers().addAll(toCopy.getPlayers());
-        map.getBombs().addAll(toCopy.getBombs());
-        map.getMap().addAll(toCopy.getMap());
+        map.setMap(toCopy.getMap());
+        map.setBombs(toCopy.getBombs());
+        map.setPlayers(toCopy.getPlayers());
         map.setTime(toCopy.getCurrentGameTime());
         map.setGameStatus(toCopy.isGameStarted());
         playerId = toCopy.getPlayerId();
-        map.getSemaphore().release();
     }
 
     public int getPlayerId() {
