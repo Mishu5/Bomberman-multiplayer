@@ -6,6 +6,7 @@ import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.serialization.MapDTO;
 import com.bomberman.common.serialization.Parser;
+import com.bomberman.common.utils.ClientServerCommunicationUtils;
 
 import java.util.ArrayList;
 
@@ -26,23 +27,26 @@ public class ClientPackageSenderThread extends Thread {
 
     public void run() {
 
+        int packageId = 0;
+
         System.out.println("Sender thread started...");
 
         while (true) {
 
             try {
-                Thread.sleep(1000);
+                //Thread.sleep(2000);
+                Thread.sleep(gameEngine.getSendRate());
             } catch (InterruptedException e) {
                 System.out.println("Sleep error");
             }
 
-            System.out.println("Sender- clients connected: " + outputs.size());
+            //System.out.println("Sender- clients connected: " + outputs.size());
 
             if (outputs.isEmpty()) continue;
 
             //creating package
-            Map tempMap = gameEngine.getMap();
-            MapDTO packageToSend = new MapDTO(tempMap.getMap(), tempMap.getBombs(), tempMap.getPlayers(), tempMap.getGameTime(), tempMap.getGameStarted());
+            MapDTO packageToSend = new MapDTO(packageId++);
+            packageToSend.copy(gameEngine.getMap());
 
             //sending package to every user
             for (int i = 0; i < outputs.size(); i++) {
@@ -50,7 +54,8 @@ public class ClientPackageSenderThread extends Thread {
                 packageToSend.setPlayerId(i);
 
                 try {
-                    outputs.get(i).writeObject(packageToSend);
+                    outputs.get(i).reset();
+                    outputs.get(i).writeUnshared(packageToSend);
                 } catch (IOException e) {
                     System.out.println("Client #" + i + " write error");
                     /**

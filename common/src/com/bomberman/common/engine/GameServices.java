@@ -18,6 +18,8 @@ public class GameServices {
     private final Map gameEnvironment;
     private final EventListener mainListener;
 
+    private int sendRate;
+
     public GameServices(Map map) {
         this.gameEnvironment = map;
         playerHandlers = new ArrayList<>();
@@ -25,6 +27,7 @@ public class GameServices {
         clientHandlers = new ArrayList<>();
         mainListener = new EventListener(this);
         mainListener.startListening();
+        sendRate = 250;
     }
 
     public PlayerHandler getPlayerHandler(int id) {
@@ -58,12 +61,11 @@ public class GameServices {
     }
 
     synchronized public void createBomb(int x, int y, int radius) {
-        for(Bomb bomb: gameEnvironment.getBombs()) {
-            if(bomb.positionMatch(x, y)) return;
+        for (Bomb bomb : gameEnvironment.getBombs()) {
+            if (bomb.positionMatch(x, y)) return;
         }
         addBomb(new Bomb(x, y, radius, DETONATION_TIME));
     }
-
 
     synchronized public void detonateBomb(int x, int y, int radius) {
         ArrayList<PlayerHandler> killedHandlers = new ArrayList<>();
@@ -73,28 +75,28 @@ public class GameServices {
         Destruction destruction = new Destruction(x, y, radius);
         for (int i = 0; i < gameEnvironment.getMap().size(); i++) {
             MapObject mo = gameEnvironment.getMap().get(i);
-            if(mo.isDestructible() || mo.isTransparent()) continue;
-            if(mo.getPositionX() == x) {
-                if(mo.getPositionY() <= destruction.getTop().second && mo.getPositionY() > y)
+            if (mo.isDestructible() || mo.isTransparent()) continue;
+            if (mo.getPositionX() == x) {
+                if (mo.getPositionY() <= destruction.getTop().second && mo.getPositionY() > y)
                     destruction.setTop(new Pair(x, mo.getPositionY() - 1));
-                if(mo.getPositionY() >= destruction.getBottom().second && mo.getPositionY() < y)
+                if (mo.getPositionY() >= destruction.getBottom().second && mo.getPositionY() < y)
                     destruction.setBottom(new Pair(x, mo.getPositionY() + 1));
             }
-            if(mo.getPositionY() == y) {
-                if(mo.getPositionX() <= destruction.getRight().first && mo.getPositionX() > x)
+            if (mo.getPositionY() == y) {
+                if (mo.getPositionX() <= destruction.getRight().first && mo.getPositionX() > x)
                     destruction.setRight(new Pair(mo.getPositionX() - 1, y));
-                if(mo.getPositionX() >= destruction.getLeft().first && mo.getPositionX() < x)
+                if (mo.getPositionX() >= destruction.getLeft().first && mo.getPositionX() < x)
                     destruction.setLeft(new Pair(mo.getPositionX() + 1, y));
             }
         }
 
         for (PlayerHandler ph : playerHandlers) {
-            if((ph.getX() == x
+            if ((ph.getX() == x
                     && ph.getY() <= destruction.getTop().second
                     && ph.getY() >= destruction.getBottom().second
-                    ) || (ph.getY() == y
+            ) || (ph.getY() == y
                     && ph.getX() <= destruction.getRight().first
-                    && ph.getX() <= destruction.getLeft().first
+                    && ph.getX() >= destruction.getLeft().first
             )) {
                 gameEnvironment.getPlayers().removeIf(it -> it.getPlayerID() == ph.getID());
                 killedHandlers.add(ph);
@@ -103,7 +105,7 @@ public class GameServices {
 
         for (MapObject mo : gameEnvironment.getMap()) {
             if (!mo.isDestructible()) continue;
-            if((mo.getPositionX() == x
+            if ((mo.getPositionX() == x
                     && mo.getPositionY() <= destruction.getTop().second
                     && mo.getPositionY() >= destruction.getBottom().second
             ) || (mo.getPositionY() == y
@@ -123,17 +125,10 @@ public class GameServices {
         removeBomb(x, y);
     }
 
-    public void serviceController(int id) {
-        for (PlayerHandler ph : playerHandlers) {
-            if (ph.getID() == id) ph.serviceController();
-
-        }
-    }
-
     void playerMove(int x, int y, int id, Direction direction) {
         PlayerHandler temp = getPlayerHandler(id);
-        if(temp == null) return;
-        for (Bomb bomb: gameEnvironment.getBombs()) {
+        if (temp == null) return;
+        for (Bomb bomb : gameEnvironment.getBombs()) {
             if (bomb.positionMatch(x, y))
                 moveBomb(x, y, direction);
         }
@@ -141,7 +136,7 @@ public class GameServices {
             temp.move(x, y);
     }
 
-    synchronized public Map getMap(){
+    synchronized public Map getMap() {
         return gameEnvironment;
     }
 
@@ -174,6 +169,14 @@ public class GameServices {
         }
 
         myHandler.moveBomb(direction);
+    }
+
+    public int getSendRate() {
+        return sendRate;
+    }
+
+    public void setSendRate(int rate) {
+        sendRate = rate;
     }
 
 }

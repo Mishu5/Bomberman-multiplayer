@@ -1,8 +1,18 @@
 sourceCompatibility = 1.8
 project.ext.mainClassName = "com.bomberman.server.Server"
+project.ext.assetsDir = new File("../assets")
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 
+
 eclipse.project.name = appName + "-server"
+
+task run(dependsOn: classes, type: JavaExec) {
+    mainClass = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}

@@ -22,23 +22,6 @@ public class PlayerHandler {
         radiusBoost = false;
     }
 
-    /**
-     * TODO
-     * Move this method to Client-Handler controller section
-     */
-    public void serviceController() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
-            moveAttempt(0, PLAYER_SPEED, TOP);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            moveAttempt(0, -PLAYER_SPEED, BOT);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            moveAttempt(-PLAYER_SPEED, 0, LEFT);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            moveAttempt(PLAYER_SPEED, 0, RIGHT);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-            putBombAttempt();
-    }
-
     public void move(int x, int y) {
         player.move(x, y);
     }
@@ -65,4 +48,12 @@ public class PlayerHandler {
     }
 
     public void setRadiusBoost(boolean rb) { this.radiusBoost = rb; }
+
+    public void startGameAttempt(){
+        
+    }
+
+    private int getPlayerId(){
+        return this.player.getPlayerID();
+    }
 }

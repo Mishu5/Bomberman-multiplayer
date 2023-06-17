@@ -1,6 +1,7 @@
 package com.bomberman.server;
 
 import com.bomberman.common.engine.PlayerHandler;
+import com.bomberman.common.utils.ClientServerCommunicationUtils;
 import com.bomberman.common.utils.EngineUtils;
 
 import java.io.*;
@@ -22,6 +23,7 @@ public class ClientHandlerThread extends Thread{
     private final int DOWN = 3;
     private final int LEFT = 4;
     private final int BOMB = 5;
+    private final int START_GAME = 6;
 
     public ClientHandlerThread(PlayerHandler playerHandler, BufferedReader in){
         this.playerHandler = playerHandler;
@@ -44,19 +46,17 @@ public class ClientHandlerThread extends Thread{
 
            switch (currentClientInput){
                case UP:
-                        playerHandler.moveAttempt(1,0, Direction.TOP);
+                        playerHandler.moveAttempt(0,1, Direction.TOP);
                    break;
                case RIGHT:
-                        playerHandler.moveAttempt(0,1,Direction.RIGHT);
+                        playerHandler.moveAttempt(1,0,Direction.RIGHT);
                    break;
                case DOWN:
-                        playerHandler.moveAttempt(-1,0,Direction.BOT);
+                        playerHandler.moveAttempt(0,-1,Direction.BOT);
                    break;
-
                case LEFT:
-                        playerHandler.moveAttempt(0,-1,Direction.LEFT);
+                        playerHandler.moveAttempt(-1,0,Direction.LEFT);
                    break;
-
                case BOMB:
                         playerHandler.putBombAttempt();
                    break;
@@ -81,6 +81,9 @@ public class ClientHandlerThread extends Thread{
             return(INPUT_RECEIVING_ERROR);
         }
 
+        //TEST
+        System.out.println(playerHandler.getID() + ": " + tempInput+ "cord: " + playerHandler.getX()+", "+playerHandler.getY());
+
         switch(tempInput){
             case "w":
                 currentInput = UP;
@@ -96,6 +99,9 @@ public class ClientHandlerThread extends Thread{
                 break;
             case "b":
                 currentInput = BOMB;
+                break;
+            case "e":
+                currentInput = START_GAME;
                 break;
             default:
                 currentInput = NO_INPUT;
