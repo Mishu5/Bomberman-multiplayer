@@ -11,9 +11,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
-import com.bomberman.common.serialization.Parser;
 
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
+import static java.lang.System.exit;
 
 public class Bomberman extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -33,8 +33,7 @@ public class Bomberman extends ApplicationAdapter {
     @Override
     public void create() {
 
-        //View objects
-
+        //View
         batch = new SpriteBatch();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -44,15 +43,21 @@ public class Bomberman extends ApplicationAdapter {
         sidebarViewport = new ScreenViewport(sidebarCamera);
 
         //Create map
-
         map = new Map();
-        Parser parser = new Parser();
-        parser.loadMapFromFile("../assets", map);
 
+        //Communication
         clientServices = new ClientServices(map);
         clientServices.connectToServer();
-        //Player assign
+        if(!clientServices.isConnected()) {
+            System.out.println("Server is offline. Try to run server.");
+            exit(1);
+        }
 
+        //Load map
+        //Parser parser = new Parser();
+        //parser.loadMapFromFile("../assets", map);
+
+        //Player assign
         services = new GameServices(map);
         services.addPlayer(new Player(4, 2, playerID));
         services.addPlayer(new Player(16, 2, 2));
