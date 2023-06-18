@@ -3,6 +3,7 @@ package com.bomberman.server;
 import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Player;
+import com.bomberman.common.model.Spawn;
 import com.bomberman.common.serialization.Parser;
 
 import java.util.ArrayList;
@@ -55,11 +56,7 @@ public class ClientConnectionHandler extends Thread {
             if (currentPlayerCount == MAX_PLAYER_COUNT) continue;
 
             //adding new player
-            /**
-             * TODO
-             * Player constructor should define player position
-             * add output stream
-             */
+
             BufferedReader tempBufferedReader = makeBufferedReader(clientSocket);
             ObjectOutputStream tempObjectOutputStream = makeNewObjectOutPutStream(clientSocket);
 
@@ -67,7 +64,8 @@ public class ClientConnectionHandler extends Thread {
             outputs.add(tempObjectOutputStream);
 
             //creating player
-            PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(2, 2, currentPlayerCount));
+            Spawn tempSpawnHolder = gameEngine.getMap().getSpawn(currentPlayerCount);
+            PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(tempSpawnHolder.getPositionX(), tempSpawnHolder.getPositionY(), currentPlayerCount));
 
             //creating and starting new thread
             ClientHandlerThread tempHandlerThreadHolder = new ClientHandlerThread(currentPlayerHandler, tempBufferedReader);

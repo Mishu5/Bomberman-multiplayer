@@ -1,10 +1,10 @@
 package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+
 import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
 import static java.lang.Thread.sleep;
 
@@ -30,40 +30,71 @@ public class Map {
         gameTime = 0;
         gameStarted = false;
     }
+
     public boolean getGameStarted() {
         return gameStarted;
     }
+
     public void setGameStatus(boolean status) {
         this.gameStarted = status;
     }
+
     public double getGameTime() {
         return gameTime;
     }
+
     public void setTime(double time) {
         this.gameTime = time;
     }
+
     public void addTime(double time) {
         this.gameTime += time;
     }
+
     public void addDestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, true));
     }
+
     public void addIndestructibleWall(int positionX, int positionY) {
         map.add(new Wall(positionX, positionY, false));
     }
+
     public void addPowerUp(int positionX, int positionY) {
         map.add(new PowerUp(positionX, positionY));
     }
+
     public void addFloor(int positionX, int positionY) {
         map.add(new Floor(positionX, positionY));
     }
-    public void addSpawn(int positionX, int positionY,int spawnID) {map.add(new Spawn(positionX, positionY,spawnID));}
+
+    public void addSpawn(int positionX, int positionY, int spawnID) {
+        map.add(new Spawn(positionX, positionY, spawnID));
+    }
+
+    public Spawn getSpawn(int spawnID) {
+
+        Spawn spawn = null;
+
+        for (MapObject object : map) {
+            if (object instanceof Spawn) {
+                spawn = (Spawn) object;
+                if (spawn.getSpawnID() - 1 == spawnID) {
+                    break;
+                }
+            }
+        }
+
+        return spawn;
+    }
+
     public void addAnimation(Destruction destruction) {
         destructions.add(destruction);
     }
+
     public void addPlayer(int positionX, int positionY, int playerID) {
         players.add(new Player(positionX, positionY, playerID));
     }
+
     public void addPlayer(Player player) {
         players.add(player);
     }
@@ -71,13 +102,19 @@ public class Map {
     public void addBomb(int positionX, int positionY, int bombRadius, int timer) {
         bombs.add(new Bomb(positionX, positionY, bombRadius, timer));
     }
+
     public void addBomb(Bomb bomb) {
         this.bombs.add(bomb);
     }
+
     public Player getPlayer(int index) {
         return players.get(index);
     }
-    public ArrayList<Player> getPlayers() {return players;}
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
@@ -85,13 +122,26 @@ public class Map {
     public ArrayList<MapObject> getMap() {
         return map;
     }
-    public ArrayList<Destruction> getDestructions() { return destructions; }
-    public void setMap(ArrayList<MapObject> map) { this.map = map; }
+
+    public ArrayList<Destruction> getDestructions() {
+        return destructions;
+    }
+
+    public void setMap(ArrayList<MapObject> map) {
+        this.map = map;
+    }
+
     public void setBombs(ArrayList<Bomb> bombs) {
         this.bombs = bombs;
     }
-    public void setPlayers(ArrayList<Player> players) { this.players = players; }
-    public void setDestructions(ArrayList<Destruction> destructions) { this.destructions = destructions; }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public void setDestructions(ArrayList<Destruction> destructions) {
+        this.destructions = destructions;
+    }
 
     synchronized public void draw(SpriteBatch batch) throws InterruptedException {
         semaphore.acquire();
