@@ -2,6 +2,7 @@ package com.bomberman.common.engine;
 
 import com.bomberman.common.events.BombCreateEvent;
 import com.bomberman.common.events.PlayerMoveEvent;
+import com.bomberman.common.events.StartGameEvent;
 import com.bomberman.common.model.Player;
 
 import static com.bomberman.common.utils.EngineUtils.*;
@@ -48,7 +49,8 @@ public class PlayerHandler {
     public void setRadiusBoost(boolean rb) { this.radiusBoost = rb; }
 
     public void startGameAttempt(){
-        
+        if(player == null)return;
+        listener.notify(new StartGameEvent(getPlayerId()));
     }
 
     private int getPlayerId(){
