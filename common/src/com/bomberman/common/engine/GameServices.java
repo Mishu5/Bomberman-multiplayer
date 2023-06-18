@@ -64,6 +64,7 @@ public class GameServices {
     }
 
     synchronized public void createBomb(int x, int y, int radius) {
+        if (!gameEnvironment.getGameStarted()) return;
         for (Bomb bomb : gameEnvironment.getBombs()) {
             if (bomb.positionMatch(x, y)) return;
         }
@@ -94,7 +95,7 @@ public class GameServices {
         }
 
         for (PlayerHandler ph : playerHandlers) {
-            if(ph.getPlayer() == null) continue;
+            if (ph.getPlayer() == null) continue;
             if ((ph.getX() == x
                     && ph.getY() <= destruction.getTop().second
                     && ph.getY() >= destruction.getBottom().second
@@ -130,6 +131,7 @@ public class GameServices {
     }
 
     void playerMove(int x, int y, int id, Direction direction) {
+        if (!gameEnvironment.getGameStarted()) return;
         PlayerHandler temp = getPlayerHandler(id);
         if (temp == null) return;
         for (Bomb bomb : gameEnvironment.getBombs()) {
