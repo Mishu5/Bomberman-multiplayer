@@ -63,7 +63,7 @@ public class Bomberman extends ApplicationAdapter {
         if(!isOffline) return;
         Parser parser = new Parser();
         Parser.loadMapFromFile("../assets", map);
-
+        map.setGameStatus(true);
         services = new GameServices(map);
 
 

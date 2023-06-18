@@ -114,6 +114,7 @@ public class EventListener {
     public void serviceEvent(StartGameEvent sge) {
         if (sge.getPlayerID() == 0 && services.getMap().getPlayers().size() >= 2) {
             services.getMap().setGameStatus(true);
+            System.out.println("Game started by player!");
         }
     }
 

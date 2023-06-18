@@ -45,7 +45,10 @@ public class Server {
             //turn off server
             if (command.equals("quit")) break;
             //manual start
-            if (command.equals("start")) map.setGameStatus(true);
+            if (command.equals("start")) {
+                map.setGameStatus(true);
+                System.out.println("Game started by sever!");
+            }
             //check time
             if (command.equals("time")) System.out.println("Time: " + map.getGameTime());
             //check player cords

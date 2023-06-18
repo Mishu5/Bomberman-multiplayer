@@ -21,6 +21,7 @@ public class ClientConnectionHandler extends Thread {
     private final int SOCKET_CLIENT_ACCEPTANCE_ERROR = 2;
     private final int OUTPUT_STREAM_CREATION_ERROR = 3;
     private final int BUFFERED_READER_CREATION_ERROR = 4;
+    private final int SOCKET_CLIENT_DENY_ERROR = 5;
 
     //server socket related
     private final int PORT = 21370;
@@ -53,7 +54,14 @@ public class ClientConnectionHandler extends Thread {
 
             //checking for available slots
             int currentPlayerCount = gameEngine.getMap().getPlayers().size();
-            if (currentPlayerCount == MAX_PLAYER_COUNT) continue;
+            if (currentPlayerCount == MAX_PLAYER_COUNT) {
+                denyPlayer();
+                continue;
+            }
+            if (gameEngine.getMap().getGameStarted()) {
+                denyPlayer();
+                continue;
+            }
 
             //adding new player
 
@@ -94,6 +102,15 @@ public class ClientConnectionHandler extends Thread {
             exit(SOCKET_CLIENT_ACCEPTANCE_ERROR);
         }
 
+    }
+
+    private void denyPlayer() {
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            System.out.println("Failed to deny client");
+            exit(SOCKET_CLIENT_DENY_ERROR);
+        }
     }
 
     private ObjectOutputStream makeNewObjectOutPutStream(Socket playerSocket) {
