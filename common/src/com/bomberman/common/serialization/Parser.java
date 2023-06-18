@@ -30,7 +30,7 @@ public class Parser {
         }
         Random random = new Random();
         int rand = 0;
-        int playerSpawnCounter=0;
+        int playerSpawnCounter=1;
 
         rand = random.nextInt(results.size());
 
@@ -84,6 +84,10 @@ public class Parser {
                     map.addDestructibleWall(y, array[x].length - 1 - x);
                 }
                 else if (array[x][y] == 'R') {
+                    if(playerSpawnCounter>4)
+                    {
+                        throw new RuntimeException("Too many players");
+                    }
                     map.addSpawn(y, array[x].length - 1 - x,playerSpawnCounter);
                     playerSpawnCounter++;
                 }

@@ -7,7 +7,15 @@ import com.bomberman.common.utils.GraphicUtils;
 import static com.bomberman.common.utils.GraphicUtils.SPAWN_TEXTURE;
 
 public class Spawn extends MapObject {
-    public Spawn(int positionX, int positionY, int spawnId) {
+
+    public int getSpawnID() {
+        return spawnID;
+    }
+
+    private int spawnID;
+    public Spawn(int positionX, int positionY, int spawnID) {
+
         super(positionX, positionY, false, true, SPAWN_TEXTURE);
+        this.spawnID = spawnID;
     }
 }
