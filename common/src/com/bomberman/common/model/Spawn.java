@@ -13,9 +13,24 @@ public class Spawn extends MapObject {
     }
 
     private int spawnID;
+
+    @Override
+    public int getPositionX() {
+        return positionX;
+    }
+
+    @Override
+    public int getPositionY() {
+        return positionY;
+    }
+
+    private int positionX;
+    private int positionY;
     public Spawn(int positionX, int positionY, int spawnID) {
 
         super(positionX, positionY, false, true, SPAWN_TEXTURE);
         this.spawnID = spawnID;
+        this.positionX=positionX;
+        this.positionY=positionY;
     }
 }

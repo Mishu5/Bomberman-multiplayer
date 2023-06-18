@@ -10,11 +10,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.engine.PlayerHandler;
-import com.bomberman.common.model.Map;
-import com.bomberman.common.model.Player;
+import com.bomberman.common.model.*;
 import com.bomberman.common.serialization.Parser;
 import com.bomberman.common.utils.EngineUtils;
 
+import static com.bomberman.common.utils.EngineUtils.DETONATION_TIME;
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 import static java.lang.System.exit;
 
@@ -65,11 +65,22 @@ public class Bomberman extends ApplicationAdapter {
         Parser.loadMapFromFile("../assets", map);
 
         services = new GameServices(map);
-        services.addPlayer(new Player(4, 2, playerID));
-        services.addPlayer(new Player(16, 2, 2));
-        services.addPlayer(new Player(4, 17, 3));
-        services.addPlayer(new Player(4, 17, 3));
-        services.addPlayer(new Player(4, 17, 3));
+
+
+
+
+//Szybka funkcja do spawnowania graczy na ich miejscach, nie wiem gdzie ja chcecie przeniesc xD
+        for (MapObject obiekt : map.getMap()) {
+            if (obiekt instanceof Spawn) {
+                Spawn spawn = (Spawn) obiekt;
+
+                services.addPlayer(new Player(spawn.getPositionX(), spawn.getPositionY(), spawn.getSpawnID()));
+            }
+        }
+
+
+
+
 
     }
 

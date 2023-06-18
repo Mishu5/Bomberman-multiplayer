@@ -13,6 +13,7 @@ public class Map {
     private ArrayList<MapObject> map;
     private ArrayList<Bomb> bombs;
     private ArrayList<Player> players;
+
     private ArrayList<Destruction> destructions;
 
     private double gameTime;
@@ -25,6 +26,7 @@ public class Map {
         bombs = new ArrayList<>();
         players = new ArrayList<>();
         destructions = new ArrayList<>();
+
         gameTime = 0;
         gameStarted = false;
     }
@@ -79,6 +81,7 @@ public class Map {
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
+
     public ArrayList<MapObject> getMap() {
         return map;
     }
