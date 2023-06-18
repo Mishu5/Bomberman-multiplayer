@@ -58,6 +58,7 @@ public class ClientPackageSenderThread extends Thread {
                     outputs.get(i).writeUnshared(packageToSend);
                 } catch (IOException e) {
                     System.out.println("Client #" + i + " write error");
+                    e.printStackTrace();
                     /**
                      *TODO add disconnection
                      */

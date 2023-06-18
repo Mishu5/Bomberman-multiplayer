@@ -2,6 +2,8 @@ package com.bomberman.common.engine;
 
 
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.bomberman.common.utils.ClientServerCommunicationUtils.BOMB_TICK_DELAY;
 import static com.bomberman.common.utils.EngineUtils.*;
 import static com.bomberman.common.utils.EngineUtils.Direction.*;
 

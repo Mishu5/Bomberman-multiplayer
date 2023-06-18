@@ -1,15 +1,13 @@
 package com.bomberman.common.engine;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bomberman.common.model.*;
+import com.bomberman.common.utils.EngineUtils;
 import com.bomberman.common.utils.Pair;
 
 import java.util.ArrayList;
 
 import static com.bomberman.common.utils.EngineUtils.*;
 import static com.bomberman.common.utils.EngineUtils.Direction.*;
-import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
-import static java.lang.Thread.sleep;
 
 public class GameServices {
     private final ArrayList<BombHandler> bombHandlers;
@@ -46,6 +44,11 @@ public class GameServices {
     public void removePlayers(int id) {
         playerHandlers.removeIf(it -> it.getID() == id);
         gameEnvironment.getPlayers().removeIf(it -> it.getPlayerID() == id);
+    }
+
+    public void killPlayer(PlayerHandler ph) {
+        gameEnvironment.getPlayers().remove(ph.getPlayer());
+        ph.killPlayer();
     }
 
     public void addBomb(Bomb bomb) {
@@ -91,6 +94,7 @@ public class GameServices {
         }
 
         for (PlayerHandler ph : playerHandlers) {
+            if(ph.getPlayer() == null) continue;
             if ((ph.getX() == x
                     && ph.getY() <= destruction.getTop().second
                     && ph.getY() >= destruction.getBottom().second
@@ -98,7 +102,7 @@ public class GameServices {
                     && ph.getX() <= destruction.getRight().first
                     && ph.getX() >= destruction.getLeft().first
             )) {
-                gameEnvironment.getPlayers().removeIf(it -> it.getPlayerID() == ph.getID());
+                killPlayer(ph);
                 killedHandlers.add(ph);
             }
         }
@@ -117,7 +121,7 @@ public class GameServices {
             }
         }
 
-        playerHandlers.removeAll(killedHandlers);
+        //playerHandlers.removeAll(killedHandlers);
         gameEnvironment.getMap().removeAll(deletedObjects);
         gameEnvironment.getMap().addAll(addedObjects);
         gameEnvironment.addAnimation(destruction);

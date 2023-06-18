@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-/**
- * TODO
- * Parser pobiera z pliku w folderze "assets" plik tekstowy
- * mapy i zamienia znaki na obiekty
- */
+
 public class Parser {
 
     public static void loadMapFromFile(String Pathname, Map map) {
@@ -34,6 +30,7 @@ public class Parser {
         }
         Random random = new Random();
         int rand = 0;
+        int playerSpawnCounter = 1;
 
         rand = random.nextInt(results.size());
 
@@ -85,6 +82,12 @@ public class Parser {
                     map.addFloor(y, array[x].length - 1 - x);
                 } else if (array[x][y] == '+') {
                     map.addDestructibleWall(y, array[x].length - 1 - x);
+                } else if (array[x][y] == 'R') {
+                    if (playerSpawnCounter > 4) {
+                        throw new RuntimeException("Too many players");
+                    }
+                    map.addSpawn(y, array[x].length - 1 - x, playerSpawnCounter);
+                    playerSpawnCounter++;
                 }
             }
         }

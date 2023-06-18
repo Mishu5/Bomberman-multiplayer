@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.bomberman.common.utils.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static com.bomberman.common.utils.GraphicUtils.*;
 
-public class Destruction {
+public class Destruction implements Serializable {
     private final Pair center;
     private Pair top;
     private Pair bottom;
@@ -95,12 +96,13 @@ public class Destruction {
     }
 }
 
-class DestructionTexture {
+class DestructionTexture implements Serializable {
     Pair position;
     Texture texture;
+
     DestructionTexture(int x, int y, String texturePath) {
         this.position = new Pair(x, y);
         texture = getTexture(texturePath);
     }
-
 }
+

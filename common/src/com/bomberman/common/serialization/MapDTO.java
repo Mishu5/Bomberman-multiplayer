@@ -1,9 +1,6 @@
 package com.bomberman.common.serialization;
 
-import com.bomberman.common.model.Bomb;
-import com.bomberman.common.model.MapObject;
-import com.bomberman.common.model.Player;
-import com.bomberman.common.model.Map;
+import com.bomberman.common.model.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ public class MapDTO implements Serializable {
     private ArrayList<MapObject> map;
     private ArrayList<Bomb> bombs;
     private ArrayList<Player> players;
+    private ArrayList<Destruction> destructionEvents;
     private double currentGameTime;
     private boolean gameStarted;
 
@@ -24,6 +22,7 @@ public class MapDTO implements Serializable {
         map = new ArrayList<>();
         bombs = new ArrayList<>();
         players = new ArrayList<>();
+        destructionEvents = new ArrayList<>();
         this.packageID = packageID;
     }
 
@@ -35,8 +34,11 @@ public class MapDTO implements Serializable {
         players.addAll(map.getPlayers());
         this.map.addAll(map.getMap());
         bombs.addAll(map.getBombs());
+        destructionEvents.addAll(map.getDestructions());
+        map.getDestructions().clear();
         currentGameTime = map.getGameTime();
         gameStarted = map.getGameStarted();
+
     }
 
     public ArrayList<MapObject> getMap() {
@@ -49,6 +51,10 @@ public class MapDTO implements Serializable {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public ArrayList<Destruction> getDestructionEvents() {
+        return destructionEvents;
     }
 
     public double getCurrentGameTime() {

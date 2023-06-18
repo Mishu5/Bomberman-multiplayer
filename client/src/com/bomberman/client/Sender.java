@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.bomberman.common.utils.EngineUtils.CLIENT_SENDER_DELAY;
+import static com.bomberman.common.utils.ClientServerCommunicationUtils.CLIENT_SENDER_DELAY;
 import static java.lang.Thread.sleep;
 
 public class Sender extends Thread {
