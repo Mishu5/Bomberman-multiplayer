@@ -10,7 +10,6 @@ public class Player extends MapObject {
 
     private int movementCoolDown;
     private int bombCoolDown;
-
     private boolean alive;
 
     public Player(int positionX, int positionY, int playerID) {
