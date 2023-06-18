@@ -55,6 +55,7 @@ public class Map {
     public void addFloor(int positionX, int positionY) {
         map.add(new Floor(positionX, positionY));
     }
+    public void addSpawn(int positionX, int positionY,int spawnId) {map.add(new Spawn(positionX, positionY,spawnId));}
     public void addAnimation(Destruction destruction) {
         destructions.add(destruction);
     }

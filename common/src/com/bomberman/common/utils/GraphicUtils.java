@@ -18,6 +18,7 @@ public class GraphicUtils {
     public static final String PLAYER_TEXTURE = "1.png";
     public static final String POWER_UP_TEXTURE = "powerup.png";
     public static final String WALL_TEXTURE = "wall.png";
+    public static final String SPAWN_TEXTURE = "spawn.png";
     public static final String DESTRUCTIBLE_WALL_TEXTURE = "destwall.png";
     public static final String DESTRUCTION_CENTER = "bomb_center.png";
     public static final String DESTRUCTION_LEFT = "bomb_l.png";
