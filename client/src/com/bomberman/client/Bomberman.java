@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 import static com.bomberman.common.utils.GraphicUtils.CURSOR;
 
@@ -17,11 +16,6 @@ public class Bomberman extends Game {
         Menu menu = new Menu(this);
         frontScreen = menu;
         setScreen(menu);
-        Pixmap pixmap = new Pixmap(Gdx.files.internal(CURSOR));
-        int xHotspot = 15, yHotspot = 15;
-        Cursor cursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot);
-        pixmap.dispose();
-        Gdx.graphics.setCursor(cursor);
     }
 
     @Override
@@ -42,6 +36,7 @@ public class Bomberman extends Game {
 
     public void startGame() {
         GameArea gameArea = new GameArea(this);
+        frontScreen.dispose();
         frontScreen = gameArea;
         setScreen(gameArea);
     }

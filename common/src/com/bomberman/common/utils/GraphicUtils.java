@@ -31,6 +31,8 @@ public class GraphicUtils {
     public static final String DESTRUCTION_LEFT_END = "bomb_l_end.png";
     public static final String DESTRUCTION_RIGHT_END = "bomb_r_end.png";
     public static final String CURSOR = "cursor.png";
+    public static final String MENU = "menu.png";
+
 
 
     public static int getBlockSize() {

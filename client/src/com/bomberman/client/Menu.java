@@ -2,7 +2,9 @@ package com.bomberman.client;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,20 +14,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import static com.bomberman.common.utils.GraphicUtils.SKIN;
+import static com.bomberman.common.utils.GraphicUtils.*;
 
 public class Menu implements Screen {
-    private Bomberman game;
-    private Stage stage;
-    //private Sprite background;
-    private Texture backgroundTexture;
-    private SpriteBatch sprite;
+    private final Bomberman game;
+    private final Stage stage;
+    private final Texture backgroundTexture;
+    private final SpriteBatch sprite;
     public Menu(Bomberman game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         sprite = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
-        backgroundTexture = new Texture("../assets/menu.png");
+        backgroundTexture = new Texture(MENU);
+        Pixmap pixmap = new Pixmap(Gdx.files.internal(CURSOR));
+        int xHotspot = 15, yHotspot = 15;
+        Cursor cursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot);
+        pixmap.dispose();
+        Gdx.graphics.setCursor(cursor);
     }
 
     @Override
@@ -76,22 +82,13 @@ public class Menu implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
-
+    public void hide() {}
     @Override
     public void dispose() {
-
+        backgroundTexture.dispose();
     }
 }
