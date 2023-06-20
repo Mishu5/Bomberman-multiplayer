@@ -33,19 +33,28 @@ public class SidePanel implements Screen {
         backgroundTexture = new Texture(PANEL);
     }
 
-    void draw(SpriteBatch batch, Stage stage, boolean isOffline) {
+    void draw(SpriteBatch batch, Stage stage, boolean isOffline, int playerID) {
         batch.setProjectionMatrix(camera.combined);
-        //Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         stage.draw();
         batch.draw(
                 backgroundTexture,
-                (int)(WINDOW_HEIGHT / 2),
+                (int)(WINDOW_HEIGHT * 0.5),
                 0,
-                200,
+                (int)(WINDOW_HEIGHT * 0.005 * SIDE_PANEL_PART),
                 Gdx.graphics.getHeight()
         );
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(false);
+        stage.addActor(table);
+
+        table.row().pad(15, 0, 10, 0);
+        TextButton newGameBtn = new TextButton("New Game", SKIN);
+        table.add(newGameBtn).fillX().uniformX();
+        table.row().pad(25, 0, 10, 0);
+        TextButton exitBtn = new TextButton("Exit", SKIN);
+        table.add(exitBtn).fillX().uniformX();
         render(0);
         batch.end();
     }
@@ -60,19 +69,7 @@ public class SidePanel implements Screen {
     }
 
     @Override
-    public void show() {
-        Table table = new Table();
-        table.setFillParent(true);
-        table.setDebug(false);
-        stage.addActor(table);
-
-        table.row().pad(15, 0, 10, 0);
-        TextButton newGameBtn = new TextButton("New Game", SKIN);
-        table.add(newGameBtn).fillX().uniformX();
-        table.row().pad(25, 0, 10, 0);
-        TextButton exitBtn = new TextButton("Exit", SKIN);
-        table.add(exitBtn).fillX().uniformX();
-    }
+    public void show() {}
     @Override
     public void pause() {}
     @Override

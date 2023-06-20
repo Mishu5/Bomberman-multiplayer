@@ -76,7 +76,7 @@ public class GameArea implements Screen, GameView{
         batch.end();
 
         //Right-side panel
-        sidePanel.draw(batch, stage, isOffline);
+        sidePanel.draw(batch, stage, isOffline, clientServices.getPlayerId());
 
         //Input
         playerClick();
