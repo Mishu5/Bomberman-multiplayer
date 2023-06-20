@@ -3,7 +3,7 @@ package com.bomberman.common.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
 
 import java.util.HashMap;
 
@@ -21,14 +21,14 @@ public class GraphicUtils {
     public static final String SPAWN_TEXTURE = "spawn.png";
     public static final String DESTRUCTIBLE_WALL_TEXTURE = "destwall.png";
     public static final String BOMB_TEXTURE = "bomb/bomb.png";
-    public static final String BOMB_TICKS[] = { "bomb/bomb_1.png",
-            "bomb/bomb_2.png","bomb/bomb_3.png","bomb/bomb_4.png","bomb/bomb_5.png"};
+    public static final String[] BOMB_TICKS = {"bomb/bomb_1.png",
+            "bomb/bomb_2.png", "bomb/bomb_3.png", "bomb/bomb_4.png", "bomb/bomb_5.png"};
     public static final String DESTRUCTION_CENTER = "bomb/bomb_center.png";
     public static final String DESTRUCTION_LEFT = "bomb/bomb_l.png";
     public static final String DESTRUCTION_RIGHT = "bomb/bomb_r.png";
     public static final String DESTRUCTION_BOTTOM = "bomb/bomb_b.png";
     public static final String DESTRUCTION_TOP = "bomb/bomb_t.png";
-    public static final String DESTRUCTION_TOP_END= "bomb/bomb_t_end.png";
+    public static final String DESTRUCTION_TOP_END = "bomb/bomb_t_end.png";
     public static final String DESTRUCTION_BOTTOM_END = "bomb/bomb_b_end.png";
     public static final String DESTRUCTION_LEFT_END = "bomb/bomb_l_end.png";
     public static final String DESTRUCTION_RIGHT_END = "bomb/bomb_r_end.png";
@@ -50,7 +50,7 @@ public class GraphicUtils {
     private static final HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
     static public Texture getTexture(String path) {
-        if(textures.containsKey(path)) return textures.get(path);
+        if (textures.containsKey(path)) return textures.get(path);
         Pixmap placeholderPixmap = new Pixmap(Gdx.files.internal(path));
         Pixmap outputPixmap = new Pixmap(BLOCK_SIZE, BLOCK_SIZE, placeholderPixmap.getFormat());
         outputPixmap.drawPixmap(placeholderPixmap,

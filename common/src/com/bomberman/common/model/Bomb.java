@@ -15,11 +15,15 @@ public class Bomb extends MapObject {
     public int getBombRadius() {
         return this.bombRadius;
     }
+
     public void bombTick() {
         texture = null;
         timer = Math.max(0, timer - 1);
-        if(timer == 0 || timer > BOMB_TICKS.length) texturePath = BOMB_TEXTURE;
+        if (timer == 0 || timer > BOMB_TICKS.length) texturePath = BOMB_TEXTURE;
         else texturePath = BOMB_TICKS[timer - 1];
     }
-    public int getTimer() { return timer; }
+
+    public int getTimer() {
+        return timer;
+    }
 }

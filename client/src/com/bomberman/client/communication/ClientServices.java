@@ -15,14 +15,9 @@ import static com.bomberman.common.utils.EngineUtils.OFFLINE_PLAYER_INDEX;
 
 public class ClientServices {
 
-    private final int PORT = 21370;
-
-    private Map map;
+    private final Map map;
     private Receiver receiver;
     private Sender sender;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private ObjectInputStream in;
     private final AtomicBoolean isConnected;
 
     public ClientServices(Map map) {
@@ -32,13 +27,15 @@ public class ClientServices {
 
     public void connectToServer() {
         String ip = getIp(CONFIG_PATH);
+        PrintWriter out;
+        ObjectInputStream in;
         try {
             //connect to server
-            clientSocket = new Socket(ip, 21370);
+            Socket clientSocket = new Socket(ip, 21370);
             in = new ObjectInputStream(clientSocket.getInputStream());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (Exception e) {
-            //e.printStackTrace();
+
             return;
         }
         isConnected.set(true);
@@ -53,7 +50,7 @@ public class ClientServices {
     }
 
     private String getIp(String filename) {
-        String ip = null;
+        String ip;
         File config;
         Scanner file;
         try {

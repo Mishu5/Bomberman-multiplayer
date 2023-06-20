@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 public class MapDTO implements Serializable {
 
-    private ArrayList<MapObject> map;
-    private ArrayList<Bomb> bombs;
-    private ArrayList<Player> players;
-    private ArrayList<Destruction> destructionEvents;
+    private final ArrayList<MapObject> map;
+    private final ArrayList<Bomb> bombs;
+    private final ArrayList<Player> players;
+    private final ArrayList<Destruction> destructionEvents;
     private double currentGameTime;
     private boolean gameStarted;
 
-    private int packageID;
+    private final int packageID;
 
     private int playerId;
 

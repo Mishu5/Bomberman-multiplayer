@@ -1,6 +1,6 @@
 package com.bomberman.common.events;
 
-public class StartGameEvent implements Event{
+public class StartGameEvent implements Event {
 
     private final int playerID;
 

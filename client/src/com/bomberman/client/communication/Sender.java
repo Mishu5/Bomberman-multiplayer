@@ -1,12 +1,10 @@
 package com.bomberman.client.communication;
 
-import java.io.OutputStream;
+
 import java.io.PrintWriter;
-import java.util.concurrent.Semaphore;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.bomberman.common.utils.ClientServerCommunicationUtils.CLIENT_SENDER_DELAY;
-import static java.lang.Thread.sleep;
 
 public class Sender extends Thread {
     private String packet;
@@ -21,9 +19,9 @@ public class Sender extends Thread {
 
     @Override
     public void run() {
-        while(isRunning.get()) {
+        while (isRunning.get()) {
             try {
-                if(packet != null) {
+                if (packet != null) {
                     outputStream.println(packet);
                     packet = null;
                 }

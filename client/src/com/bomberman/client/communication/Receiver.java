@@ -6,14 +6,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bomberman.common.serialization.MapDTO;
 import com.bomberman.common.model.Map;
-import com.bomberman.common.utils.EngineUtils;
+
 
 import static com.bomberman.common.utils.ClientServerCommunicationUtils.CLIENT_RECEIVER_DELAY;
 
 public class Receiver extends Thread {
 
-    private ObjectInputStream in;
-    private Map map;
+    private final ObjectInputStream in;
+    private final Map map;
     private int playerId;
     private final AtomicBoolean isRunning;
 

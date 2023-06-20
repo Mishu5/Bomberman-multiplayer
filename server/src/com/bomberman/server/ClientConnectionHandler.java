@@ -4,7 +4,7 @@ import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.model.Player;
 import com.bomberman.common.model.Spawn;
-import com.bomberman.common.serialization.Parser;
+
 
 import java.util.ArrayList;
 
@@ -15,23 +15,14 @@ import java.net.*;
 
 public class ClientConnectionHandler extends Thread {
 
-    private GameServices gameEngine;
-    private final int MAX_PLAYER_COUNT = 4;
-    private final int SOCKET_INITIALIZATION_ERROR = 1;
-    private final int SOCKET_CLIENT_ACCEPTANCE_ERROR = 2;
-    private final int OUTPUT_STREAM_CREATION_ERROR = 3;
-    private final int BUFFERED_READER_CREATION_ERROR = 4;
-    private final int SOCKET_CLIENT_DENY_ERROR = 5;
+    private final GameServices gameEngine;
 
-    //server socket related
-    private final int PORT = 21370;
     private ServerSocket serverSocket;
     private Socket clientSocket;
-    private ArrayList<ObjectOutputStream> outputs;
+    private final ArrayList<ObjectOutputStream> outputs;
 
     //server clients threads
-    private ArrayList<ClientHandlerThread> clientThreads;
-    private ClientPackageSenderThread sender;
+    private final ArrayList<ClientHandlerThread> clientThreads;
 
     public ClientConnectionHandler(GameServices gameEngine) {
         this.gameEngine = gameEngine;
@@ -43,7 +34,7 @@ public class ClientConnectionHandler extends Thread {
 
         initializeSockets();
 
-        sender = new ClientPackageSenderThread(outputs, gameEngine);
+        ClientPackageSenderThread sender = new ClientPackageSenderThread(outputs, gameEngine);
         sender.start();
 
         System.out.println("Waiting for players...");
@@ -54,6 +45,7 @@ public class ClientConnectionHandler extends Thread {
 
             //checking for available slots
             int currentPlayerCount = gameEngine.getMap().getPlayers().size();
+            int MAX_PLAYER_COUNT = 4;
             if (currentPlayerCount == MAX_PLAYER_COUNT) {
                 denyPlayer();
                 continue;
@@ -87,8 +79,11 @@ public class ClientConnectionHandler extends Thread {
 
     private void initializeSockets() {
         try {
+            //server socket related
+            int PORT = 21370;
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
+            int SOCKET_INITIALIZATION_ERROR = 1;
             exit(SOCKET_INITIALIZATION_ERROR);
         }
     }
@@ -99,6 +94,7 @@ public class ClientConnectionHandler extends Thread {
             clientSocket = serverSocket.accept();
         } catch (IOException e) {
             System.out.println("Failed to accept client");
+            int SOCKET_CLIENT_ACCEPTANCE_ERROR = 2;
             exit(SOCKET_CLIENT_ACCEPTANCE_ERROR);
         }
 
@@ -109,6 +105,7 @@ public class ClientConnectionHandler extends Thread {
             clientSocket.close();
         } catch (IOException e) {
             System.out.println("Failed to deny client");
+            int SOCKET_CLIENT_DENY_ERROR = 5;
             exit(SOCKET_CLIENT_DENY_ERROR);
         }
     }
@@ -121,6 +118,7 @@ public class ClientConnectionHandler extends Thread {
             tempObjectOutputStreamHolder = new ObjectOutputStream(playerSocket.getOutputStream());
         } catch (IOException e) {
             System.out.println("Error in creating output stream");
+            int OUTPUT_STREAM_CREATION_ERROR = 3;
             exit(OUTPUT_STREAM_CREATION_ERROR);
         }
         return tempObjectOutputStreamHolder;
@@ -135,6 +133,7 @@ public class ClientConnectionHandler extends Thread {
             tempBufferedReaderHolder = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (IOException e) {
             System.out.println("Error in creating buffered reader");
+            int BUFFERED_READER_CREATION_ERROR = 4;
             exit(BUFFERED_READER_CREATION_ERROR);
         }
 
