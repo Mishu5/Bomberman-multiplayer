@@ -9,6 +9,7 @@ public class ClientServerCommunicationUtils {
     public static final int BOMB_TICK_DELAY = 1000;
     public static final int CLIENT_SENDER_DELAY = 150;
     public static final int CLIENT_RECEIVER_DELAY = 50;
+    public static final String CONFIG_PATH = "config.txt";
 
     public enum Token{
         UP,

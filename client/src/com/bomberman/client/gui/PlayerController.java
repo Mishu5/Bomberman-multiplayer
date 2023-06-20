@@ -1,12 +1,13 @@
-package com.bomberman.client;
+package com.bomberman.client.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.bomberman.client.communication.ClientServices;
 import com.bomberman.common.engine.PlayerHandler;
 import com.bomberman.common.utils.EngineUtils;
 
-import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.exit;
 import static com.bomberman.common.utils.ClientServerCommunicationUtils.*;
+import static java.lang.System.exit;
 
 public class PlayerController {
     ClientServices clientServices;
@@ -28,8 +29,10 @@ public class PlayerController {
             clientServices.post(communicationDictionary.get(Token.BOMB));
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
             clientServices.post(communicationDictionary.get(Token.START_GAME));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             Gdx.app.exit();
+            exit(0);
+        }
     }
 
     public void serviceControllerOffline(PlayerHandler playerHandler) {
@@ -45,7 +48,9 @@ public class PlayerController {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
             playerHandler.putBombAttempt();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) return;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             Gdx.app.exit();
+            exit(0);
+        }
     }
 }

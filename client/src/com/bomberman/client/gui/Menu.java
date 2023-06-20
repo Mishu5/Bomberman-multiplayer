@@ -1,4 +1,4 @@
-package com.bomberman.client;
+package com.bomberman.client.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.bomberman.client.Bomberman;
+import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.GraphicUtils.*;
 
-public class Menu implements Screen {
+public class Menu implements Screen, GameView {
     private final Bomberman game;
     private final Stage stage;
     private final Texture backgroundTexture;
@@ -27,11 +29,6 @@ public class Menu implements Screen {
         sprite = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
         backgroundTexture = new Texture(MENU);
-        Pixmap pixmap = new Pixmap(Gdx.files.internal(CURSOR));
-        int xHotspot = 15, yHotspot = 15;
-        Cursor cursor = Gdx.graphics.newCursor(pixmap, xHotspot, yHotspot);
-        pixmap.dispose();
-        Gdx.graphics.setCursor(cursor);
     }
 
     @Override
@@ -90,5 +87,10 @@ public class Menu implements Screen {
     @Override
     public void dispose() {
         backgroundTexture.dispose();
+    }
+
+    @Override
+    public EngineUtils.GameState getGameState() {
+        return EngineUtils.GameState.IDLE;
     }
 }

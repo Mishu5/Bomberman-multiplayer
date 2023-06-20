@@ -1,4 +1,4 @@
-package com.bomberman.client;
+package com.bomberman.client.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,49 +7,49 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.bomberman.client.Bomberman;
+import com.bomberman.client.communication.ClientServices;
 import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.model.*;
 import com.bomberman.common.serialization.Parser;
 import com.bomberman.common.utils.EngineUtils;
 
+import static com.bomberman.common.utils.EngineUtils.OFFLINE_PLAYER_INDEX;
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 
-public class GameArea implements Screen {
+public class GameArea implements Screen, GameView{
     private final Camera gameCamera;
-    private final Camera sidebarCamera;
     private final ScreenViewport gameViewport;
-    private final ScreenViewport sidebarViewport;
     private final SpriteBatch batch;
     private final Stage stage;
     private final PlayerController controller;
     private GameServices gameServices;
     private final ClientServices clientServices;
     private final Map map;
-    private final boolean isOffline;
+    private boolean isOffline;
+    private final SidePanel sidePanel;
     private final Bomberman game;
 
-    GameArea(Bomberman game) {
+    public GameArea(Bomberman game) {
         this.game = game;
-
-        //View
-        gameCamera = new PerspectiveCamera();
-        sidebarCamera = new PerspectiveCamera();
-        gameViewport = new ScreenViewport(gameCamera);
-        sidebarViewport = new ScreenViewport(sidebarCamera);
-        batch = new SpriteBatch();
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
 
         //Create map
         map = new Map();
+
+        //View
+        gameCamera = new PerspectiveCamera();
+        gameViewport = new ScreenViewport(gameCamera);
+        sidePanel = new SidePanel(map);
+        batch = new SpriteBatch();
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCursorPosition(0,0);
 
         //Communication
         clientServices = new ClientServices(map);
         clientServices.connectToServer();
         isOffline = !clientServices.isConnected();
-        if(isOffline) {
-            System.out.println("Server is offline. Try to run server.");
-        }
+        if(isOffline) game.offlineMode();
 
         //Controller
         controller = new PlayerController(clientServices);
@@ -59,60 +59,69 @@ public class GameArea implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void render(float delta) {
-        //Game area
+        checkOnline();
+
+        //Main area
         batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         stage.draw();
 
-        if(isOffline) controller.serviceControllerOffline(gameServices.getPlayerHandler(0));
-        else controller.serviceController();
-
         try {
             map.draw(batch);
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         batch.end();
 
         //Right-side panel
-        batch.setProjectionMatrix(sidebarCamera.combined);
-        batch.begin();
-        batch.end();
+        sidePanel.draw(batch, isOffline);
 
-        //getGameState();
+        //Input
+        playerClick();
     }
 
     @Override
     public void resize(int width, int height) {
         gameViewport.update((int) (width * SIDE_PANEL_PART * 0.01), height);
-        sidebarViewport.update((int) (width * (1 - SIDE_PANEL_PART * 0.01)), height);
+        sidePanel.resize(width, height);
     }
 
     @Override
-    public void pause() {
-
-    }
-
+    public void show() {}
     @Override
-    public void resume() {
-
-    }
-
+    public void pause() {}
     @Override
-    public void hide() {
-
-    }
-
+    public void resume() {}
+    @Override
+    public void hide() {}
     @Override
     public void dispose() {
+        clientServices.disconnect();
         batch.dispose();
     }
 
+    private void runGameOffline() {
+        Parser.loadMapFromFile("../assets", map);
+        map.setGameStatus(true);
+        gameServices = new GameServices(map);
+
+        for (MapObject obiekt : map.getMap()) {
+            if (obiekt instanceof Spawn) {
+                Spawn spawn = (Spawn) obiekt;
+                gameServices.addPlayer(new Player(spawn.getPositionX(), spawn.getPositionY(), spawn.getSpawnID()));
+            }
+        }
+    }
+
+    private void playerClick() {
+        if(isOffline)
+            controller.serviceControllerOffline(gameServices.getPlayerHandler(OFFLINE_PLAYER_INDEX));
+        else controller.serviceController();
+    }
+
+    @Override
     public EngineUtils.GameState getGameState() {
         if(map.getPlayers() == null) return EngineUtils.GameState.IDLE;
         if(map.getPlayers().size() == 1) {
@@ -132,17 +141,11 @@ public class GameArea implements Screen {
         return EngineUtils.GameState.RUNNING;
     }
 
-    private void runGameOffline() {
-        Parser.loadMapFromFile("../assets", map);
-        map.setGameStatus(true);
-        gameServices = new GameServices(map);
-
-        //Szybka funkcja do spawnowania graczy na ich miejscach, nie wiem gdzie ja chcecie przeniesc xD
-        for (MapObject obiekt : map.getMap()) {
-            if (obiekt instanceof Spawn) {
-                Spawn spawn = (Spawn) obiekt;
-                gameServices.addPlayer(new Player(spawn.getPositionX(), spawn.getPositionY(), spawn.getSpawnID()));
-            }
+    private void checkOnline() {
+        if(isOffline) return;
+        if(!clientServices.isConnected()) {
+            isOffline = false;
+            game.disconnectGame();
         }
     }
 }

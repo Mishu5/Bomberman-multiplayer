@@ -1,4 +1,4 @@
-package com.bomberman.client;
+package com.bomberman.client.communication;
 
 import com.bomberman.common.serialization.MapDTO;
 

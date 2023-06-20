@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import static com.bomberman.common.utils.EngineUtils.DETONATION_TIME;
 import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
 import static java.lang.Thread.sleep;
 
@@ -13,11 +14,8 @@ public class Map {
     private ArrayList<MapObject> map;
     private ArrayList<Bomb> bombs;
     private ArrayList<Player> players;
-
     private ArrayList<Destruction> destructions;
-
     private double gameTime;
-
     private boolean gameStarted;
 
     public Map() {
@@ -146,9 +144,9 @@ public class Map {
     synchronized public void draw(SpriteBatch batch) throws InterruptedException {
         semaphore.acquire();
         for (MapObject obj : map) obj.draw(batch);
-        for (MapObject obj : bombs) obj.draw(batch);
-        for (MapObject obj : players) obj.draw(batch);
         serviceAnimations(batch);
+        for (MapObject obj : players) obj.draw(batch);
+        for (MapObject obj : bombs) obj.draw(batch);
         semaphore.release();
     }
 
@@ -177,16 +175,17 @@ public class Map {
     }
 
     public void serviceAnimations(SpriteBatch batch) {
+        //Destruction animation
         destructions.forEach((it) -> {
             if (it.isAnimationStarted()) it.draw(batch);
             else {
                 Thread animationThread = new Thread(() -> {
-                    float animationFrame = 0.1f;
-                    float counter = 0f;
+                    float delta = 0.1f;
+                    float frame = 0f;
                     try {
-                        while (counter < DESTRUCTION_ANIMATION_TIME) {
-                            sleep((long) (animationFrame * 1000));
-                            counter += animationFrame;
+                        while (frame < DESTRUCTION_ANIMATION_TIME) {
+                            sleep((long) (delta * 1000));
+                            frame += delta;
                         }
                         destructions.remove(it);
                     } catch (InterruptedException e) {

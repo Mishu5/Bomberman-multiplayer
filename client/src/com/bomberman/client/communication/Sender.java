@@ -1,4 +1,4 @@
-package com.bomberman.client;
+package com.bomberman.client.communication;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
