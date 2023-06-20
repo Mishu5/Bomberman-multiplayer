@@ -32,15 +32,12 @@ public class ClientHandlerThread extends Thread {
 
     synchronized public void run() {
 
-        System.out.println("Client " + playerHandler.getID() + " listener");
+        System.out.println("Client " + playerHandler.getID() + " listener started...");
 
         while (true) {
 
             int currentClientInput = getInputFromPlayer();
             if (currentClientInput == INPUT_RECEIVING_ERROR) {
-                /**
-                 * TOOD remove player
-                 */
                 return;
             }
 

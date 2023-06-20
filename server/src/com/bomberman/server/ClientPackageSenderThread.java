@@ -19,10 +19,12 @@ public class ClientPackageSenderThread extends Thread {
 
     private ArrayList<ObjectOutputStream> outputs;
     private GameServices gameEngine;
+    private ArrayList<ObjectOutputStream> disconnected;
 
     public ClientPackageSenderThread(ArrayList<ObjectOutputStream> outputs, GameServices gameEngine) {
         this.outputs = outputs;
         this.gameEngine = gameEngine;
+        this.disconnected = new ArrayList<>();
     }
 
     public void run() {
@@ -40,8 +42,6 @@ public class ClientPackageSenderThread extends Thread {
                 System.out.println("Sleep error");
             }
 
-            //System.out.println("Sender- clients connected: " + outputs.size());
-
             if (outputs.isEmpty()) continue;
 
             //creating package
@@ -57,15 +57,18 @@ public class ClientPackageSenderThread extends Thread {
                     outputs.get(i).reset();
                     outputs.get(i).writeUnshared(packageToSend);
                 } catch (IOException e) {
-                    System.out.println("Client #" + i + " write error");
-                    e.printStackTrace();
-                    /**
-                     *TODO add disconnection
-                     */
+                    //Client disconnected
+                    System.out.println("Client #" + i + " disconnected");
+                    disconnected.add(outputs.get(i));
                 }
             }//end for loop
 
-        }
+            while (!disconnected.isEmpty()) {
+                outputs.remove(disconnected.get(0));
+                disconnected.remove(0);
+            }
+
+        }//end while loop
 
     }
 
