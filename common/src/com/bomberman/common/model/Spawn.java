@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.bomberman.common.utils.GraphicUtils;
 
 
+import static com.bomberman.common.utils.GraphicUtils.FLOOR_TEXTURE;
 import static com.bomberman.common.utils.GraphicUtils.SPAWN_TEXTURE;
 
 public class Spawn extends MapObject {
@@ -28,7 +29,7 @@ public class Spawn extends MapObject {
     private int positionY;
     public Spawn(int positionX, int positionY, int spawnID) {
 
-        super(positionX, positionY, false, true, SPAWN_TEXTURE);
+        super(positionX, positionY, false, true, FLOOR_TEXTURE);
         this.spawnID = spawnID;
         this.positionX=positionX;
         this.positionY=positionY;

@@ -13,7 +13,7 @@ public class Player extends MapObject {
     private boolean alive;
 
     public Player(int positionX, int positionY, int playerID) {
-        super(positionX, positionY, true, true, PLAYER_TEXTURE);
+        super(positionX, positionY, true, true, new String(1 + playerID + ".png"));
         this.playerID = playerID;
         this.alive = true;
     }
