@@ -34,9 +34,9 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	},
 	toggle: {
 		font: commodore-64,
-		fontColor: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 },
-		downFontColor: { a: 1, b: 0.90588236, g: 0.25882354, r: 0.25882354 },
-		checkedFontColor: { a: 1, b: 0.90588236, g: 0.25882354, r: 0.25882354 },
+		fontColor: { a: 1, b: 0.16, g: 0.16, r: 0.16 },
+		downFontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 },
+		checkedFontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 },
 		up: button,
 		down: button-down,
 		checked: button-down
@@ -62,12 +62,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
 		background: window,
 		titleFont: commodore-64,
-		titleFontColor: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 }
+		titleFontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 }
 	},
 	dialog: {
 		background: dialog,
 		titleFont: commodore-64,
-		titleFontColor: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 }
+		titleFontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 }
 	},
 	dialog-modal: {
 		background: dialog,
@@ -88,7 +88,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	},
 	nobg: {
 		font: commodore-64,
-		fontColor: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 },
+		fontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 },
 		cursor: cursor,
 		selection: white,
 		messageFont: commodore-64,
@@ -111,7 +111,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	},
 	default: {
 		font: commodore-64,
-		fontColor: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 }
+		fontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 }
 	},
 	error: {
 		font: commodore-64,
@@ -119,15 +119,15 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	},
 	title: {
 		font: commodore-64,
-		fontColor: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 },
+		fontColor: { a: 1, b: 0.52, g: 0.52, r: 0.52 },
 		background: button
 	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
 		font: commodore-64,
-		fontColorSelected: { a: 1, b: 0.90588236, g: 0.25882354, r: 0.25882354 },
-		fontColorUnselected: { a: 1, b: 1, g: 0.64705884, r: 0.64705884 },
+		fontColorSelected: { a: 1, b: 0.52, g: 0.52, r: 0.52 },
+		fontColorUnselected: { a: 1, b: 0.52, g: 0.52, r: 0.52 },
 		selection: white
 	},
 	dimmed: {

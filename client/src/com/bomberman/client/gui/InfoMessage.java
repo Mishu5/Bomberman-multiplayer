@@ -1,14 +1,12 @@
 package com.bomberman.client.gui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,17 +15,22 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.client.Bomberman;
 import com.bomberman.common.utils.EngineUtils;
 
-import static com.bomberman.common.utils.GraphicUtils.*;
-import static java.lang.System.exit;
+import static com.bomberman.common.utils.GraphicUtils.MENU;
+import static com.bomberman.common.utils.GraphicUtils.SKIN;
 
-public class Menu implements Screen, GameView {
+public class InfoMessage implements GameView{
     private final Bomberman game;
     private final Stage stage;
     private final Texture backgroundTexture;
     private final SpriteBatch sprite;
     private final Skin skin;
-    public Menu(Bomberman game) {
+    private final EngineUtils.GameState state;
+    private final String message;
+
+    public InfoMessage(Bomberman game, EngineUtils.GameState state, String message) {
         this.game = game;
+        this.state = state;
+        this.message = message;
         stage = new Stage(new ScreenViewport());
         sprite = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
@@ -37,31 +40,23 @@ public class Menu implements Screen, GameView {
 
     @Override
     public void show() {
-        Table table = new Table();
-        table.setFillParent(true);
-        table.setDebug(false);
-        stage.addActor(table);
+        Table infoTable = new Table();
+        infoTable.setFillParent(true);
+        infoTable.setDebug(false);
+        stage.addActor(infoTable);
 
-        table.row().pad(15, 0, 10, 0);
-        TextButton newGameBtn = new TextButton("New Game", skin);
-        table.add(newGameBtn).fillX().uniformX();
-        table.row().pad(25, 0, 10, 0);
-        TextButton exitBtn = new TextButton("Exit", skin);
-        table.add(exitBtn).fillX().uniformX();
+        infoTable.row().pad(15, 0, 10, 0);
+        Label messageLabel = new Label(message, skin);
+        infoTable.add(messageLabel).fillX().uniformX();
+        infoTable.row().pad(15, 0, 10, 0);
+        TextButton Exit = new TextButton("OK", skin);
+        infoTable.add(Exit).fillX().uniformX();
 
-
-        newGameBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.startGame();
-            }
-        });
-
-        exitBtn.addListener(new ChangeListener() {
+        infoTable.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-                exit(0);
+                if(state == EngineUtils.GameState.IDLE) game.resumeGame();
+                else game.runMenu();
             }
         });
     }

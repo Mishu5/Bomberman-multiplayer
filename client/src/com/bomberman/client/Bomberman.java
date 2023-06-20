@@ -6,12 +6,15 @@ import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.bomberman.client.gui.GameArea;
 import com.bomberman.client.gui.GameView;
+import com.bomberman.client.gui.InfoMessage;
 import com.bomberman.client.gui.Menu;
+import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.GraphicUtils.CURSOR;
 
 public class Bomberman extends Game {
     private GameView frontScreen;
+    private GameView backgroundScreen;
 
     @Override
     public void create() {
@@ -25,7 +28,22 @@ public class Bomberman extends Game {
 
     @Override
     public void render() {
-        frontScreen.getGameState();
+        EngineUtils.GameState gameState = frontScreen.getGameState();
+        switch (gameState) {
+            case WIN:
+                infoMessage(gameState, "You won the game!");
+                break;
+            case LOSS:
+                infoMessage(gameState, "You lost the game!");
+                break;
+            case DISCONNECTED:
+                infoMessage(gameState, "You have been disconnected.");
+                break;
+            case OFFLINE_NOTIFICATION:
+                offlineMode();
+            default:
+                break;
+        }
         frontScreen.render(0f);
     }
 
@@ -40,8 +58,9 @@ public class Bomberman extends Game {
         frontScreen.resize(width, height);
     }
 
-    private void runMenu() {
+    public void runMenu() {
         Menu menu = new Menu(this);
+        if(frontScreen != null) frontScreen.dispose();
         frontScreen = menu;
         setScreen(menu);
     }
@@ -53,13 +72,43 @@ public class Bomberman extends Game {
         setScreen(gameArea);
     }
 
-    public void disconnectGame() {
-        System.out.println("Client has been disconnected.");
+    public void resumeGame() {
         frontScreen.dispose();
-        runMenu();
+        frontScreen = backgroundScreen;
+        setScreen(frontScreen);
+        frontScreen.resume();
+    }
+
+    public void disconnectGame() {
+        InfoMessage infoMessage = new InfoMessage(
+                this,
+                EngineUtils.GameState.DISCONNECTED,
+                "Client has been disconnected."
+        );
+        if(frontScreen != null) frontScreen.dispose();
+        frontScreen = infoMessage;
+        setScreen(infoMessage);
     }
 
     public void offlineMode() {
-        System.out.println("Server is offline. Try to run server.");
+        InfoMessage infoMessage = new InfoMessage(
+                this,
+                EngineUtils.GameState.IDLE,
+                "Server is unavailable.\nGame will start offline."
+        );
+        backgroundScreen = frontScreen;
+        frontScreen = infoMessage;
+        setScreen(infoMessage);
+    }
+
+    public void infoMessage(EngineUtils.GameState state, String message) {
+        InfoMessage infoMessage = new InfoMessage(
+                this,
+                state,
+                message
+        );
+        if(frontScreen != null) frontScreen.dispose();
+        frontScreen = infoMessage;
+        setScreen(infoMessage);
     }
 }

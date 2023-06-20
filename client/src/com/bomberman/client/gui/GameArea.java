@@ -14,9 +14,8 @@ import com.bomberman.common.model.*;
 import com.bomberman.common.serialization.Parser;
 import com.bomberman.common.utils.EngineUtils;
 
-import static com.bomberman.common.utils.EngineUtils.GameState.IDLE;
+import static com.bomberman.common.utils.EngineUtils.GameState.*;
 import static com.bomberman.common.utils.EngineUtils.OFFLINE_PLAYER_INDEX;
-import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 
 public class GameArea implements Screen, GameView{
     private final Camera gameCamera;
@@ -52,7 +51,6 @@ public class GameArea implements Screen, GameView{
         clientServices = new ClientServices(map);
         clientServices.connectToServer();
         isOffline = !clientServices.isConnected();
-        if(isOffline) game.offlineMode();
 
         //Controller
         controller = new PlayerController(clientServices);
@@ -97,7 +95,9 @@ public class GameArea implements Screen, GameView{
     @Override
     public void pause() {}
     @Override
-    public void resume() {}
+    public void resume() {
+        state = IDLE;
+    }
     @Override
     public void hide() {}
     @Override
@@ -106,7 +106,17 @@ public class GameArea implements Screen, GameView{
         batch.dispose();
     }
 
+    private void playerClick() {
+        if(isOffline)
+           state = controller.serviceControllerOffline(
+                   state,
+                   gameServices.getPlayerHandler(OFFLINE_PLAYER_INDEX)
+           );
+        else state = controller.serviceController(state);
+    }
+
     private void runGameOffline() {
+        state = OFFLINE_NOTIFICATION;
         Parser.loadMapFromFile("../assets", map);
         map.setGameStatus(true);
         gameServices = new GameServices(map);
@@ -119,27 +129,25 @@ public class GameArea implements Screen, GameView{
         }
     }
 
-    private void playerClick() {
-        if(isOffline)
-            controller.serviceControllerOffline(gameServices.getPlayerHandler(OFFLINE_PLAYER_INDEX));
-        else controller.serviceController();
-    }
-
     public void checkGameState() {
+        if(state == DISCONNECTED) return;
         if(!map.getGameStarted()) {
             state = EngineUtils.GameState.IDLE;
             return;
         }
         if(map.getPlayers().size() == 1) {
-            if(map.getPlayer(0).getPlayerID() == clientServices.getPlayerId()) {
-                state = EngineUtils.GameState.WIN;
-            }
-            else {
-                state = EngineUtils.GameState.LOSS;
-            }
+            if(map.getPlayer(0).getPlayerID() == clientServices.getPlayerId())
+                state = WIN;
+            else state = LOSS;
             return;
         }
-        state = EngineUtils.GameState.RUNNING;
+        for(Player p : map.getPlayers()) {
+            if(p.getPlayerID() == clientServices.getPlayerId()){
+                state = RUNNING;
+                return;
+            }
+        }
+        state = LOSS;
     }
 
     @Override
@@ -149,6 +157,7 @@ public class GameArea implements Screen, GameView{
         if(isOffline) return;
         if(!clientServices.isConnected()) {
             isOffline = false;
+            state = DISCONNECTED;
             game.disconnectGame();
         }
     }
