@@ -64,7 +64,7 @@ public class ClientConnectionHandler extends Thread {
             outputs.add(tempObjectOutputStream);
 
             //creating player
-            Spawn tempSpawnHolder = gameEngine.getMap().getSpawn(currentPlayerCount);
+            Spawn tempSpawnHolder = gameEngine.getMap().getSpawn(currentPlayerCount - 1);
             PlayerHandler currentPlayerHandler = gameEngine.addPlayer(new Player(tempSpawnHolder.getPositionX(), tempSpawnHolder.getPositionY(), currentPlayerCount));
 
             //creating and starting new thread
