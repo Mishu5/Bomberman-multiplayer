@@ -30,7 +30,7 @@ public class Parser {
         }
         Random random = new Random();
         int rand = 0;
-        int playerSpawnCounter = 1;
+        int playerSpawnCounter = 0;
 
         rand = random.nextInt(results.size());
 

@@ -55,19 +55,7 @@ public class GameArea implements Screen {
         controller = new PlayerController(clientServices);
 
         //Offline mode
-        if(!isOffline) return;
-        Parser.loadMapFromFile("../assets", map);
-        map.setGameStatus(true);
-        gameServices = new GameServices(map);
-
-//        //Szybka funkcja do spawnowania graczy na ich miejscach, nie wiem gdzie ja chcecie przeniesc xD
-//        for (MapObject obiekt : map.getMap()) {
-//            if (obiekt instanceof Spawn) {
-//                Spawn spawn = (Spawn) obiekt;
-//
-//                gameServices.addPlayer(new Player(spawn.getPositionX(), spawn.getPositionY(), spawn.getSpawnID()));
-//            }
-//        }
+        if(isOffline) runGameOffline();
     }
 
     @Override
@@ -82,7 +70,7 @@ public class GameArea implements Screen {
         batch.begin();
         stage.draw();
 
-        if(isOffline) controller.serviceControllerOffline(gameServices.getPlayerHandler(1));
+        if(isOffline) controller.serviceControllerOffline(gameServices.getPlayerHandler(0));
         else controller.serviceController();
 
         try {
@@ -142,5 +130,19 @@ public class GameArea implements Screen {
         }
         System.out.println("You died!");
         return EngineUtils.GameState.RUNNING;
+    }
+
+    private void runGameOffline() {
+        Parser.loadMapFromFile("../assets", map);
+        map.setGameStatus(true);
+        gameServices = new GameServices(map);
+
+        //Szybka funkcja do spawnowania graczy na ich miejscach, nie wiem gdzie ja chcecie przeniesc xD
+        for (MapObject obiekt : map.getMap()) {
+            if (obiekt instanceof Spawn) {
+                Spawn spawn = (Spawn) obiekt;
+                gameServices.addPlayer(new Player(spawn.getPositionX(), spawn.getPositionY(), spawn.getSpawnID()));
+            }
+        }
     }
 }

@@ -45,5 +45,7 @@ public class PlayerController {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
             playerHandler.putBombAttempt();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) return;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q))
+            Gdx.app.exit();
     }
 }
