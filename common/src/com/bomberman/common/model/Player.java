@@ -10,14 +10,24 @@ public class Player extends MapObject {
 
     private int movementCoolDown;
     private int bombCoolDown;
+    private boolean alive;
 
     public Player(int positionX, int positionY, int playerID) {
         super(positionX, positionY, true, true, PLAYER_TEXTURE);
         this.playerID = playerID;
+        this.alive = true;
     }
 
     public int getPlayerID() {
         return playerID;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public void move(int x, int y) {
