@@ -76,7 +76,7 @@ public class GameArea implements Screen, GameView{
         batch.end();
 
         //Right-side panel
-        sidePanel.draw(batch, isOffline);
+        sidePanel.draw(batch, stage, isOffline);
 
         //Input
         playerClick();
@@ -84,7 +84,7 @@ public class GameArea implements Screen, GameView{
 
     @Override
     public void resize(int width, int height) {
-        gameViewport.update((int) (width * SIDE_PANEL_PART * 0.01), height);
+        gameViewport.update((int) (width), height);
         sidePanel.resize(width, height);
     }
 
@@ -126,18 +126,18 @@ public class GameArea implements Screen, GameView{
         if(map.getPlayers() == null) return EngineUtils.GameState.IDLE;
         if(map.getPlayers().size() == 1) {
             if(map.getPlayer(0).getPlayerID() == clientServices.getPlayerId()) {
-                System.out.println("You won!");
+                //System.out.println("You won!");
                 return EngineUtils.GameState.WIN;
             }
             else {
-                System.out.println("Player " + map.getPlayer(0).getPlayerID() + " won!");
+                //System.out.println("Player " + map.getPlayer(0).getPlayerID() + " won!");
                 return EngineUtils.GameState.LOSS;
             }
         }
         for(Player p : map.getPlayers()) {
             if(p.getPlayerID() == clientServices.getPlayerId()) return EngineUtils.GameState.RUNNING;
         }
-        System.out.println("You died!");
+        //System.out.println("You died!");
         return EngineUtils.GameState.RUNNING;
     }
 

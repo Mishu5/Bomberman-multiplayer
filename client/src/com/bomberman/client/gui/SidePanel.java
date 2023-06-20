@@ -1,19 +1,22 @@
 package com.bomberman.client.gui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.model.Player;
 
 import java.util.ArrayList;
 
-import static com.bomberman.common.utils.GraphicUtils.MENU;
-import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
+import static com.bomberman.common.utils.GraphicUtils.*;
 
 public class SidePanel implements Screen {
     private final ScreenViewport sidebarViewport;
@@ -27,28 +30,49 @@ public class SidePanel implements Screen {
         sidebarViewport = new ScreenViewport(camera);
         players = map.getPlayers();
         stage = new Stage(sidebarViewport);
-        backgroundTexture = new Texture(MENU);
+        backgroundTexture = new Texture(PANEL);
     }
 
-    void draw(SpriteBatch batch, boolean isOffline) {
+    void draw(SpriteBatch batch, Stage stage, boolean isOffline) {
         batch.setProjectionMatrix(camera.combined);
+        //Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        stage.draw();
+        batch.draw(
+                backgroundTexture,
+                (int)(WINDOW_HEIGHT / 2),
+                0,
+                200,
+                Gdx.graphics.getHeight()
+        );
         render(0);
         batch.end();
     }
 
     @Override
     public void render(float delta) {
-
     }
 
     @Override
     public void resize(int width, int height) {
-        sidebarViewport.update((int) (width * (1 - SIDE_PANEL_PART * 0.01)), height);
+        sidebarViewport.update((int) (width), height);
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(false);
+        stage.addActor(table);
+
+        table.row().pad(15, 0, 10, 0);
+        TextButton newGameBtn = new TextButton("New Game", SKIN);
+        table.add(newGameBtn).fillX().uniformX();
+        table.row().pad(25, 0, 10, 0);
+        TextButton exitBtn = new TextButton("Exit", SKIN);
+        table.add(exitBtn).fillX().uniformX();
+    }
     @Override
     public void pause() {}
     @Override

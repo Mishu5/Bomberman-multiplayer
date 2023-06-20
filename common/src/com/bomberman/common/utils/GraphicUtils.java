@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 public class GraphicUtils {
     public static final int FPS = 60;
-    public static final int SIDE_PANEL_PART = 5;
+    public static final int SIDE_PANEL_PART = 20;
     public static final int WINDOW_HEIGHT = 2000;
-    public static final int WINDOW_WIDTH = 2300;
+    public static final int WINDOW_WIDTH = 2400;
     private static int BLOCK_SIZE = 50;
     public static final float DESTRUCTION_ANIMATION_TIME = 0.2f;
     public static final String FLOOR_TEXTURE = "floor.png";
@@ -34,6 +34,8 @@ public class GraphicUtils {
     public static final String DESTRUCTION_RIGHT_END = "bomb/bomb_r_end.png";
     public static final String CURSOR = "cursor.png";
     public static final String MENU = "menu.png";
+    public static final String PANEL = "panel/sidebar.png";
+
 
     public static int getBlockSize() {
         return BLOCK_SIZE;

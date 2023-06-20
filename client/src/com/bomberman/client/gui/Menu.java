@@ -67,7 +67,6 @@ public class Menu implements Screen, GameView {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprite.begin();
         sprite.draw(backgroundTexture, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //background.draw(sprite);
         sprite.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
