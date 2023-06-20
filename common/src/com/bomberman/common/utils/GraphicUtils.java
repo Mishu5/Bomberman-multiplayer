@@ -13,12 +13,12 @@ public class GraphicUtils {
     public static final int WINDOW_WIDTH = 2400;
     private static int BLOCK_SIZE = 50;
     public static final float DESTRUCTION_ANIMATION_TIME = 0.2f;
-    public static final String FLOOR_TEXTURE = "floor.png";
-    public static final String[] PLAYER_TEXTURES = {"1.png", "2.png", "3.png", "4.png"};
-    public static final String POWER_UP_TEXTURE = "powerup.png";
-    public static final String WALL_TEXTURE = "wall.png";
-    public static final String SPAWN_TEXTURE = "spawn.png";
-    public static final String DESTRUCTIBLE_WALL_TEXTURE = "destwall.png";
+    public static final String[] PLAYER_TEXTURES = {"players/1.png", "players/2.png", "players/3.png", "players/4.png"};
+    public static final String FLOOR_TEXTURE = "objects/floor.png";
+    public static final String POWER_UP_TEXTURE = "objects/powerup.png";
+    public static final String WALL_TEXTURE = "objects/wall.png";
+    public static final String SPAWN_TEXTURE = "objects/spawn.png";
+    public static final String DESTRUCTIBLE_WALL_TEXTURE = "objects/destwall.png";
     public static final String BOMB_TEXTURE = "bomb/bomb.png";
     public static final String[] BOMB_TICKS = { "bomb/bomb_1.png",
             "bomb/bomb_2.png","bomb/bomb_3.png","bomb/bomb_4.png","bomb/bomb_5.png"};
