@@ -1,6 +1,7 @@
 package com.bomberman.common.engine;
 
 import com.bomberman.common.events.BombCreateEvent;
+import com.bomberman.common.events.PlayerDisconnectEvent;
 import com.bomberman.common.events.PlayerMoveEvent;
 import com.bomberman.common.events.StartGameEvent;
 import com.bomberman.common.model.Player;
@@ -66,6 +67,10 @@ public class PlayerHandler {
 
     public void killPlayer() {
         this.player = null;
+    }
+
+    public void disconnected(){
+        listener.notify(new PlayerDisconnectEvent(getPlayerId()));
     }
 }
 

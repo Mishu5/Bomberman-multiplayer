@@ -38,6 +38,7 @@ public class ClientHandlerThread extends Thread {
 
             int currentClientInput = getInputFromPlayer();
             if (currentClientInput == INPUT_RECEIVING_ERROR) {
+                playerHandler.disconnected();
                 return;
             }
 
