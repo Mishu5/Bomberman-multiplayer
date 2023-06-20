@@ -102,7 +102,7 @@ class DestructionTexture implements Serializable {
 
     DestructionTexture(int x, int y, String texturePath) {
         this.position = new Pair(x, y);
-        texture = getTexture(texturePath);
+        texture = getScaledTexture(texturePath);
     }
 }
 

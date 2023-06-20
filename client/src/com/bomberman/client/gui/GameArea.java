@@ -14,6 +14,7 @@ import com.bomberman.common.model.*;
 import com.bomberman.common.serialization.Parser;
 import com.bomberman.common.utils.EngineUtils;
 
+import static com.bomberman.common.utils.EngineUtils.GameState.IDLE;
 import static com.bomberman.common.utils.EngineUtils.OFFLINE_PLAYER_INDEX;
 import static com.bomberman.common.utils.GraphicUtils.SIDE_PANEL_PART;
 
@@ -29,19 +30,21 @@ public class GameArea implements Screen, GameView{
     private boolean isOffline;
     private final SidePanel sidePanel;
     private final Bomberman game;
+    private EngineUtils.GameState state;
 
     public GameArea(Bomberman game) {
         this.game = game;
+        state = IDLE;
 
         //Create map
         map = new Map();
 
         //View
-        gameCamera = new PerspectiveCamera();
-        gameViewport = new ScreenViewport(gameCamera);
-        sidePanel = new SidePanel(map);
         batch = new SpriteBatch();
         stage = new Stage();
+        gameCamera = new PerspectiveCamera();
+        gameViewport = new ScreenViewport(gameCamera);
+        sidePanel = new SidePanel(stage);
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCursorPosition(0,0);
 
@@ -61,6 +64,7 @@ public class GameArea implements Screen, GameView{
     @Override
     public void render(float delta) {
         checkOnline();
+        checkGameState();
 
         //Main area
         batch.setProjectionMatrix(gameCamera.combined);
@@ -76,7 +80,7 @@ public class GameArea implements Screen, GameView{
         batch.end();
 
         //Right-side panel
-        sidePanel.draw(batch, stage, isOffline, clientServices.getPlayerId());
+        sidePanel.draw(batch, isOffline, clientServices.getPlayerId(), map.getPlayers().size(), state);
 
         //Input
         playerClick();
@@ -121,25 +125,25 @@ public class GameArea implements Screen, GameView{
         else controller.serviceController();
     }
 
-    @Override
-    public EngineUtils.GameState getGameState() {
-        if(map.getPlayers() == null) return EngineUtils.GameState.IDLE;
+    public void checkGameState() {
+        if(!map.getGameStarted()) {
+            state = EngineUtils.GameState.IDLE;
+            return;
+        }
         if(map.getPlayers().size() == 1) {
             if(map.getPlayer(0).getPlayerID() == clientServices.getPlayerId()) {
-                //System.out.println("You won!");
-                return EngineUtils.GameState.WIN;
+                state = EngineUtils.GameState.WIN;
             }
             else {
-                //System.out.println("Player " + map.getPlayer(0).getPlayerID() + " won!");
-                return EngineUtils.GameState.LOSS;
+                state = EngineUtils.GameState.LOSS;
             }
+            return;
         }
-        for(Player p : map.getPlayers()) {
-            if(p.getPlayerID() == clientServices.getPlayerId()) return EngineUtils.GameState.RUNNING;
-        }
-        //System.out.println("You died!");
-        return EngineUtils.GameState.RUNNING;
+        state = EngineUtils.GameState.RUNNING;
     }
+
+    @Override
+    public EngineUtils.GameState getGameState() { return state; }
 
     private void checkOnline() {
         if(isOffline) return;
