@@ -45,7 +45,7 @@ public class GraphicUtils {
         BLOCK_SIZE = blockSize;
     }
 
-    public static final Skin SKIN = new Skin(Gdx.files.internal("../assets/skin/uiskin.json"));
+    public static final String SKIN = "../assets/skin/uiskin.json";
 
     private static final HashMap<String, Texture> textures = new HashMap<String, Texture>();
 

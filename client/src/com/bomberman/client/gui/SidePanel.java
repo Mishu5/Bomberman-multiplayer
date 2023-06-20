@@ -24,6 +24,7 @@ public class SidePanel implements Screen {
     private final Stage stage;
     private ArrayList<Player> players;
     private final Texture backgroundTexture;
+    private Table sidebar;
 
     SidePanel(Map map) {
         camera = new PerspectiveCamera();
@@ -31,6 +32,13 @@ public class SidePanel implements Screen {
         players = map.getPlayers();
         stage = new Stage(sidebarViewport);
         backgroundTexture = new Texture(PANEL);
+        sidebar = new Table();
+        sidebar.setFillParent(true);
+        sidebar.setDebug(false);
+        stage.addActor(sidebar);
+
+        sidebar.row().pad(15, 0, 10, 0);
+        sidebar.row().pad(25, 0, 10, 0);
     }
 
     void draw(SpriteBatch batch, Stage stage, boolean isOffline, int playerID) {
@@ -44,17 +52,8 @@ public class SidePanel implements Screen {
                 (int)(WINDOW_HEIGHT * 0.005 * SIDE_PANEL_PART),
                 Gdx.graphics.getHeight()
         );
-        Table table = new Table();
-        table.setFillParent(true);
-        table.setDebug(false);
-        stage.addActor(table);
+        //sidebar.draw(batch, 0);
 
-        table.row().pad(15, 0, 10, 0);
-        TextButton newGameBtn = new TextButton("New Game", SKIN);
-        table.add(newGameBtn).fillX().uniformX();
-        table.row().pad(25, 0, 10, 0);
-        TextButton exitBtn = new TextButton("Exit", SKIN);
-        table.add(exitBtn).fillX().uniformX();
         render(0);
         batch.end();
     }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -23,12 +24,14 @@ public class Menu implements Screen, GameView {
     private final Stage stage;
     private final Texture backgroundTexture;
     private final SpriteBatch sprite;
+    private final Skin skin;
     public Menu(Bomberman game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         sprite = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
         backgroundTexture = new Texture(MENU);
+        skin = new Skin(Gdx.files.internal(SKIN));
     }
 
     @Override
@@ -39,10 +42,10 @@ public class Menu implements Screen, GameView {
         stage.addActor(table);
 
         table.row().pad(15, 0, 10, 0);
-        TextButton newGameBtn = new TextButton("New Game", SKIN);
+        TextButton newGameBtn = new TextButton("New Game", skin);
         table.add(newGameBtn).fillX().uniformX();
         table.row().pad(25, 0, 10, 0);
-        TextButton exitBtn = new TextButton("Exit", SKIN);
+        TextButton exitBtn = new TextButton("Exit", skin);
         table.add(exitBtn).fillX().uniformX();
 
 
