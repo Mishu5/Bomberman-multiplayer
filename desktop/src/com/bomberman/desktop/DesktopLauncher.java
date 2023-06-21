@@ -25,7 +25,7 @@ public class DesktopLauncher {
                 WINDOW_HEIGHT
         );
 
-        new Lwjgl3Application(new Bomberman(), config);
-    }
+		new Lwjgl3Application(new Bomberman(), config);
+	}
 
 }

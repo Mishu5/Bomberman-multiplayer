@@ -83,7 +83,7 @@ public class Parser {
                 } else if (array[x][y] == '+') {
                     map.addDestructibleWall(y, array[x].length - 1 - x);
                 } else if (array[x][y] == 'R') {
-                    if (playerSpawnCounter > 4) {
+                    if (playerSpawnCounter > 3) {
                         throw new RuntimeException("Too many players");
                     }
                     map.addSpawn(y, array[x].length - 1 - x, playerSpawnCounter);

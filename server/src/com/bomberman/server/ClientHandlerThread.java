@@ -1,9 +1,13 @@
 package com.bomberman.server;
 
 import com.bomberman.common.engine.PlayerHandler;
+import com.bomberman.common.utils.ClientServerCommunicationUtils;
+import com.bomberman.common.utils.EngineUtils;
 
 import java.io.*;
+import java.net.*;
 
+import static java.lang.System.exit;
 import static com.bomberman.common.utils.EngineUtils.*;
 
 public class ClientHandlerThread extends Thread {
@@ -13,6 +17,7 @@ public class ClientHandlerThread extends Thread {
 
     private final int INPUT_RECEIVING_ERROR = -1;
 
+    private final int NO_INPUT = 0;
     private final int UP = 1;
     private final int RIGHT = 2;
     private final int DOWN = 3;
@@ -27,13 +32,13 @@ public class ClientHandlerThread extends Thread {
 
     synchronized public void run() {
 
-        System.out.println("Client " + playerHandler.getID() + " listener");
+        System.out.println("Client " + playerHandler.getID() + " listener started...");
 
         while (true) {
 
             int currentClientInput = getInputFromPlayer();
             if (currentClientInput == INPUT_RECEIVING_ERROR) {
-
+                playerHandler.disconnected();
                 return;
             }
 
@@ -76,7 +81,6 @@ public class ClientHandlerThread extends Thread {
             return (INPUT_RECEIVING_ERROR);
         }
 
-        int NO_INPUT = 0;
         switch (tempInput) {
             case "w":
                 currentInput = UP;

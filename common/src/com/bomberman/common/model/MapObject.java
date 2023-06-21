@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.io.Serializable;
 
 import static com.bomberman.common.utils.GraphicUtils.getBlockSize;
-import static com.bomberman.common.utils.GraphicUtils.getTexture;
+import static com.bomberman.common.utils.GraphicUtils.getScaledTexture;
 
 public abstract class MapObject implements Serializable {
 
@@ -51,7 +51,7 @@ public abstract class MapObject implements Serializable {
     }
 
     private void initTexture() {
-        texture = getTexture(texturePath);
+        texture = getScaledTexture(texturePath);
     }
 
     synchronized public void draw(SpriteBatch batch) {

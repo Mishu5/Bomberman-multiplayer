@@ -1,16 +1,19 @@
 package com.bomberman.common.model;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import static com.bomberman.common.utils.GraphicUtils.PLAYER_TEXTURES;
 
 public class Player extends MapObject {
 
-    private final int playerID;
+    private int playerID;
 
     private int movementCoolDown;
     private int bombCoolDown;
     private boolean alive;
 
     public Player(int positionX, int positionY, int playerID) {
-        super(positionX, positionY, true, true, 1 + playerID + ".png");
+        super(positionX, positionY, true, true, PLAYER_TEXTURES[playerID]);
         this.playerID = playerID;
         this.alive = true;
     }

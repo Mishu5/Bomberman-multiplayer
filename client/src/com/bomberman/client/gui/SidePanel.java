@@ -3,48 +3,37 @@ package com.bomberman.client.gui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.bomberman.common.model.Map;
-import com.bomberman.common.model.Player;
-
-import java.util.ArrayList;
+import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.GraphicUtils.*;
 
 public class SidePanel implements Screen {
     private final ScreenViewport sidebarViewport;
     private final Camera camera;
-    private final Stage stage;
-    private ArrayList<Player> players;
     private final Texture backgroundTexture;
-    private Table sidebar;
+    private final Stage stage;
 
-    SidePanel(Map map) {
+    SidePanel(Stage stage) {
+        this.stage = stage;
         camera = new PerspectiveCamera();
         sidebarViewport = new ScreenViewport(camera);
-        players = map.getPlayers();
-        stage = new Stage(sidebarViewport);
-        backgroundTexture = new Texture(PANEL);
-        sidebar = new Table();
-        sidebar.setFillParent(true);
-        sidebar.setDebug(false);
-        stage.addActor(sidebar);
-
-        sidebar.row().pad(15, 0, 10, 0);
-        sidebar.row().pad(25, 0, 10, 0);
+        backgroundTexture = getTexture(PANEL);
     }
 
-    void draw(SpriteBatch batch, Stage stage, boolean isOffline, int playerID) {
+    synchronized void draw(
+            SpriteBatch batch,
+            boolean isOffline,
+            int playerID,
+            int playersAmount,
+            EngineUtils.GameState state
+    ) {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        stage.draw();
         batch.draw(
                 backgroundTexture,
                 (int)(WINDOW_HEIGHT * 0.5),
@@ -52,14 +41,56 @@ public class SidePanel implements Screen {
                 (int)(WINDOW_HEIGHT * 0.005 * SIDE_PANEL_PART),
                 Gdx.graphics.getHeight()
         );
-        //sidebar.draw(batch, 0);
-
         render(0);
+
+        Texture playersLabel = getTexture(PLAYERS_LABEL[Math.max(0, playersAmount - 1) % PLAYERS_LABEL.length]);
+        batch.draw(
+                playersLabel,
+                (int)(WINDOW_HEIGHT * 0.5) + 70,
+                (int)(WINDOW_HEIGHT * 0.25) + 100,
+                50,
+                50
+        );
+        render(0);
+
+        Texture playerCharacter = getScaledTexture(PLAYER_TEXTURES[playerID]);
+        batch.draw(
+                playerCharacter,
+                (int)(WINDOW_HEIGHT * 0.5) + 70,
+                (int)(WINDOW_HEIGHT * 0.25) - 150,
+                50,
+                50
+        );
+        render(0);
+
+        Texture connection = state == EngineUtils.GameState.RUNNING ? getTexture(CONNECTED) : getTexture(DISCONNECTED);
+        batch.draw(
+                connection,
+                (int)(WINDOW_HEIGHT * 0.5) + 5,
+                (int)(WINDOW_HEIGHT * 0.25) + 150,
+                200,
+                200
+        );
+        render(0);
+
+        if(playerID == 0 && !isOffline && playersAmount > 1 && state == EngineUtils.GameState.IDLE) {
+            Texture enter = getTexture(ENTER);
+            batch.draw(
+                    enter,
+                    (int)(WINDOW_HEIGHT * 0.5 + 15),
+                    (int)(WINDOW_HEIGHT * 0.25 - 10),
+                    165,
+                    80
+            );
+            render(0);
+        }
+
         batch.end();
     }
 
     @Override
     public void render(float delta) {
+        stage.draw();
     }
 
     @Override
