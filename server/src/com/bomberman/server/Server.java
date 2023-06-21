@@ -1,12 +1,8 @@
 package com.bomberman.server;
 
-
-import com.bomberman.common.engine.ClientHandler;
 import com.bomberman.common.engine.GameServices;
 import com.bomberman.common.model.Map;
 import com.bomberman.common.serialization.Parser;
-
-import javax.sound.midi.SysexMessage;
 
 import static java.lang.System.exit;
 
@@ -18,9 +14,6 @@ public class Server {
         //creating map
         Map map = new Map();
         Parser.loadMapFromFile("../assets", map);
-
-        //test
-        System.out.println(map.getMap().size());
 
         //creating game services
         GameServices gameEngine = new GameServices(map);

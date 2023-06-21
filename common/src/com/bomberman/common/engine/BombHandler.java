@@ -33,6 +33,7 @@ public class BombHandler {
                 try {
                     Thread.sleep(BOMB_TICK_DELAY);
                     counter.decrementAndGet();
+                    bomb.bombTick();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

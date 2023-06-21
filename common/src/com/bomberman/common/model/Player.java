@@ -2,7 +2,7 @@ package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import static com.bomberman.common.utils.GraphicUtils.PLAYER_TEXTURE;
+import static com.bomberman.common.utils.GraphicUtils.PLAYER_TEXTURES;
 
 public class Player extends MapObject {
 
@@ -13,7 +13,7 @@ public class Player extends MapObject {
     private boolean alive;
 
     public Player(int positionX, int positionY, int playerID) {
-        super(positionX, positionY, true, true, PLAYER_TEXTURE);
+        super(positionX, positionY, true, true, PLAYER_TEXTURES[playerID]);
         this.playerID = playerID;
         this.alive = true;
     }

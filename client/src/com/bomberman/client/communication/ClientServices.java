@@ -1,4 +1,4 @@
-package com.bomberman.client;
+package com.bomberman.client.communication;
 
 import com.bomberman.common.model.Map;
 
@@ -9,6 +9,9 @@ import java.util.Scanner;
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.bomberman.common.utils.ClientServerCommunicationUtils.CONFIG_PATH;
+import static com.bomberman.common.utils.EngineUtils.OFFLINE_PLAYER_INDEX;
 
 public class ClientServices {
 
@@ -28,7 +31,7 @@ public class ClientServices {
     }
 
     public void connectToServer() {
-        String ip = getIp("config.txt");
+        String ip = getIp(CONFIG_PATH);
         try {
             //connect to server
             clientSocket = new Socket(ip, 21370);
@@ -59,13 +62,14 @@ public class ClientServices {
             ip = file.nextLine();
             file.close();
         } catch (FileNotFoundException e) {
-            System.out.println("No file");
+            System.out.println("No config file to read IP");
             return null;
         }
         return ip;
     }
 
     public int getPlayerId() {
+        if(receiver == null) return OFFLINE_PLAYER_INDEX;
         return receiver.getPlayerId();
     }
 
@@ -77,5 +81,16 @@ public class ClientServices {
             return false;
         }
         return true;
+    }
+
+    synchronized public void disconnect() {
+        if(receiver != null) {
+            receiver.stopThread();
+            receiver = null;
+        }
+        if(sender != null) {
+            sender.stopThread();
+            sender = null;
+        }
     }
 }
