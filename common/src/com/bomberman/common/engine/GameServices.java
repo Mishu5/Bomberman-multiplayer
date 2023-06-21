@@ -1,7 +1,6 @@
 package com.bomberman.common.engine;
 
 import com.bomberman.common.model.*;
-import com.bomberman.common.utils.EngineUtils;
 import com.bomberman.common.utils.Pair;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import static com.bomberman.common.utils.EngineUtils.Direction.*;
 public class GameServices {
     private final ArrayList<BombHandler> bombHandlers;
     private final ArrayList<PlayerHandler> playerHandlers;
-    private final ArrayList<ClientHandler> clientHandlers;
     private final Map gameEnvironment;
     private final EventListener mainListener;
 
@@ -22,7 +20,6 @@ public class GameServices {
         this.gameEnvironment = map;
         playerHandlers = new ArrayList<>();
         bombHandlers = new ArrayList<>();
-        clientHandlers = new ArrayList<>();
         mainListener = new EventListener(this);
         mainListener.startListening();
         sendRate = 250;

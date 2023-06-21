@@ -1,11 +1,8 @@
 package com.bomberman.common.model;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.bomberman.common.utils.GraphicUtils;
-
 
 import static com.bomberman.common.utils.GraphicUtils.FLOOR_TEXTURE;
-import static com.bomberman.common.utils.GraphicUtils.SPAWN_TEXTURE;
+
 
 public class Spawn extends MapObject {
 
@@ -13,7 +10,7 @@ public class Spawn extends MapObject {
         return spawnID;
     }
 
-    private int spawnID;
+    private final int spawnID;
 
     @Override
     public int getPositionX() {
@@ -25,13 +22,14 @@ public class Spawn extends MapObject {
         return positionY;
     }
 
-    private int positionX;
-    private int positionY;
+    private final int positionX;
+    private final int positionY;
+
     public Spawn(int positionX, int positionY, int spawnID) {
 
         super(positionX, positionY, false, true, FLOOR_TEXTURE);
         this.spawnID = spawnID;
-        this.positionX=positionX;
-        this.positionY=positionY;
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 }

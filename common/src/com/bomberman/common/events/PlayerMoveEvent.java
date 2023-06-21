@@ -2,7 +2,7 @@ package com.bomberman.common.events;
 
 import static com.bomberman.common.utils.EngineUtils.*;
 
-public class PlayerMoveEvent implements Event{
+public class PlayerMoveEvent implements Event {
     private final int playerID;
     private final int posX;
     private final int posY;

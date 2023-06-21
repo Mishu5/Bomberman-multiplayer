@@ -12,7 +12,7 @@ public class ClientCommunicationTest {
         Socket clientSocket = null;
         PrintWriter out = null;
         ObjectInputStream in = null;
-        MapDTO map = null;
+        MapDTO map;
 
         try {
             clientSocket = new Socket("127.0.0.1", 21370);
@@ -25,6 +25,7 @@ public class ClientCommunicationTest {
 
         try {
             while (true) {
+                assert in != null;
                 map = (MapDTO) in.readObject();
                 System.out.println(map.getMap().size());
             }

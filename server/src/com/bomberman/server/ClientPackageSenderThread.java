@@ -1,19 +1,15 @@
 package com.bomberman.server;
 
 import com.bomberman.common.engine.GameServices;
-import com.bomberman.common.engine.PlayerHandler;
-import com.bomberman.common.model.Map;
-import com.bomberman.common.model.Player;
+
 import com.bomberman.common.serialization.MapDTO;
-import com.bomberman.common.serialization.Parser;
-import com.bomberman.common.utils.ClientServerCommunicationUtils;
+
 
 import java.util.ArrayList;
 
-import static java.lang.System.exit;
 
 import java.io.*;
-import java.net.*;
+
 
 public class ClientPackageSenderThread extends Thread {
 
@@ -36,11 +32,12 @@ public class ClientPackageSenderThread extends Thread {
         while (true) {
 
             try {
-                //Thread.sleep(2000);
+
                 Thread.sleep(gameEngine.getSendRate());
             } catch (InterruptedException e) {
                 System.out.println("Sleep error");
             }
+
 
             if (outputs.isEmpty()) continue;
 
@@ -57,6 +54,9 @@ public class ClientPackageSenderThread extends Thread {
                     outputs.get(i).reset();
                     outputs.get(i).writeUnshared(packageToSend);
                 } catch (IOException e) {
+                    System.out.println("Client #" + i + " write error");
+                    e.printStackTrace();
+
                     //Client disconnected
                     System.out.println("Client #" + i + " disconnected");
                     disconnected.add(outputs.get(i));

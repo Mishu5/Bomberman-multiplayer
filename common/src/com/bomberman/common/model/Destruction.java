@@ -68,20 +68,20 @@ public class Destruction implements Serializable {
         destruction.add(new DestructionTexture(right.first, right.second, DESTRUCTION_RIGHT_END));
         destruction.add(new DestructionTexture(top.first, top.second, DESTRUCTION_TOP_END));
         destruction.add(new DestructionTexture(bottom.first, bottom.second, DESTRUCTION_BOTTOM_END));
-        for(int i = center.second + 1 ; i < top.second ; i++)
+        for (int i = center.second + 1; i < top.second; i++)
             destruction.add(new DestructionTexture(center.first, i, DESTRUCTION_TOP));
-        for(int i = bottom.second + 1 ; i < center.second ; i++)
+        for (int i = bottom.second + 1; i < center.second; i++)
             destruction.add(new DestructionTexture(center.first, i, DESTRUCTION_BOTTOM));
-        for(int i = left.first + 1 ; i < center.first ; i++)
+        for (int i = left.first + 1; i < center.first; i++)
             destruction.add(new DestructionTexture(i, center.second, DESTRUCTION_LEFT));
-        for(int i = center.first + 1 ; i < right.first ; i++)
+        for (int i = center.first + 1; i < right.first; i++)
             destruction.add(new DestructionTexture(i, center.second, DESTRUCTION_RIGHT));
         destruction.add(new DestructionTexture(center.first, center.second, DESTRUCTION_CENTER));
         isTextureInit = true;
     }
 
     synchronized public void draw(SpriteBatch batch) {
-        if(!isTextureInit) initTextures();
+        if (!isTextureInit) initTextures();
         destruction.forEach((it) -> {
             batch.draw(it.texture, it.position.first * getBlockSize(), it.position.second * getBlockSize());
         });

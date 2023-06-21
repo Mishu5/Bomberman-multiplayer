@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
+
 import java.util.HashMap;
 
 public class GraphicUtils {
@@ -20,8 +21,8 @@ public class GraphicUtils {
     public static final String SPAWN_TEXTURE = "objects/spawn.png";
     public static final String DESTRUCTIBLE_WALL_TEXTURE = "objects/destwall.png";
     public static final String BOMB_TEXTURE = "bomb/bomb.png";
-    public static final String[] BOMB_TICKS = { "bomb/bomb_1.png",
-            "bomb/bomb_2.png","bomb/bomb_3.png","bomb/bomb_4.png","bomb/bomb_5.png"};
+    public static final String[] BOMB_TICKS = {"bomb/bomb_1.png",
+            "bomb/bomb_2.png", "bomb/bomb_3.png", "bomb/bomb_4.png", "bomb/bomb_5.png"};
     public static final String DESTRUCTION_CENTER = "bomb/bomb_center.png";
     public static final String DESTRUCTION_LEFT = "bomb/bomb_l.png";
     public static final String DESTRUCTION_RIGHT = "bomb/bomb_r.png";

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-import static com.bomberman.common.utils.EngineUtils.DETONATION_TIME;
 import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
 import static java.lang.Thread.sleep;
 
@@ -76,7 +75,7 @@ public class Map {
         for (MapObject object : map) {
             if (object instanceof Spawn) {
                 spawn = (Spawn) object;
-                if (spawn.getSpawnID() - 1 == spawnID) {
+                if (spawn.getSpawnID() == spawnID) {
                     break;
                 }
             }

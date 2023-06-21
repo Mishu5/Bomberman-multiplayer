@@ -5,7 +5,7 @@ import com.bomberman.common.utils.ClientServerCommunicationUtils;
 
 public class ServerTickThread extends Thread {
 
-    private GameServices gameEngine;
+    private final GameServices gameEngine;
 
     public ServerTickThread(GameServices gameEngine) {
         this.gameEngine = gameEngine;
