@@ -12,10 +12,10 @@ public class GraphicUtils {
     public static final int WINDOW_HEIGHT = 2000;
     public static final int WINDOW_WIDTH = (int)(WINDOW_HEIGHT * (1 + 0.01 * SIDE_PANEL_PART));
     private static int BLOCK_SIZE = 50;
-    public static final float DESTRUCTION_ANIMATION_TIME = 0.4f;
+    public static final float DESTRUCTION_ANIMATION_TIME = 0.3f;
     public static final String FLOOR_TEXTURE = "floor.png";
     public static final String BOMB_TEXTURE = "bomb.png";
-    public static final String PLAYER_TEXTURE = "1.png";
+    public static final String PLAYER_TEXTURE = "5.png";
     public static final String POWER_UP_TEXTURE = "powerup.png";
     public static final String WALL_TEXTURE = "wall.png";
     public static final String SPAWN_TEXTURE = "spawn.png";
