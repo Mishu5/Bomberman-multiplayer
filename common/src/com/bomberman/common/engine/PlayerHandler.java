@@ -58,6 +58,7 @@ public class PlayerHandler {
     }
 
     private int getPlayerId() {
+        if(player == null) return 0;
         return this.player.getPlayerID();
     }
 
