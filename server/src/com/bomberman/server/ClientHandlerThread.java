@@ -38,7 +38,7 @@ public class ClientHandlerThread extends Thread {
 
             int currentClientInput = getInputFromPlayer();
             if (currentClientInput == INPUT_RECEIVING_ERROR) {
-                //playerHandler.disconnected();
+                playerHandler.disconnected();
                 return;
             }
 
@@ -77,7 +77,7 @@ public class ClientHandlerThread extends Thread {
         try {
             tempInput = in.readLine();
         } catch (IOException e) {
-            System.out.println("Client " + playerHandler.getID() + "Input error");
+            System.out.println("Client " + playerHandler.getID() + " Input error");
             return (INPUT_RECEIVING_ERROR);
         }
 

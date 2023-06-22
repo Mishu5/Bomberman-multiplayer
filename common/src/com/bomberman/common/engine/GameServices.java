@@ -45,7 +45,7 @@ public class GameServices {
 
     public void killPlayer(PlayerHandler ph) {
         gameEnvironment.getPlayers().remove(ph.getPlayer());
-        ph.killPlayer();
+        //ph.killPlayer();
     }
 
     public void addBomb(Bomb bomb) {

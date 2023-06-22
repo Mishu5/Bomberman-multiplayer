@@ -20,6 +20,8 @@ public class ClientServices {
     private Sender sender;
     private final AtomicBoolean isConnected;
 
+    private Socket clientSocket;
+
     public ClientServices(Map map) {
         this.map = map;
         isConnected = new AtomicBoolean(false);
@@ -31,7 +33,7 @@ public class ClientServices {
         ObjectInputStream in;
         try {
             //connect to server
-            Socket clientSocket = new Socket(ip, 21370);
+            clientSocket = new Socket(ip, 21370);
             in = new ObjectInputStream(clientSocket.getInputStream());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (Exception e) {
@@ -81,6 +83,7 @@ public class ClientServices {
     }
 
     synchronized public void disconnect() {
+        /*
         if(receiver != null) {
             receiver.stopThread();
             receiver = null;
@@ -89,5 +92,6 @@ public class ClientServices {
             sender.stopThread();
             sender = null;
         }
+        */
     }
 }

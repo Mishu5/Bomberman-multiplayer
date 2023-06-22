@@ -47,7 +47,7 @@ public class Server {
             //check player cords
             if (command.equals("cords")) {
                 for (int i = 0; i < map.getPlayers().size(); i++) {
-                    System.out.println("Player: " + map.getPlayers().get(i).getPlayerID() + "cords x/y: " + map.getPlayers().get(i).getPositionX() + ", " + map.getPlayers().get(i).getPositionY());
+                    System.out.println("Player: " + map.getPlayers().get(i).getPlayerID() + " cords x/y: " + map.getPlayers().get(i).getPositionX() + ", " + map.getPlayers().get(i).getPositionY());
                 }
             }
             //get send rate

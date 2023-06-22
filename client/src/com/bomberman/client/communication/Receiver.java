@@ -17,6 +17,8 @@ public class Receiver extends Thread {
     private int playerId;
     private final AtomicBoolean isRunning;
 
+    private int checker = 0;
+
     public Receiver(Map map, ObjectInputStream in) {
         this.map = map;
         this.in = in;

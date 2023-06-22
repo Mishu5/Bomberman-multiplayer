@@ -32,7 +32,6 @@ public class ClientPackageSenderThread extends Thread {
         while (true) {
 
             try {
-
                 Thread.sleep(gameEngine.getSendRate());
             } catch (InterruptedException e) {
                 System.out.println("Sleep error");
@@ -53,10 +52,11 @@ public class ClientPackageSenderThread extends Thread {
                 try {
                     outputs.get(i).reset();
                     outputs.get(i).writeUnshared(packageToSend);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     //Client disconnected
                     System.out.println("Client #" + i + " disconnected");
                     disconnected.add(outputs.get(i));
+                    //e.printStackTrace();
                 }
             }//end for loop
 
@@ -64,7 +64,6 @@ public class ClientPackageSenderThread extends Thread {
                 outputs.remove(disconnected.get(0));
                 disconnected.remove(0);
             }
-
         }//end while loop
 
     }

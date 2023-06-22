@@ -83,6 +83,7 @@ public class ClientConnectionHandler extends Thread {
             int PORT = 21370;
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
+            System.out.println("Failed to open socket");
             int SOCKET_INITIALIZATION_ERROR = 1;
             exit(SOCKET_INITIALIZATION_ERROR);
         }
