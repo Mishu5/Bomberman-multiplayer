@@ -83,15 +83,6 @@ public class ClientServices {
     }
 
     synchronized public void disconnect() {
-        /*
-        if(receiver != null) {
-            receiver.stopThread();
-            receiver = null;
-        }
-        if(sender != null) {
-            sender.stopThread();
-            sender = null;
-        }
-        */
+
     }
 }
