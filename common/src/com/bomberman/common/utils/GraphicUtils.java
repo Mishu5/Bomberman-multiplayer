@@ -39,6 +39,7 @@ public class GraphicUtils {
     public static final String CONNECTED = "panel/connected.png";
     public static final String DISCONNECTED = "panel/disconnected.png";
     public static final String ENTER = "panel/enter.png";
+    public static final String EXPLOSION = "explosion.mp3";
 
     public static final String[] PLAYERS_LABEL = { "panel/1.png",
             "panel/2.png", "panel/3.png", "panel/4.png"

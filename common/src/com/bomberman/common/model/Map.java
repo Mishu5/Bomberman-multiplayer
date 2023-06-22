@@ -2,8 +2,10 @@ package com.bomberman.common.model;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.bomberman.common.utils.GraphicUtils.DESTRUCTION_ANIMATION_TIME;
 import static java.lang.Thread.sleep;
@@ -14,6 +16,7 @@ public class Map {
     private ArrayList<Bomb> bombs;
     private ArrayList<Player> players;
     private ArrayList<Destruction> destructions;
+    private AtomicInteger soundEffects;
     private double gameTime;
     private boolean gameStarted;
 
@@ -23,6 +26,7 @@ public class Map {
         bombs = new ArrayList<>();
         players = new ArrayList<>();
         destructions = new ArrayList<>();
+        soundEffects = new AtomicInteger(0);
 
         gameTime = 0;
         gameStarted = false;
@@ -139,6 +143,7 @@ public class Map {
     public void setDestructions(ArrayList<Destruction> destructions) {
         this.destructions = destructions;
     }
+    public AtomicInteger getSoundEffect() { return soundEffects; }
 
     synchronized public void draw(SpriteBatch batch) throws InterruptedException {
         semaphore.acquire();
@@ -186,6 +191,7 @@ public class Map {
                             sleep((long) (delta * 1000));
                             frame += delta;
                         }
+                        soundEffects.set(soundEffects.get() + 1);
                         destructions.remove(it);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);

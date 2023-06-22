@@ -2,6 +2,7 @@ package com.bomberman.client.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.EngineUtils.GameState.*;
 import static com.bomberman.common.utils.EngineUtils.OFFLINE_PLAYER_INDEX;
+import static com.bomberman.common.utils.GraphicUtils.EXPLOSION;
 
 public class GameArea implements Screen, GameView{
     private final Camera gameCamera;
@@ -30,6 +32,8 @@ public class GameArea implements Screen, GameView{
     private final SidePanel sidePanel;
     private final Bomberman game;
     private EngineUtils.GameState state;
+    private Sound sound;
+
 
     public GameArea(Bomberman game) {
         this.game = game;
@@ -46,6 +50,7 @@ public class GameArea implements Screen, GameView{
         sidePanel = new SidePanel(stage);
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCursorPosition(0,0);
+        sound = Gdx.audio.newSound(Gdx.files.internal(EXPLOSION));
 
         //Communication
         clientServices = new ClientServices(map);
@@ -75,6 +80,7 @@ public class GameArea implements Screen, GameView{
             throw new RuntimeException(e);
         }
 
+        soundEffect();
         batch.end();
 
         //Right-side panel
@@ -104,6 +110,13 @@ public class GameArea implements Screen, GameView{
     public void dispose() {
         clientServices.disconnect();
         batch.dispose();
+    }
+
+    private void soundEffect() {
+        if(map.getSoundEffect().get() > 0) {
+            sound.play(1f);
+            map.getSoundEffect().decrementAndGet();
+        }
     }
 
     private void playerClick() {

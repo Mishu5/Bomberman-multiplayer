@@ -2,6 +2,7 @@ package com.bomberman.client.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -26,6 +27,8 @@ public class Menu implements Screen, GameView {
     private final Texture backgroundTexture;
     private final SpriteBatch sprite;
     private final Skin skin;
+    private Sound sound;
+
     public Menu(Bomberman game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
@@ -33,6 +36,7 @@ public class Menu implements Screen, GameView {
         Gdx.input.setInputProcessor(stage);
         backgroundTexture = new Texture(MENU);
         skin = new Skin(Gdx.files.internal(SKIN));
+        sound = null;
     }
 
     @Override
@@ -64,6 +68,8 @@ public class Menu implements Screen, GameView {
                 exit(0);
             }
         });
+        sound = Gdx.audio.newSound(Gdx.files.internal("menu_background_music.mp3"));
+        sound.play(1.0f);
     }
 
     @Override
@@ -91,6 +97,7 @@ public class Menu implements Screen, GameView {
     @Override
     public void dispose() {
         backgroundTexture.dispose();
+        sound.dispose();
     }
 
     @Override

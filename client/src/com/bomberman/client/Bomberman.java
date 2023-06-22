@@ -11,6 +11,7 @@ import com.bomberman.client.gui.Menu;
 import com.bomberman.common.utils.EngineUtils;
 
 import static com.bomberman.common.utils.GraphicUtils.CURSOR;
+import static com.bomberman.common.utils.GraphicUtils.DISCONNECTED;
 
 public class Bomberman extends Game {
     private GameView frontScreen;
